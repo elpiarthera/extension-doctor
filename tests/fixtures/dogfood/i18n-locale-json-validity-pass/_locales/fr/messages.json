@@ -1,0 +1,15 @@
+{
+  "app_name": {
+    "message": "GPTPowerUps"
+  },
+  "ext_badge_aria_label": {
+    "message": "Score Power-Up : $SCORE$. Cliquez pour voir les détails.",
+    "description": "Libellé ARIA pour le badge de score.",
+    "placeholders": {
+      "SCORE": {
+        "content": "$1",
+        "example": "82"
+      }
+    }
+  }
+}
