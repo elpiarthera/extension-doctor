@@ -1,0 +1,5 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — csp-not-weakened, constructed from matrix §2 MUST_PASS spec: absence of custom CSP key, MV3 default applies implicitly and is documented explicitly (no real product occurrence as of D137)",
+  "version": "1.0.0"
+}

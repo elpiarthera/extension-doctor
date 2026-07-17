@@ -1,0 +1,1 @@
+FIXTURE PROVENANCE: synthetic fixture — zip-integrity, constructed from matrix §2 MUST_PASS spec (no real product occurrence as of D137). `extension.zip` built via a minimal STORE-method zip writer with two distinct entries, no duplicates, valid central directory.

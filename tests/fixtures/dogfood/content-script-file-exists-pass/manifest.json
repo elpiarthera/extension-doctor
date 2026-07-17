@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — content-script-file-exists, constructed from matrix §2 MUST_PASS spec (no real product occurrence as of D137)",
+  "version": "1.0.0",
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*"],
+      "js": ["ui/sidebar-mount.js"]
+    }
+  ]
+}
