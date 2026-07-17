@@ -1,0 +1,37 @@
+extension-doctor — prior art notice
+
+This project is written from scratch. No source code is copied, ported, or
+derived from any of the projects below. Each is cited because its *ideas*
+were studied while designing the rule pack — studied as prior art, no code
+derived.
+
+1. dot-skills
+   https://github.com/wesbos/dot-skills
+   License: MIT
+   Relationship: studied as prior art, no code derived. The general idea
+   documented in its "avoid broadcast to all tabs" and "handle context
+   invalidated" notes informed the intent of the `net-broadcast-unfiltered`
+   and `sw-context-invalidated-guard` rules. No dot-skills file, function,
+   or text is included in this repository.
+
+2. addons-linter
+   https://github.com/mozilla/addons-linter
+   License: MPL-2.0
+   Relationship: studied as prior art, no code derived. MPL-2.0 is
+   copyleft per-file; consulting it as an example of a mature
+   WebExtension-linter shape does not require licensing this project
+   under MPL-2.0, because no addons-linter file or code fragment is
+   present here.
+
+3. react-doctor
+   https://www.npmjs.com/package/react-doctor
+   License: "Modified MIT" (SEE LICENSE IN LICENSE on npm; not plain MIT).
+   Restricts commercial redistribution/resale of the tool itself without
+   prior written authorization from Million Software, Inc.
+   Relationship: studied as prior art, no code derived. react-doctor was
+   run as a published CLI tool (`npx react-doctor`) against this project's
+   own codebase, as an end user would. Its source was never read, copied,
+   or ported. Its restrictive license governs react-doctor itself, not
+   extension-doctor.
+
+extension-doctor's own license is documented in ./LICENSE.
