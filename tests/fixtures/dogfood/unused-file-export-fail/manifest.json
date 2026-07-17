@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "unused-file-export fixture (fail)",
+  "version": "0.1.0",
+  "background": {
+    "service_worker": "src/background/service-worker.ts"
+  }
+}

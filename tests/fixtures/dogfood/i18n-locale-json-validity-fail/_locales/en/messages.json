@@ -1,0 +1,18 @@
+{
+  "app_name": {
+    "message": "GPTPowerUps"
+  },
+  "ext_badge_aria_label": {
+    "message": "Power-Up score: $SCORE$. Click to see details.",
+    "description": "ARIA label for the score badge — SCORE placeholder is referenced but never declared below (synthetic MUST_BLOCK fixture).",
+    "placeholders": {
+      "OTHER_NAME": {
+        "content": "$1",
+        "example": "82"
+      }
+    }
+  },
+  "@@extension_id": {
+    "message": "not a real message"
+  }
+}
