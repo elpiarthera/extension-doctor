@@ -128,7 +128,7 @@ This tool is written from scratch. The following were **studied as prior
 art, no code derived** — none of them are dependencies and no lines were
 copied from any of them:
 
-- **[dot-skills](https://github.com/wesbos/dot-skills)** (MIT) — the idea
+- **[dot-skills](https://github.com/pproenca/dot-skills)** (MIT) — the idea
   behind `net-broadcast-unfiltered` and `sw-context-invalidated-guard` was
   informed by dot-skills' own notes on broadcast-to-all-tabs and
   context-invalidation handling. Studied as prior art, no code derived.

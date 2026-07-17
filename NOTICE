@@ -6,8 +6,8 @@ were studied while designing the rule pack — studied as prior art, no code
 derived.
 
 1. dot-skills
-   https://github.com/wesbos/dot-skills
-   License: MIT
+   https://github.com/pproenca/dot-skills
+   License: MIT (Copyright (c) 2025)
    Relationship: studied as prior art, no code derived. The general idea
    documented in its "avoid broadcast to all tabs" and "handle context
    invalidated" notes informed the intent of the `net-broadcast-unfiltered`
