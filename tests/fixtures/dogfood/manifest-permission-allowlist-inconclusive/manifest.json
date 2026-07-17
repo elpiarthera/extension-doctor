@@ -1,0 +1,6 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — manifest-permission-allowlist, no .extension-doctor.json present (matrix §2 tripolar spec, no real product occurrence as of D137)",
+  "version": "1.0.0",
+  "permissions": ["storage"]
+}

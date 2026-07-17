@@ -1,0 +1,15 @@
+{
+  "app_name": {
+    "message": "GPTPowerUps"
+  },
+  "ext_badge_aria_label": {
+    "message": "Power-Up score: $SCORE$. Click to see details.",
+    "description": "ARIA label for the score badge. $SCORE$ interpolated via chrome.i18n.getMessage.",
+    "placeholders": {
+      "SCORE": {
+        "content": "$1",
+        "example": "82"
+      }
+    }
+  }
+}

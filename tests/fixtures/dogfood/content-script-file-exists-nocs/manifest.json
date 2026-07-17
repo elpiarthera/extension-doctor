@@ -1,0 +1,5 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — content-script-file-exists, no content_scripts key present, nothing to check (matrix §2 tripolar spec, no real product occurrence as of D137)",
+  "version": "1.0.0"
+}

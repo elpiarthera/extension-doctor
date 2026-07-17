@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Mechanical verification of README.md publication-readiness.
 // Every failing check names exactly what is missing — no silent booleans.
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -118,11 +118,19 @@ check(
   `found ${elpiHits} occurrence(s) of 'ElPi' outside the 'elpiarthera' GitHub org slug`,
 );
 
-// 10. Honest scope — "3 of 5 rules" (or equivalent) stated
+// 10. Honest scope — README's stated rule count must match the derived file count.
+// The count is DERIVED from src/rules/*.ts (excluding index.ts) every run — it can
+// never be a stale literal, per derive-never-type.md.
+const rulesDir = path.join(root, "src", "rules");
+const derivedRuleCount = readdirSync(rulesDir).filter((f) => f.endsWith(".ts") && f !== "index.ts").length;
+const readmeCountMatch = readme.match(/##\s*Rules\s*\((\d+)\)/i) ?? readme.match(/(\d+)\s+rules?\b/i);
+const readmeCount = readmeCountMatch ? Number(readmeCountMatch[1]) : null;
 check(
-  "SCOPE: '3 of 5 rules' (or equivalent) stated",
-  /3 of 5 rules/i.test(readme) || (/3\/5/.test(readme) && /rules/i.test(readme)),
-  "no '3 of 5 rules' (or '3/5 ... rules') phrasing found",
+  `SCOPE: README states the rule count and it matches the derived count from src/rules/*.ts (derived=${derivedRuleCount})`,
+  readmeCount !== null && readmeCount === derivedRuleCount,
+  readmeCount === null
+    ? `no "## Rules (N)" or "N rules" heading found in README to compare against derived=${derivedRuleCount}`
+    : `README states ${readmeCount}, but src/rules/*.ts (excluding index.ts) has ${derivedRuleCount} files — README count is stale`,
 );
 
 const failed = checks.filter((c) => !c.pass);
