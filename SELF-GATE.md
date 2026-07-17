@@ -5,11 +5,15 @@ This file certifies conformance for exactly one commit. It is regenerated
 does not name a SHA, or whose SHA is stale relative to `git rev-parse
 --short=8 HEAD`, is void (`.claude/rules/derive-never-type.md`).
 
-**Certified SHA:** `e8223b89` (this branch, `chi/d137-foreign-bite-proof`,
-tip at the time this file was written — re-verify with `git rev-parse
---short=8 HEAD` before trusting any checkbox below).
+**Certified SHA:** the pinned, exact value is recorded in PR #1's body
+(external to this tree, so it can never go stale relative to a later
+commit). Within this working tree the certified commit is always
+`git rev-parse --short=8 HEAD` — this file deliberately does NOT hardcode
+a literal SHA, because any literal committed here is stale the moment the
+next commit lands (`.claude/rules/derive-never-type.md`: a value a tool
+can read is never typed by hand).
 
-| # | Item | Command that proves it | Result at `e8223b89` |
+| # | Item | Command that proves it | Result at certified HEAD |
 |---|------|-------------------------|------------------------|
 | [x] | Rule registry count is derived, never a literal | `npx vitest run tests/registry.test.ts` | 2/2 PASS — `ALL_RULES.length` (36) computed from `readdirSync(src/rules)`, never hardcoded |
 | [x] | README rule count matches derived count | `node scripts/check-readme.mjs` | 11/11 checks passed (includes `SCOPE: README states the rule count and it matches the derived count from src/rules/*.ts (derived=36)`) |
