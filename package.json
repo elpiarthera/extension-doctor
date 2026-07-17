@@ -3,11 +3,22 @@
   "version": "0.1.0",
   "description": "Static-analysis CLI that audits browser extensions (Manifest V3) for durable-layer anti-patterns.",
   "keywords": [
-    "browser-extension",
-    "manifest-v3",
-    "linter",
-    "chrome-extension",
-    "audit"
+    "browser extension",
+    "chrome extension",
+    "manifest v3",
+    "mv3",
+    "extension linter",
+    "extension audit",
+    "chrome web store",
+    "web store review",
+    "firefox add-on",
+    "static analysis",
+    "i18n",
+    "permissions",
+    "service worker",
+    "content script",
+    "doctor",
+    "cli"
   ],
   "repository": {
     "type": "git",
@@ -33,7 +44,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "start": "node bin/extension-doctor.js",
-    "prepublishOnly": "npm run build && npm test"
+    "check:readme": "node scripts/check-readme.mjs",
+    "prepublishOnly": "npm run build && npm test && npm run check:readme"
   },
   "devDependencies": {
     "typescript": "^5.6.0",

@@ -1,49 +1,50 @@
 # extension-doctor
 
-A health linter for browser extensions (Manifest V3). It exists to catch a
-narrow, specific class of defect: the kind that stays invisible in a demo,
-ships to production, and only breaks after the extension has already been
-running for a while — a reload, an update, a second tab open.
+A health linter for browser extensions (Manifest V3) — Chrome, Edge, Firefox, Brave.
 
-## What sets it apart
+## Why
 
-Every rule in this pack was written *after* a real bug shipped, not before
-one was imagined. That is the thesis of the tool: **one production friction
-resolved = one rule added.** No rule here is speculative.
+Manifest V3 extensions fail in ways that never show up in a demo: a
+`chrome.tabs.query({})` with no `url:` filter that quietly broadcasts to
+every open tab in the browser instead of just the hosts the extension
+supports; an i18n key consumed via `t('key')` in the UI but never added to
+`_locales/en/messages.json` or `_locales/fr/messages.json`, so the user
+sees the raw key string instead of a translated label; a
+`chrome.runtime.sendMessage(...)` call with no guard against an invalidated
+extension context, throwing on the host page's console after every reload
+or update while the tab stays open and looks fine. None of these break the
+build. All three are common causes of Chrome Web Store review rejections
+and silent production breakage.
 
-Concretely, on this very codebase:
+**The thesis: one production friction resolved = one rule added.** No rule
+in this pack is speculative — each was written after a real bug shipped,
+not before one was imagined.
 
-- Three `chrome.tabs.query({})` calls with no `url:` filter fed straight
-  into `chrome.tabs.sendMessage`, broadcasting extension state to **every
-  open tab in the browser**, not just the hosts the extension supports.
-- Six i18n keys (`card_menu_open`, `edit`, `duplicate`, `unfavorite`,
-  `favorite`, `move_to_project`) were consumed in the UI via `t('key')`
-  while missing from both `_locales/en/messages.json` and
-  `_locales/fr/messages.json` — the user saw the raw key string in the
-  menu, not a translated label.
-- A `chrome.runtime.sendMessage(...)` call with no `chrome.runtime.id`
-  guard and no try/catch crashed the host page's console on every
-  extension reload/update, while the tab stayed open and looked fine.
+Concretely, extension-doctor found these three real bugs in our own shipped
+extension, at these exact lines:
 
-Each of these was a real incident. Each became a rule. That loop is the
-product.
+- `src/background/conversations-handler.ts:66` — `chrome.tabs.query({})`
+  with no url filter feeding `chrome.tabs.sendMessage`
+- `src/background/media-handler.ts:135` — same pattern
+- `src/background/projects-handler.ts:67` — same pattern
+- `src/background/messaging.ts:52` — `chrome.runtime.sendMessage(message)`
+  with no try/catch and no `chrome.runtime.id` guard
 
 ## Proof, not promise
 
-A linter that fails on everything proves nothing. This one is proven
-bipolar: it fails loud on the exact commit that shipped the bug, and passes
-clean once the fix landed — measured against real git history of a shipped
-extension, not a synthetic fixture built to flatter the matcher.
+A linter that fails on everything proves nothing. This one is measured
+bipolar, against real git history of a shipped extension — not a synthetic
+fixture built to flatter the matcher.
 
-Before the fix (`chi/d137-baseline-green`):
+**Before the fix**, run against the commit that shipped the bugs:
 
 ```
-$ extension-doctor /tmp/ed-before --rules net-broadcast-unfiltered,sw-context-invalidated-guard
-extension-doctor — command: extension-doctor /tmp/ed-before --rules net-broadcast-unfiltered,sw-context-invalidated-guard
-scope: 338 files scanned, rules 2/2 active
+extension-doctor — command: extension-doctor /tmp/r-before
+scope: 338 files scanned, rules 3/3 active
 score: 0/100
 
 [FAIL] net-broadcast-unfiltered (exit 1)
+[INCONCLUSIVE] i18n-key-coverage-gap (exit 2)
 [FAIL] sw-context-invalidated-guard (exit 1)
 
 Findings:
@@ -59,57 +60,100 @@ Findings:
   [error] sw-context-invalidated-guard — src/background/messaging.ts:52
     chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
     > chrome.runtime.sendMessage(message);
-  ... (6 more findings, one per unguarded call site)
 ```
 
-After the fix (`chi/d137-backlog-fixes-v2`):
+**After the fix**, same tool, same rules, the commit that fixed
+`net-broadcast-unfiltered`:
 
 ```
-$ extension-doctor /tmp/ed-after --rules net-broadcast-unfiltered
-extension-doctor — command: extension-doctor /tmp/ed-after --rules net-broadcast-unfiltered
-scope: 340 files scanned, rules 1/1 active
-score: 100/100
+extension-doctor — command: extension-doctor /tmp/r-after
+scope: 340 files scanned, rules 3/3 active
+score: 50/100
 
 [PASS] net-broadcast-unfiltered (exit 0)
+[INCONCLUSIVE] i18n-key-coverage-gap (exit 2)
+[FAIL] sw-context-invalidated-guard (exit 1)
 ```
 
-Same shape holds for `i18n-key-coverage-gap` against
-`chi/d137-rebuild-zip-v0.9.0.0` (fails, flags all 6 missing keys) versus the
-baseline where the same keys are present in both locales (passes). Full
-tests in `tests/dogfood.test.ts`, run against real sibling git worktrees.
+Read that after-block carefully — this is the honesty this tool is built
+around, not a marketing cut of it:
 
-## Usage
+- `net-broadcast-unfiltered` goes from FAIL to PASS: the three unfiltered
+  `chrome.tabs.query({})` call sites were fixed.
+- `sw-context-invalidated-guard` **stays FAIL**. The fix that landed
+  covered the messaging layer (`messaging.ts:52`), but other unguarded
+  `chrome.runtime.sendMessage` call sites still exist elsewhere in the
+  codebase. The score is 50/100, not 100/100, because the tool reports
+  what is actually still broken, not what got fixed.
+- `i18n-key-coverage-gap` stays **INCONCLUSIVE on both runs**, not PASS.
+  One key is built dynamically — `` t(`media_type_${media.type}`) `` — and
+  the rule cannot statically resolve the interpolated value to a literal
+  key. Rather than guess, it reports exit code `2` and says so. A rule
+  that silently treated "could not resolve" as "found nothing" would be a
+  worse rule than no rule at all.
+
+## Install
+
+```
+npm i -D extension-doctor
+```
+
+or run it directly without installing:
 
 ```
 npx extension-doctor <path-to-extension> [--rules id1,id2,...] [--format human|json]
 ```
 
-Rules shipped in this pack (v0.1, 3 of 5 spec'd):
+A reader can run this in under two minutes without opening a single source
+file:
+
+```
+npx extension-doctor .
+```
+
+## Rules shipped (v0.1 — 3 of 5 rules in the full spec)
 
 | id | detects | severity |
 |---|---|---|
-| `net-broadcast-unfiltered` | `chrome.tabs.query({})` with no `url:` filter feeding `chrome.tabs.sendMessage` — broadcasts to every open tab, not just supported hosts | error |
+| `net-broadcast-unfiltered` | `chrome.tabs.query({})` with no `url:` filter feeding `chrome.tabs.sendMessage` — broadcasts extension state to every open tab in the browser, not just supported hosts | error |
 | `i18n-key-coverage-gap` | an i18n key consumed via `t('x')` in code but absent from `_locales/en/messages.json` or `_locales/fr/messages.json` | error |
 | `sw-context-invalidated-guard` | `chrome.runtime.sendMessage(...)` with no guard against an invalidated extension context after a reload/update | error |
 
-Every scored output carries its own provenance (`command`, `scope`) in the
-same object as the score — a score without the command that produced it is
-treated as malformed by every consumer of this tool.
+`--format json` emits the same findings as structured JSON for CI
+consumption. Every scored output carries its own provenance (`command`,
+`scope`) in the same object as the score — a score without the command
+that produced it is treated as malformed by every consumer of this tool.
 
-Exit codes are three-valued and never conflated:
+## Exit codes are three-valued, on purpose
+
+This is a design decision, not a footnote:
 
 - `0` — nothing found
 - `1` — real defects found
-- `2` — could not measure (missing precondition, unreadable file,
-  unresolvable dynamic value). **Never** treat exit `2` as exit `0`: an
-  inconclusive scan is not a clean scan.
+- `2` — **could not measure**: a missing precondition, an unreadable file,
+  or a dynamic value the tool refuses to guess at (see the
+  `i18n-key-coverage-gap` example above)
 
-`--format json` emits the same findings as structured JSON for CI
-consumption.
+**`2` is never `0`.** "I could not check" and "I checked and found
+nothing" are two different claims, and conflating them is a known,
+documented failure mode of at least one popular npm linter in this space —
+extension-doctor deliberately does not reproduce it. A rule that cannot
+measure fails loudly, via exit code `2`; it does not pass silently.
+
+## CI integration
+
+```yaml
+- name: Extension health check
+  run: npx extension-doctor . --format json
+```
+
+A non-zero exit (`1` or `2`) fails the job. Treat `2` as a build-blocking
+signal, exactly like `1` — a CI step that only checks `exit === 1` will
+let inconclusive scans through unnoticed.
 
 ## Honest scope
 
-This pack ships 3 of the 5 rules in the full spec. Not shipped in this
+This pack ships **3 of the 5 rules** in the full spec. Not shipped in this
 pass, and not silently dropped:
 
 - `unused-file-export` — requires a cross-file export-usage graph, not yet
@@ -118,15 +162,25 @@ pass, and not silently dropped:
   artifact as its own precondition, not yet wired in.
 
 Every rule that *is* shipped distinguishes "ran and found nothing" from
-"could not run at all" — `if (nothing found) return []` as a silent
-fallback is a banned pattern in this codebase. A rule that cannot measure
-says so, loudly, via exit code `2`.
+"could not run at all" — a silent `if (nothing found) return []` fallback
+is a banned pattern in this codebase. A rule that cannot measure says so,
+loudly, via exit code `2`, and INCONCLUSIVE is never reported as PASS.
+
+## Security
+
+extension-doctor's static scan detects `fetch()` and `XMLHttpRequest` call
+sites and cross-checks their host against the extension's declared
+`host_permissions`. What that scan actually proves: **no network
+destination outside the manifest detected statically**. It does not, and
+cannot, prove the extension "doesn't spy on you" — a claim like that would
+require dynamic analysis this tool does not do. In this project's own
+codebase, three `fetch()` calls build their target URL dynamically at
+runtime, which makes them undetectable by static analysis alone. A badge
+that overclaims what a static scanner can see is worse than no badge.
 
 ## Prior art
 
-This tool is written from scratch. The following were **studied as prior
-art, no code derived** — none of them are dependencies and no lines were
-copied from any of them:
+This tool is written from scratch. The following were studied as prior art, no code derived — none of them are dependencies and no lines were copied from any of them:
 
 - **[dot-skills](https://github.com/pproenca/dot-skills)** (MIT) — the idea
   behind `net-broadcast-unfiltered` and `sw-context-invalidated-guard` was
