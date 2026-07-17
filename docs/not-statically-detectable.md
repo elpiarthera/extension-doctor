@@ -39,6 +39,30 @@ pipeline today. A first-jet heuristic would produce an unacceptably high false-p
 negative rate without it (doctrine `hook-vitality-bite-probe.md`: "un garde qui bloque tout obtient
 un score parfait sur une sonde uni-polaire — et se fait désactiver dans la semaine").
 
+**Falsifying input — demonstration, not assertion**: consider a purely syntactic rule that flags
+"same `getByRole(...)` argument string appearing in two different `it()` blocks, closest-file-match
+by name similarity, most recent commit wins." Feed it two inputs and watch it get BOTH directions
+wrong:
+
+- *False fail*: `Settings.test.tsx` has `it("shows checkbox state")` using
+  `getByRole("checkbox")` for the color-scheme toggle, and a SEPARATE, unrelated
+  `it("renders legacy banner checkbox")` also using `getByRole("checkbox")` for a dismissible
+  banner that happens to also be a checkbox. Same role string, same file, adjacent lines — the
+  syntactic rule flags a "collision" between two tests that are not about the same logical element
+  at all. A human (or a semantic matcher with intent-embedding) sees two independent controls; the
+  string matcher cannot.
+- *False pass*: the Day 67 → Day 92 example above (checkbox → `role="switch"` refactor) uses
+  **different** selector strings (`"checkbox"` vs `"switch"`) precisely because the refactor
+  changed the DOM shape — which is the exact case that needs flagging. The syntactic rule's
+  same-string-required trigger condition never fires, so the real collision passes silently.
+
+A tool that tried to decide statically would therefore either flag legitimate independent controls
+(false fail, eroding trust, leading to the rule being disabled within a week per the bite-probe
+doctrine) or miss the actual semantic collision it exists to catch (false pass, the worse failure
+mode since it is silent). **`inconclusive` is the only verdict that does not lie in either
+direction** — it names precisely what is missing (a semantic intent-matching engine + calibration
+corpus) rather than guessing and being wrong roughly half the time by construction.
+
 ---
 
 ## test-cannot-fail
@@ -66,6 +90,37 @@ code under test (on matériau étranger — code the probe author did not write,
 `derive-never-type.md` §"La sonde bipolaire NE SUFFIT PAS") and confirm the test goes red.
 Mutation-testing infrastructure over third-party/host code (`chrome.*`, DOM APIs) does not exist
 in this pipeline yet.
+
+**Falsifying input — demonstration, not assertion**: consider a purely syntactic rule that flags
+"any `it()` block whose body calls a mocked `chrome.*` API and asserts on the literal value the
+mock was configured to return" (a mock-density heuristic). Feed it two inputs:
+
+- *False fail*: `tests/unit/theme-resolver.test.ts` mocks `chrome.storage.local.get` to resolve
+  `{ theme: "dark" }`, then calls `resolveTheme(mockGet)` — a PURE function that branches on the
+  input (`if (theme === "dark") return DARK_PALETTE; else return LIGHT_PALETTE;`) — and asserts
+  `expect(resolveTheme(mockGet)).toEqual(DARK_PALETTE)`. This assertion CAN and DOES fail if the
+  branch is deleted (verified: injecting `return LIGHT_PALETTE` unconditionally into
+  `resolveTheme` turns this test red). The syntactic rule sees "mocked chrome.* + assertion on the
+  mocked value" and flags it as tautological — a false fail on a legitimate, mutation-sensitive
+  test.
+- *False pass*: the example in the paragraph above — the test asserts `result.theme === "dark"`
+  where `result` is the UNMODIFIED mock return value forwarded verbatim, with no branch of
+  application logic in between. The syntactic rule's trigger condition ("mocked chrome.* +
+  assertion") is IDENTICAL in shape to the false-fail case above — same call pattern, same
+  assertion shape — so any static rule permissive enough to pass the theme-resolver test (true
+  positive: it should stay green) is by construction also permissive enough to pass this dead
+  assertion (false pass: it should be flagged).
+- Both inputs produce the SAME syntactic fingerprint (`mock chrome.* → assert on returned value`)
+  and OPPOSITE correct verdicts. No syntactic threshold, however tuned, separates them — only
+  runtime mutation (does the assertion actually go red when a real defect is injected into the
+  code path between the mock and the assertion) distinguishes "tautological" from "legitimate."
+
+`inconclusive` is correct here because the rule literally cannot compute, from source text alone,
+whether application logic sits between a mock's return value and the assertion — that requires
+running a mutation and observing red/green, which is a DIFFERENT kind of proof than static
+analysis produces (the same distinction `derive-never-type.md` makes for `hook-vitality-bite-probe`
+gates: "la sonde bipolaire seule ne suffit pas... la seule preuve qu'un garde mord: une violation
+injectée dans du code qu'il n'a PAS choisi").
 
 ---
 
@@ -95,6 +150,38 @@ cache, extension store review delay) requires a documented temporal tolerance so
 fire false-positive during a normal, in-flight rollout. Neither the build-hash convention nor the
 temporal-tolerance policy exists yet — shipping a verdict without both would be a guess dressed as
 a measurement.
+
+**Falsifying input — demonstration, not assertion**: consider a purely static rule that flags
+"verified-not-activated" whenever `git log -1 --format=%ci` on the latest commit touching
+`src/background/service-worker.ts` is older than the latest `dist/chrome.zip` mtime (a
+commit-vs-artifact freshness heuristic requiring no build-hash convention at all). Feed it two
+real-shaped inputs:
+
+- *False fail*: a maintainer runs `npm run build` locally at 14:02 to sanity-check a docs-only
+  commit from 14:00 (touches only `README.md`, not `service-worker.ts`). `dist/chrome.zip`'s mtime
+  (14:02) is now newer than `service-worker.ts`'s last real content change (say, 09:15 that
+  morning) — the freshness heuristic reads this as "artifact is fresh, verdict: activated" even
+  though NO fix was rebuilt-and-republished to the Chrome Web Store; the local `dist/` rebuild
+  never left the maintainer's machine. Flagging this as "activated" is a false pass in the OTHER
+  direction from the rule's own name — it under-reports risk by trusting a local mtime that says
+  nothing about what users are actually running.
+- *False fail (opposite polarity)*: a legitimate, already-published fix ships at Day 100. CI
+  archives `dist/chrome.zip` as a build artifact and deletes the local `dist/` directory
+  (standard cleanup). A later `git clone` + `npm install` on a fresh machine produces a `dist/`
+  directory whose mtime is the CLONE time, not the original build time — always "older" than
+  whatever commit is checked out, regardless of whether that fix is live in the Chrome Web Store or
+  not. The freshness heuristic now ALWAYS reports "not activated" post-clone, even for fixes that
+  have been live in production for months — a permanent false fail baked into the act of cloning.
+
+Both failure directions come from the same root cause a static rule cannot escape: filesystem
+mtimes describe the LOCAL WORKING COPY's history, not "what a Chrome Web Store user's installed
+extension is currently running." Only an artifact-embedded build hash, cross-checked against the
+git SHA the store review approved (a fact that lives OUTSIDE this repository, in the Chrome Web
+Store dashboard / a deploy log), can answer the question honestly — and even then only within a
+declared propagation-delay tolerance. Guessing from mtimes produces a confident-sounding verdict
+that is wrong in both directions depending on entirely incidental local filesystem state; that is
+strictly worse than `inconclusive`, which at least names the missing convention instead of
+asserting a false freshness signal.
 
 ---
 
