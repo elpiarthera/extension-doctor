@@ -34,4 +34,15 @@ derived.
    or ported. Its restrictive license governs react-doctor itself, not
    extension-doctor.
 
+   VERSION PIN COROLLARY: any invocation of react-doctor in this project's
+   harness (or the wider fleet) MUST pin `react-doctor@0.2.11`, never
+   `latest`/`@0.7.8`. 0.2.11 ships under plain MIT — commercial use is
+   free. `0.7.8` (latest as of this writing) ships under the Modified MIT
+   above, which requires Million Software's prior written authorization
+   for commercial use. The pin is therefore not a harness-stability
+   precaution — it is the only thing keeping any commercial run of
+   react-doctor against this (commercially-licensed) codebase on the
+   permissive side of their license. Do not bump past 0.2.11 without first
+   re-reading the target version's LICENSE on npm.
+
 extension-doctor's own license is documented in ./LICENSE.

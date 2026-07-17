@@ -1,0 +1,26 @@
+{
+  "card_menu_open": {
+    "message": "Ouvrir le menu",
+    "description": "D137 — aria-label du bouton déclencheur du menu contextuel 3-points sur une carte de prompt"
+  },
+  "edit": {
+    "message": "Modifier",
+    "description": "D137 — libellé générique de l'action modifier, utilisé dans l'item de menu CardContextMenu"
+  },
+  "duplicate": {
+    "message": "Dupliquer",
+    "description": "D137 — libellé générique de l'action dupliquer, utilisé dans l'item de menu CardContextMenu"
+  },
+  "unfavorite": {
+    "message": "Retirer des favoris",
+    "description": "D137 — libellé générique de l'action retirer des favoris, utilisé dans l'item de menu CardContextMenu"
+  },
+  "favorite": {
+    "message": "Mettre en favori",
+    "description": "D137 — libellé générique de l'action favori, utilisé dans l'item de menu CardContextMenu"
+  },
+  "move_to_project": {
+    "message": "Déplacer vers un projet",
+    "description": "D137 — libellé générique de l'action déplacer vers un projet, utilisé dans l'item de menu CardContextMenu, cohérent avec conv_move_to_project"
+  }
+}

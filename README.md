@@ -1,20 +1,24 @@
 # extension-doctor
 
-A health linter for browser extensions (Manifest V3) — Chrome, Edge, Firefox, Brave.
+A health linter for browser extensions (Manifest V3) that finds the bugs
+that pass your demo and fail in the Chrome Web Store review: unfiltered
+cross-tab broadcasts, missing i18n keys, invalidated-context crashes —
+Chrome, Edge, Firefox, Brave.
 
 ## Why
 
-Manifest V3 extensions fail in ways that never show up in a demo: a
-`chrome.tabs.query({})` with no `url:` filter that quietly broadcasts to
-every open tab in the browser instead of just the hosts the extension
-supports; an i18n key consumed via `t('key')` in the UI but never added to
-`_locales/en/messages.json` or `_locales/fr/messages.json`, so the user
-sees the raw key string instead of a translated label; a
-`chrome.runtime.sendMessage(...)` call with no guard against an invalidated
-extension context, throwing on the host page's console after every reload
-or update while the tab stays open and looks fine. None of these break the
-build. All three are common causes of Chrome Web Store review rejections
-and silent production breakage.
+**If you've just been rejected by the Chrome Web Store review, or you're
+trying not to be** — this is for you. Manifest V3 extensions fail in ways
+that never show up in a demo: a `chrome.tabs.query({})` with no `url:`
+filter that quietly broadcasts to every open tab in the browser instead of
+just the hosts the extension supports; an i18n key consumed via `t('key')`
+in the UI but never added to `_locales/en/messages.json` or
+`_locales/fr/messages.json`, so the user sees the raw key string instead of
+a translated label; a `chrome.runtime.sendMessage(...)` call with no guard
+against an invalidated extension context, throwing on the host page's
+console after every reload or update while the tab stays open and looks
+fine. None of these break the build. All three are common causes of Chrome
+Web Store review rejections and silent production breakage.
 
 **The thesis: one production friction resolved = one rule added.** No rule
 in this pack is speculative — each was written after a real bug shipped,
@@ -180,7 +184,7 @@ that overclaims what a static scanner can see is worse than no badge.
 
 ## Prior art
 
-This tool is written from scratch. The following were studied as prior art, no code derived — none of them are dependencies and no lines were copied from any of them:
+This tool is written from scratch. The following were studied as prior art, no code derived beyond the canonical MIT license boilerplate (the handful of lines any MIT-licensed npm package shares by convention — copyright header shape, not authored logic) — none of them are dependencies:
 
 - **[dot-skills](https://github.com/pproenca/dot-skills)** (MIT) — the idea
   behind `net-broadcast-unfiltered` and `sw-context-invalidated-guard` was

@@ -1,0 +1,26 @@
+{
+  "card_menu_open": {
+    "message": "Open menu",
+    "description": "D137 — aria-label of the 3-dot context menu trigger button on a prompt card"
+  },
+  "edit": {
+    "message": "Edit",
+    "description": "D137 — generic edit action label, used in CardContextMenu menu item"
+  },
+  "duplicate": {
+    "message": "Duplicate",
+    "description": "D137 — generic duplicate action label, used in CardContextMenu menu item"
+  },
+  "unfavorite": {
+    "message": "Unfavorite",
+    "description": "D137 — generic unfavorite action label, used in CardContextMenu menu item"
+  },
+  "favorite": {
+    "message": "Favorite",
+    "description": "D137 — generic favorite action label, used in CardContextMenu menu item"
+  },
+  "move_to_project": {
+    "message": "Move to project",
+    "description": "D137 — generic move-to-project action label, used in CardContextMenu menu item"
+  }
+}

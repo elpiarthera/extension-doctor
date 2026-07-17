@@ -1,7 +1,7 @@
 {
   "name": "extension-doctor",
   "version": "0.1.0",
-  "description": "Static-analysis CLI that audits browser extensions (Manifest V3) for durable-layer anti-patterns.",
+  "description": "Finds the bugs that pass your demo and fail in the store: unfiltered broadcasts, missing i18n keys, invalidated-context crashes.",
   "keywords": [
     "browser extension",
     "chrome extension",
@@ -45,7 +45,8 @@
     "test": "vitest run",
     "start": "node bin/extension-doctor.js",
     "check:readme": "node scripts/check-readme.mjs",
-    "prepublishOnly": "npm run build && npm test && npm run check:readme"
+    "prepublishOnly": "npm test && npm run check:readme",
+    "prepack": "npm run build"
   },
   "devDependencies": {
     "typescript": "^5.6.0",

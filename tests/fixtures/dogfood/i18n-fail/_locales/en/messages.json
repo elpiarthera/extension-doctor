@@ -1,0 +1,1860 @@
+{
+  "app_name": {
+    "message": "GPTPowerUps"
+  },
+  "ext_name": {
+    "message": "GPTPowerUps"
+  },
+  "ext_description": {
+    "message": "Give your ChatGPT, Claude, Cursor super powers. 0-100 Power-Up scores, cross-host orchestration, prompt library."
+  },
+  "ext_popup_title": {
+    "message": "GPTPowerUps"
+  },
+  "ext_score_label": {
+    "message": "Score"
+  },
+  "ext_score_loading": {
+    "message": "Loading score…"
+  },
+  "ext_loading": {
+    "message": "Loading…"
+  },
+  "ext_error_generic": {
+    "message": "Something went wrong. Please try again."
+  },
+  "ext_locale_switch_to_fr": {
+    "message": "Switch to French"
+  },
+  "ext_locale_switch_to_en": {
+    "message": "Switch to English"
+  },
+  "ext_sessions_title": {
+    "message": "Recent sessions"
+  },
+  "ext_sessions_empty": {
+    "message": "No sessions yet. Open ChatGPT or Claude to get started."
+  },
+  "ext_sessions_coming_soon": {
+    "message": "Coming soon — cross-host capture."
+  },
+  "ext_powerups_title": {
+    "message": "Top power-ups"
+  },
+  "ext_powerups_empty": {
+    "message": "No power-ups available yet."
+  },
+  "ext_settings_title": {
+    "message": "Settings"
+  },
+  "ext_settings_language": {
+    "message": "Language"
+  },
+  "ext_settings_hosts": {
+    "message": "Active hosts"
+  },
+  "ext_badge_aria_label": {
+    "message": "Power-Up score: $SCORE$. Click to see details.",
+    "description": "ARIA label for the score badge. $SCORE$ interpolated via chrome.i18n.getMessage('ext_badge_aria_label', [String(score)]).",
+    "placeholders": {
+      "SCORE": {
+        "content": "$1",
+        "example": "82"
+      }
+    }
+  },
+  "ext_tagline": {
+    "message": "Give your ChatGPT, Claude, Cursor super powers"
+  },
+  "ext_cta_browse": {
+    "message": "Browse power-ups"
+  },
+  "ext_waitlist_title": {
+    "message": "Get all the super powers you dream about, right inside your ChatGPT and Claude."
+  },
+  "ext_waitlist_submit": {
+    "message": "Join the list"
+  },
+  "ext_privacy_no_email": {
+    "message": "No email collection at install"
+  },
+  "ext_privacy_no_tabs": {
+    "message": "No tabs opened automatically"
+  },
+  "ext_privacy_local_first": {
+    "message": "Your data stays on your device by default"
+  },
+  "ext_host_chatgpt": {
+    "message": "ChatGPT"
+  },
+  "ext_host_claude": {
+    "message": "Claude"
+  },
+  "ext_host_cursor": {
+    "message": "Cursor"
+  },
+  "ext_host_grok": {
+    "message": "Grok"
+  },
+  "ext_compare_title": {
+    "message": "Compare your ChatGPT and Claude side by side"
+  },
+  "ext_compare_cta": {
+    "message": "Compare"
+  },
+  "ext_slash_placeholder": {
+    "message": "Type to search power-ups, prompts, agents…"
+  },
+  "ext_optin_title": {
+    "message": "Improve the catalog"
+  },
+  "ext_optin_description": {
+    "message": "Share anonymized usage signals to improve scores (no personal data)."
+  },
+  "ext_optin_toggle_label": {
+    "message": "Share anonymous signals"
+  },
+  "ext_badge_click_hint": {
+    "message": "Click to see power-up details"
+  },
+  "ext_session_host_label": {
+    "message": "Host"
+  },
+  "ext_session_time_label": {
+    "message": "Time"
+  },
+  "sidebar_aria_label": {
+    "message": "GPTPowerUps sidebar"
+  },
+  "sidebar_collapse": {
+    "message": "Collapse sidebar"
+  },
+  "sidebar_expand": {
+    "message": "Expand sidebar"
+  },
+  "sidebar_tabs_label": {
+    "message": "Navigation"
+  },
+  "sidebar_tab_powerups": {
+    "message": "My superpowers"
+  },
+  "sidebar_tab_agent": {
+    "message": "My agent"
+  },
+  "sidebar_tab_media": {
+    "message": "My gallery"
+  },
+  "sidebar_tab_slash": {
+    "message": "My commands"
+  },
+  "sidebar_tab_conversations": {
+    "message": "My chats"
+  },
+  "sidebar_tab_compare": {
+    "message": "Compare"
+  },
+  "sidebar_tab_settings": {
+    "message": "Settings"
+  },
+  "sidebar_tab_coming_soon": {
+    "message": "Coming soon"
+  },
+  "subtab_my_prompts": {
+    "message": "My prompts"
+  },
+  "subtab_catalog": {
+    "message": "Catalog"
+  },
+  "powerups_subtab_list_aria": {
+    "message": "Power-ups sub-tabs"
+  },
+  "filter_all": {
+    "message": "All"
+  },
+  "filter_prompts": {
+    "message": "Prompts"
+  },
+  "filter_skills": {
+    "message": "Skills"
+  },
+  "filter_mcps": {
+    "message": "Connectors"
+  },
+  "catalog_filter_aria": {
+    "message": "Filter by type"
+  },
+  "catalog_loading_aria": {
+    "message": "Loading catalog…"
+  },
+  "catalog_search_placeholder": {
+    "message": "Search power-ups…"
+  },
+  "empty_catalog_offline_title": {
+    "message": "Offline"
+  },
+  "empty_catalog_offline_sub": {
+    "message": "Catalog content unavailable. Try again when online."
+  },
+  "empty_catalog_search_title": {
+    "message": "No results"
+  },
+  "empty_catalog_search_sub": {
+    "message": "No power-up matches your search. Try a different keyword."
+  },
+  "retry": {
+    "message": "Try again"
+  },
+  "my_prompts_search_placeholder": {
+    "message": "Search your prompts…"
+  },
+  "add_prompt": {
+    "message": "Add a prompt"
+  },
+  "empty_my_prompts_title": {
+    "message": "No saved prompts yet"
+  },
+  "empty_my_prompts_sub": {
+    "message": "Save your best prompts here and reuse them in ChatGPT or Claude in one click."
+  },
+  "empty_my_prompts_search_title": {
+    "message": "No prompts match your search"
+  },
+  "browse_catalog": {
+    "message": "Browse the catalog"
+  },
+  "prompt_form_title_placeholder": {
+    "message": "Prompt name"
+  },
+  "prompt_form_body_placeholder": {
+    "message": "Prompt text — use {{variable}} to add fill-in fields"
+  },
+  "prompt_form_save": {
+    "message": "Save"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "category_commit": {
+    "message": "Confirm"
+  },
+  "category_rename_aria": {
+    "message": "Rename this category",
+    "description": "D88-Phase4 — aria-label for rename button in FoldersSidebar"
+  },
+  "category_create_aria": {
+    "message": "Create new category",
+    "description": "D88-Phase4 — aria-label for create category button in FoldersSidebar"
+  },
+  "prompt_item_use_aria": {
+    "message": "Use this prompt"
+  },
+  "prompt_item_edit_aria": {
+    "message": "Edit prompt"
+  },
+  "prompt_item_delete_aria": {
+    "message": "Delete prompt"
+  },
+  "delete_confirm_yes_aria": {
+    "message": "Confirm delete"
+  },
+  "delete_confirm_no_aria": {
+    "message": "Cancel delete"
+  },
+  "card_cta_use_prompt": {
+    "message": "Use"
+  },
+  "card_cta_copy_skill": {
+    "message": "Copy skill"
+  },
+  "card_cta_install_mcp": {
+    "message": "Install"
+  },
+  "mcp_oauth_link": {
+    "message": "Connect your account"
+  },
+  "modal_hydration_title": {
+    "message": "Fill in the blanks"
+  },
+  "modal_auto_vars_label": {
+    "message": "Auto-filled:"
+  },
+  "use_prompt": {
+    "message": "Use prompt"
+  },
+  "settings_panel_aria_label": {
+    "message": "Settings"
+  },
+  "settings_section_langue": {
+    "message": "Language"
+  },
+  "settings_locale_legend": {
+    "message": "Choose your language"
+  },
+  "settings_locale_en": {
+    "message": "English"
+  },
+  "settings_locale_fr": {
+    "message": "French"
+  },
+  "settings_section_hosts": {
+    "message": "Active hosts"
+  },
+  "settings_host_chatgpt": {
+    "message": "ChatGPT"
+  },
+  "settings_host_claude": {
+    "message": "Claude"
+  },
+  "settings_host_grok": {
+    "message": "Grok"
+  },
+  "settings_section_shortcuts": {
+    "message": "Shortcuts"
+  },
+  "settings_shortcuts_list_aria": {
+    "message": "Keyboard shortcuts"
+  },
+  "settings_shortcut_open_key": {
+    "message": "Alt+G"
+  },
+  "settings_shortcut_open_desc": {
+    "message": "Open / close the sidebar"
+  },
+  "settings_shortcut_collapse_key": {
+    "message": "Esc"
+  },
+  "settings_shortcut_collapse_desc": {
+    "message": "Collapse / open sidebar"
+  },
+  "settings_section_data": {
+    "message": "Data"
+  },
+  "settings_data_clear_btn": {
+    "message": "Clear all saved prompts"
+  },
+  "settings_data_confirm_aria": {
+    "message": "Confirm clearing all data"
+  },
+  "settings_data_confirm_prompt": {
+    "message": "Delete all saved prompts? This cannot be undone."
+  },
+  "settings_data_confirm_yes": {
+    "message": "Yes, delete"
+  },
+  "settings_data_confirm_yes_aria": {
+    "message": "Confirm deletion"
+  },
+  "settings_data_confirm_no": {
+    "message": "Cancel"
+  },
+  "settings_data_confirm_no_aria": {
+    "message": "Cancel deletion"
+  },
+  "settings_section_about": {
+    "message": "About"
+  },
+  "settings_about_version": {
+    "message": "Version"
+  },
+  "panel_agent_coming_soon": {
+    "message": "Coming soon"
+  },
+  "panel_agent_aria_label": {
+    "message": "Agent panel — coming soon"
+  },
+  "panel_agent_aria_label_functional": {
+    "message": "Agent Composer"
+  },
+  "panel_agent_active_indicator": {
+    "message": "Active agent"
+  },
+  "panel_agent_section_presets": {
+    "message": "Presets"
+  },
+  "panel_agent_section_role": {
+    "message": "Choose a role"
+  },
+  "panel_agent_section_persona": {
+    "message": "Persona (optional)"
+  },
+  "panel_agent_section_framework": {
+    "message": "Framework (optional)"
+  },
+  "panel_agent_apply": {
+    "message": "Apply to my ChatGPT"
+  },
+  "agent_apply_cta": {
+    "message": "Apply to my $HOST$",
+    "description": "Agent apply CTA — host substituted at runtime",
+    "placeholders": {
+      "HOST": {
+        "content": "$1",
+        "example": "ChatGPT"
+      }
+    }
+  },
+  "panel_agent_applying": {
+    "message": "Applying…"
+  },
+  "panel_agent_clear": {
+    "message": "Reset"
+  },
+  "panel_agent_applied_toast": {
+    "message": "Agent $ROLE$ activated on your $HOST$",
+    "placeholders": {
+      "ROLE": {
+        "content": "$1",
+        "example": "Consultant"
+      },
+      "HOST": {
+        "content": "$2",
+        "example": "ChatGPT"
+      }
+    }
+  },
+  "panel_agent_reset_toast": {
+    "message": "Agent reset"
+  },
+  "panel_agent_error_toast": {
+    "message": "Could not apply. Reload the page."
+  },
+  "apply_agent_chatgpt": {
+    "message": "Apply your agent to your ChatGPT",
+    "description": "Host-named CTA — apply agent to ChatGPT"
+  },
+  "apply_agent_claude": {
+    "message": "Apply your agent to your Claude",
+    "description": "Host-named CTA — apply agent to Claude"
+  },
+  "panel_compare_coming_soon": {
+    "message": "Coming soon"
+  },
+  "panel_compare_aria_label": {
+    "message": "Compare panel — coming soon"
+  },
+  "panel_conversations_coming_soon": {
+    "message": "Coming soon"
+  },
+  "panel_conversations_aria_label": {
+    "message": "Conversations panel — coming soon"
+  },
+  "panel_media_coming_soon": {
+    "message": "Coming soon"
+  },
+  "panel_media_aria_label": {
+    "message": "Media panel — coming soon"
+  },
+  "panel_slash_coming_soon": {
+    "message": "Coming soon"
+  },
+  "panel_slash_aria_label": {
+    "message": "Slash commands panel — coming soon"
+  },
+  "toast_prompt_injected": {
+    "message": "Prompt injected"
+  },
+  "toast_skill_copied": {
+    "message": "Skill copied to clipboard"
+  },
+  "toast_mcp_install_link_copied": {
+    "message": "Install command copied"
+  },
+  "toast_prompts_cleared": {
+    "message": "Prompts cleared"
+  },
+  "badge_full": {
+    "message": "Fully compatible"
+  },
+  "badge_partial": {
+    "message": "Partial compatibility"
+  },
+  "badge_unsupported": {
+    "message": "Not supported"
+  },
+  "sidebar_close": {
+    "message": "Close GPTPowerUps",
+    "description": "Close button aria-label inside sidebar header"
+  },
+  "fab_open": {
+    "message": "Open GPTPowerUps",
+    "description": "FAB aria-label when sidebar is closed"
+  },
+  "fab_close": {
+    "message": "Close GPTPowerUps",
+    "description": "FAB aria-label when sidebar is open"
+  },
+  "popup_dismiss_all": {
+    "message": "Dismiss all",
+    "description": "InlinePopup — button that removes all chips and closes the popup"
+  },
+  "popup_remove_item": {
+    "message": "Remove this item",
+    "description": "InlinePopup chip — × button aria-label to remove a single chip"
+  },
+  "summarize_page_label": {
+    "message": "Summarize this page",
+    "description": "Power-Up display label"
+  },
+  "summarize_page_description": {
+    "message": "Capture the current page and send it to your ChatGPT or Claude for a clear summary.",
+    "description": "Power-Up description in catalog — hosts named concretely"
+  },
+  "summarize_page_cta": {
+    "message": "Summarize",
+    "description": "CTA button in catalog card"
+  },
+  "summarize_page_success": {
+    "message": "Page captured — $COUNT$ words sent to your $HOST$",
+    "description": "Toast shown after successful page capture and injection",
+    "placeholders": {
+      "COUNT": {
+        "content": "$1",
+        "example": "1234"
+      },
+      "HOST": {
+        "content": "$2",
+        "example": "ChatGPT"
+      }
+    }
+  },
+  "summarize_page_error_too_long": {
+    "message": "Page too long — content was truncated to 50 000 characters",
+    "description": "Toast shown when page exceeds 50K char limit"
+  },
+  "manager_modal_aria_label": {
+    "message": "GPTPowerUps Manager"
+  },
+  "manager_close": {
+    "message": "Close"
+  },
+  "manager_nav_aria_label": {
+    "message": "Manager navigation"
+  },
+  "manager_nav_open": {
+    "message": "Open navigation menu"
+  },
+  "nav_prompts": {
+    "message": "Prompts"
+  },
+  "nav_gallery": {
+    "message": "Gallery"
+  },
+  "nav_conversations": {
+    "message": "Conversations"
+  },
+  "nav_agents": {
+    "message": "Agents"
+  },
+  "nav_settings": {
+    "message": "Settings"
+  },
+  "nav_about": {
+    "message": "About"
+  },
+  "nav_coming_soon": {
+    "message": "Coming soon"
+  },
+  "badge_coming_soon": {
+    "message": "Soon"
+  },
+  "toolbar_search_placeholder": {
+    "message": "Search…"
+  },
+  "toolbar_search_aria": {
+    "message": "Search prompts"
+  },
+  "toolbar_sort_aria": {
+    "message": "Sort by"
+  },
+  "sort_updated": {
+    "message": "Most recent"
+  },
+  "sort_alpha": {
+    "message": "A → Z"
+  },
+  "folders_label": {
+    "message": "Categories"
+  },
+  "folder_all": {
+    "message": "All"
+  },
+  "folder_name_placeholder": {
+    "message": "Category name…"
+  },
+  "folder_add": {
+    "message": "New category"
+  },
+  "folder_add_aria": {
+    "message": "Add a category"
+  },
+  "folder_rename_aria": {
+    "message": "Rename category"
+  },
+  "folder_delete_aria": {
+    "message": "Delete category"
+  },
+  "folder_delete_confirm": {
+    "message": "Delete this category?"
+  },
+  "yes": {
+    "message": "Yes"
+  },
+  "card_menu_aria": {
+    "message": "More options"
+  },
+  "card_menu_edit": {
+    "message": "Edit"
+  },
+  "card_menu_duplicate": {
+    "message": "Duplicate"
+  },
+  "card_menu_favorite": {
+    "message": "Add to favorites"
+  },
+  "card_menu_unfavorite": {
+    "message": "Remove from favorites"
+  },
+  "card_menu_delete": {
+    "message": "Delete"
+  },
+  "create_prompt_title": {
+    "message": "New prompt"
+  },
+  "create_prompt_edit_title": {
+    "message": "Edit prompt"
+  },
+  "create_prompt_view_title": {
+    "message": "View prompt"
+  },
+  "create_prompt_category": {
+    "message": "Category"
+  },
+  "create_prompt_no_category": {
+    "message": "No category"
+  },
+  "create_prompt_language": {
+    "message": "Language"
+  },
+  "create_prompt_both_languages": {
+    "message": "Both (EN + FR)"
+  },
+  "create_prompt_name": {
+    "message": "Prompt name"
+  },
+  "create_prompt_tags": {
+    "message": "Tags"
+  },
+  "create_prompt_steps": {
+    "message": "Steps"
+  },
+  "create_prompt_vars_hint": {
+    "message": "Use {{var}} for variables"
+  },
+  "create_prompt_step_n_aria": {
+    "message": "Prompt step $N$",
+    "description": "ARIA label for multi-step prompt textarea. $N$ = step number (1-based).",
+    "placeholders": {
+      "N": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "create_prompt_step_placeholder": {
+    "message": "Step content…"
+  },
+  "create_prompt_add_step": {
+    "message": "Add a step"
+  },
+  "create_prompt_remove_step": {
+    "message": "Remove step"
+  },
+  "create_prompt_favorite": {
+    "message": "Mark as favorite"
+  },
+  "slash_menu_aria_label": {
+    "message": "Quick prompts"
+  },
+  "slash_search_placeholder": {
+    "message": "Search prompts…"
+  },
+  "slash_search_aria": {
+    "message": "Search prompts"
+  },
+  "slash_view_all": {
+    "message": "View all prompts"
+  },
+  "toast_prompt_saved": {
+    "message": "Prompt saved"
+  },
+  "toast_prompt_deleted": {
+    "message": "Prompt deleted"
+  },
+  "toast_prompt_duplicated": {
+    "message": "Prompt duplicated"
+  },
+  "coming_soon_gallery_desc": {
+    "message": "Browse and organize images and files from your ChatGPT and Claude conversations."
+  },
+  "coming_soon_gallery_sprint": {
+    "message": "Available in Sprint 3"
+  },
+  "coming_soon_conversations_desc": {
+    "message": "Search and revisit your conversations across ChatGPT and Claude in one place."
+  },
+  "coming_soon_conversations_sprint": {
+    "message": "Available in Sprint 3"
+  },
+  "coming_soon_agents_desc": {
+    "message": "Build and apply custom agent personas to any AI host with one click."
+  },
+  "coming_soon_agents_sprint": {
+    "message": "Available in Sprint 2"
+  },
+  "coming_soon_roadmap_link": {
+    "message": "See the full roadmap"
+  },
+  "about_pitch": {
+    "message": "Cross-host superpowers for ChatGPT and Claude. Privacy-first, bilingual EN+FR."
+  },
+  "about_privacy_title": {
+    "message": "Privacy by design"
+  },
+  "about_privacy_no_telemetry": {
+    "message": "0 telemetry, 0 backend in V1"
+  },
+  "about_github_releases": {
+    "message": "Release notes"
+  },
+  "about_made_by": {
+    "message": "Made with love by ElPi Corp"
+  },
+  "settings_shortcut_open_prompts": {
+    "message": "Open quick prompts"
+  },
+  "settings_shortcut_close_manager": {
+    "message": "Close manager"
+  },
+  "create_prompt_attach_files": {
+    "message": "Attach files",
+    "description": "D88-Phase4 — aria-label for the file attach button in PromptModal"
+  },
+  "create_prompt_attached_files": {
+    "message": "Attached files",
+    "description": "Section label for attached files in CreatePromptModal"
+  },
+  "create_prompt_attach_file": {
+    "message": "+ Attach file",
+    "description": "Button to open file picker in CreatePromptModal"
+  },
+  "create_prompt_files_hint": {
+    "message": "Use {{files}} to inject attached files. Stored locally, uploaded when used.",
+    "description": "Hint text explaining {{files}} variable usage in prompts"
+  },
+  "create_prompt_remove_file": {
+    "message": "Remove file",
+    "description": "Aria-label for the × button on an attached file chip"
+  },
+  "card_cta_view": {
+    "message": "View prompt",
+    "description": "Title tooltip for the Eye icon button on a Card (V0.4.1 — replaces Use text button)"
+  },
+  "detail_clone": {
+    "message": "Clone to my prompts",
+    "description": "Primary CTA button in DetailModal for catalog seed prompts"
+  },
+  "detail_clone_tooltip": {
+    "message": "Copy this prompt to your collection and edit it",
+    "description": "Tooltip on the Clone button in DetailModal"
+  },
+  "toast_prompt_cloned": {
+    "message": "Prompt cloned — opening editor",
+    "description": "Toast after cloneSeedToMyPrompts succeeds"
+  },
+  "toast_var_copied": {
+    "message": "Copied!",
+    "description": "Toast shown when user clicks a variable chip to copy it"
+  },
+  "var_chip_tooltip": {
+    "message": "Click to copy",
+    "description": "Native title tooltip on variable chips in PromptModal"
+  },
+  "var_chip_copy_aria": {
+    "message": "Copy variable",
+    "description": "aria-label prefix for variable chip copy buttons"
+  },
+  "tag_input_placeholder": {
+    "message": "Add tags (Enter or comma)…",
+    "description": "Placeholder text for the freeform tag input in PromptModal"
+  },
+  "remove_tag": {
+    "message": "Remove tag",
+    "description": "Aria-label prefix for the × button on a tag chip"
+  },
+  "folder_add_inline": {
+    "message": "+ New category",
+    "description": "Last option in the category dropdown that triggers inline add"
+  },
+  "manager_fullscreen": {
+    "message": "Fullscreen",
+    "description": "Tooltip for the fullscreen expand button in ManagerModal header"
+  },
+  "manager_exit_fullscreen": {
+    "message": "Exit fullscreen",
+    "description": "Tooltip for the fullscreen exit button in ManagerModal header"
+  },
+  "hydration_modal_title": {
+    "message": "Fill {n} variable(s)",
+    "description": "HydrationModal title — {n} is the count of user-fillable variables"
+  },
+  "hydration_input_placeholder": {
+    "message": "Value…",
+    "description": "Placeholder for each variable input in HydrationModal"
+  },
+  "hydration_insert": {
+    "message": "Insert",
+    "description": "Primary CTA button in HydrationModal — click to hydrate and inject"
+  },
+  "hydration_insert_no_submit": {
+    "message": "Insert (no auto-submit)",
+    "description": "Tooltip on Insert button — Shift+Click inserts without auto-submit"
+  },
+  "hydration_cancel": {
+    "message": "Cancel",
+    "description": "Cancel button in HydrationModal"
+  },
+  "confirm_button_default": {
+    "message": "Confirm?",
+    "description": "ConfirmButton label in armed state (first click already done)"
+  },
+  "confirm_button_aria_armed": {
+    "message": "Click again to confirm",
+    "description": "ConfirmButton aria-label in armed state"
+  },
+  "prompt_delete": {
+    "message": "Delete prompt",
+    "description": "Tooltip / aria-label on delete trash icon in Card footer"
+  },
+  "prompt_delete_confirm_aria": {
+    "message": "Click again to confirm delete",
+    "description": "Aria label on ConfirmButton in armed state for prompt delete"
+  },
+  "confirm_modal_confirm": {
+    "message": "Confirm",
+    "description": "Default confirm button label in ConfirmModal"
+  },
+  "confirm_modal_cancel": {
+    "message": "Cancel",
+    "description": "Default cancel button label in ConfirmModal"
+  },
+  "delete": {
+    "message": "Delete",
+    "description": "Generic delete action label"
+  },
+  "folder_delete_title": {
+    "message": "Delete category",
+    "description": "Title of confirm modal when deleting a category"
+  },
+  "folder_delete_desc": {
+    "message": "The category \"{name}\" will be deleted. Prompts inside will not be deleted.",
+    "description": "Description of confirm modal for category deletion. {name} replaced at runtime."
+  },
+  "prompt_delete_title": {
+    "message": "Delete prompt",
+    "description": "Title of confirm modal when deleting a prompt"
+  },
+  "prompt_delete_desc": {
+    "message": "The prompt \"{name}\" will be permanently deleted.",
+    "description": "Description of confirm modal for prompt deletion. {name} replaced at runtime."
+  },
+  "clear_prompts_title": {
+    "message": "Clear all prompts",
+    "description": "Title of confirm modal when clearing all prompts"
+  },
+  "clear_prompts_desc": {
+    "message": "All your prompts will be deleted. This cannot be undone.",
+    "description": "Description of confirm modal for clear-all action"
+  },
+  "tags_counter_tooltip": {
+    "message": "Up to 5 tags for clean filtering",
+    "description": "V0.4.3 — tooltip on Tags (X/5) counter label in PromptModal"
+  },
+  "steps_help_tooltip": {
+    "message": "Multi-step workflow — each step's text is sent in turn.",
+    "description": "V0.4.3 — tooltip on (?) icon next to Steps label in PromptModal"
+  },
+  "save_and_use": {
+    "message": "Save and use",
+    "description": "V0.4.3 — split save dropdown option: save prompt then immediately use it"
+  },
+  "save_menu_aria": {
+    "message": "Save options",
+    "description": "V0.4.3 — aria-label for the caret button that opens the save split menu"
+  },
+  "conversations_section_title": {
+    "message": "Conversations",
+    "description": "V0.6.0 — heading for the Conversations manager section"
+  },
+  "conversations_empty_state": {
+    "message": "No saved conversations yet",
+    "description": "V0.6.0 — empty state headline when no conversations are stored"
+  },
+  "conversations_empty_help": {
+    "message": "Open ChatGPT, Claude or Grok and click \"Save conversation\" to capture one",
+    "description": "V0.6.0 — empty state helper text"
+  },
+  "conversations_msg_count": {
+    "message": "{count} messages",
+    "description": "V0.6.0 — message count in conversation card. {count} replaced at runtime."
+  },
+  "conversations_continue_here_btn": {
+    "message": "Continue here",
+    "description": "V0.6.0 — primary CTA in ConversationDetail footer"
+  },
+  "conversations_send_to_btn": {
+    "message": "Send to...",
+    "description": "V0.6.0 — secondary CTA in ConversationDetail footer"
+  },
+  "conversations_send_to_dialog_title": {
+    "message": "Send to which hosts?",
+    "description": "V0.6.0 — title of SendToDropdown dialog"
+  },
+  "conversations_send_to_chatgpt": {
+    "message": "ChatGPT",
+    "description": "V0.6.0 — ChatGPT option in SendToDropdown and host badge"
+  },
+  "conversations_send_to_claude": {
+    "message": "Claude",
+    "description": "V0.6.0 — Claude option in SendToDropdown and host badge"
+  },
+  "conversations_send_to_grok": {
+    "message": "Grok",
+    "description": "V0.6.0 — Grok option in SendToDropdown and host badge"
+  },
+  "conversations_send_to_confirm": {
+    "message": "Send",
+    "description": "V0.6.0 — confirm button in SendToDropdown"
+  },
+  "conversations_delete_title": {
+    "message": "Delete this conversation?",
+    "description": "V0.6.0 — title of ConfirmModal when deleting a conversation"
+  },
+  "conversations_delete_desc": {
+    "message": "This conversation will be permanently removed from your local database.",
+    "description": "V0.6.0 — description in ConfirmModal for conversation delete"
+  },
+  "conversations_back": {
+    "message": "Back",
+    "description": "V0.6.0 — back button aria-label in ConversationDetail header"
+  },
+  "toast_conversation_deleted": {
+    "message": "Conversation deleted",
+    "description": "V0.6.0 — toast shown after successful conversation deletion"
+  },
+  "conversations_save_btn": {
+    "message": "Save conversation",
+    "description": "V0.6.0 Step 3 — save button label in ConversationsManager header (visible on known hosts only)"
+  },
+  "conversations_save_success": {
+    "message": "Conversation saved",
+    "description": "V0.6.0 Step 3 — toast shown after a conversation is successfully captured and saved"
+  },
+  "conversations_save_no_detection": {
+    "message": "No conversation detected on this page",
+    "description": "V0.6.0 Step 3 — toast shown when captureConversation returns null (no DOM match)"
+  },
+  "conversations_opening_tabs": {
+    "message": "Opening {n} tab(s)…",
+    "description": "V0.6.0 Step 3 — toast shown when SW opens tabs for continue/send-to; {n} = tab count"
+  },
+  "conversations_search_placeholder": {
+    "message": "Search conversations…",
+    "description": "V0.6.0.3 — placeholder text for the search input in ConversationsManager"
+  },
+  "conversations_search_no_results": {
+    "message": "No conversations match \"{query}\"",
+    "description": "V0.6.0.3 — empty state when search returns 0 results. {query} replaced at runtime."
+  },
+  "conversations_match_count": {
+    "message": "{matches} / {total}",
+    "description": "V0.6.0.3 — count badge showing filtered matches vs total when search is active"
+  },
+  "fab_save_conversation": {
+    "message": "Save conversation",
+    "description": "V0.6.0.3 — FAB hover menu item label for save conversation quick action"
+  },
+  "fab_menu_aria": {
+    "message": "Quick actions",
+    "description": "V0.6.0.3 — aria-label for the FAB hover menu"
+  },
+  "conversations_detail_search_placeholder": {
+    "message": "Search in this conversation…",
+    "description": "V0.6.0.4 — placeholder for in-conversation search input in ConversationDetail"
+  },
+  "conversations_detail_search_no_results": {
+    "message": "No messages match «{query}»",
+    "description": "V0.6.0.4 — zero-hit placeholder in FILTER mode. {query} replaced at runtime."
+  },
+  "conversations_detail_search_match_count": {
+    "message": "{matches} / {total} messages",
+    "description": "V0.6.0.4 — match count badge. {matches} and {total} replaced at runtime."
+  },
+  "conversations_detail_search_highlight_btn": {
+    "message": "Highlight all",
+    "description": "V0.6.0.4 — toggle button label switching to HIGHLIGHT mode in ConversationDetail search"
+  },
+  "inline_send_to_btn": {
+    "message": "Send to...",
+    "description": "V0.6.1 — inline action bar button label per assistant message turn"
+  },
+  "inline_send_to_aria": {
+    "message": "Send this exchange to another AI",
+    "description": "V0.6.1 — aria-label on the inline Send to button"
+  },
+  "inline_send_to_loading": {
+    "message": "Opening...",
+    "description": "V0.6.1 — button label while dropdown is opening (loading state)"
+  },
+  "inline_send_to_error": {
+    "message": "Failed",
+    "description": "V0.6.1 — button label when capture or fan-out failed (error state)"
+  },
+  "inline_send_to_offline_aria": {
+    "message": "Offline — unavailable",
+    "description": "V0.6.1 — aria-label when browser is offline"
+  },
+  "inline_send_to_disabled_aria": {
+    "message": "Disabled in Settings",
+    "description": "V0.6.1 — aria-label when feature is disabled via Settings toggle"
+  },
+  "inline_save_label": {
+    "message": "Save",
+    "description": "V0.7.1.5 — inline media save bar button label (default state)"
+  },
+  "inline_save_loading_label": {
+    "message": "Saving...",
+    "description": "V0.7.1.5 — inline media save bar button label (loading state)"
+  },
+  "inline_save_saved_label": {
+    "message": "Saved ✓",
+    "description": "V0.7.1.5 — inline media save bar button label (saved state)"
+  },
+  "inline_save_error_label": {
+    "message": "Failed",
+    "description": "V0.7.1.5 — inline media save bar button label (error state)"
+  },
+  "inline_save_aria": {
+    "message": "Save to Gallery",
+    "description": "V0.7.1.5 — aria-label on the inline Save button"
+  },
+  "inline_save_saved_aria": {
+    "message": "Saved to Gallery",
+    "description": "V0.7.1.5 — aria-label when media has been saved"
+  },
+  "inline_save_offline_aria": {
+    "message": "Offline — unavailable",
+    "description": "V0.7.1.5 — aria-label when browser is offline"
+  },
+  "inline_save_disabled_aria": {
+    "message": "Disabled in Settings",
+    "description": "V0.7.1.5 — aria-label when feature is disabled via Settings toggle"
+  },
+  "conv_folders_label": {
+    "message": "Folders",
+    "description": "V0.7.0 — header label for conversation folders sidebar"
+  },
+  "conv_folder_all": {
+    "message": "All",
+    "description": "V0.7.0 — 'All conversations' item in FoldersSidebarConv"
+  },
+  "conv_folder_unfiled": {
+    "message": "Unfiled",
+    "description": "V0.7.0 — 'Unfiled' item in FoldersSidebarConv (conversations with no folder)"
+  },
+  "conv_folder_name_placeholder": {
+    "message": "Folder name…",
+    "description": "V0.7.0 — placeholder for inline folder create input"
+  },
+  "conv_folder_add": {
+    "message": "New folder",
+    "description": "V0.7.0 — label on the + New folder button in FoldersSidebarConv"
+  },
+  "conv_folder_add_aria": {
+    "message": "Add a folder",
+    "description": "V0.7.0 — aria-label on the + New folder button"
+  },
+  "conv_folder_rename_aria": {
+    "message": "Rename folder",
+    "description": "V0.7.0 — aria-label on the rename pencil button in FoldersSidebarConv"
+  },
+  "conv_folder_delete_aria": {
+    "message": "Delete folder",
+    "description": "V0.7.0 — aria-label on the delete trash button in FoldersSidebarConv"
+  },
+  "conv_folder_delete_title": {
+    "message": "Delete folder",
+    "description": "V0.7.0 — title of ConfirmModal when deleting a conversation folder"
+  },
+  "conv_folder_delete_desc": {
+    "message": "The folder \"{name}\" will be deleted.",
+    "description": "V0.7.0 — description in ConfirmModal for folder deletion. {name} replaced at runtime."
+  },
+  "conv_folder_delete_reassign": {
+    "message": "Keep {count} conversation(s) — move to root",
+    "description": "V0.7.0 — checkbox label in delete confirm: reassign conversations to root vs delete them. {count} replaced at runtime."
+  },
+  "conv_folder_created": {
+    "message": "Folder created",
+    "description": "V0.7.0 — toast shown after a folder is successfully created"
+  },
+  "conv_folder_deleted": {
+    "message": "Folder deleted",
+    "description": "V0.7.0 — toast shown after a folder is successfully deleted"
+  },
+  "conv_folder_empty_state": {
+    "message": "No conversations in this folder",
+    "description": "V0.7.0 — empty state shown when the active folder has no conversations"
+  },
+  "conv_move_to_folder": {
+    "message": "Move to folder",
+    "description": "V0.7.0 — ⋯ menu item label on ConversationCard (deprecated, kept for T5 Media)"
+  },
+  "conv_move_to_project": {
+    "message": "Move to project",
+    "description": "T7 D67 — ⋯ menu item label on ConversationCard (project-aware)"
+  },
+  "conv_move_success": {
+    "message": "Conversation moved",
+    "description": "V0.7.0 — toast shown after a conversation is moved to a folder"
+  },
+  "conv_drag_drop_hint": {
+    "message": "Drop to add to folder (Shift+drop to move only here)",
+    "description": "V0.7.0.2 — tooltip shown on folder item when dragging a conversation over it"
+  },
+  "conv_folder_added": {
+    "message": "Added to folder",
+    "description": "V0.7.0.2 — toast shown after conversation is added to a folder (multi-membership)"
+  },
+  "conv_folder_removed": {
+    "message": "Removed from folder",
+    "description": "V0.7.0.2 — toast shown after conversation is removed from a folder"
+  },
+  "media_section_title": {
+    "message": "Gallery",
+    "description": "V0.7.1 — Media Gallery section title"
+  },
+  "media_search_placeholder": {
+    "message": "Search gallery…",
+    "description": "V0.7.1 — Media Gallery search input placeholder"
+  },
+  "media_filter_label": {
+    "message": "Filter by type",
+    "description": "V0.7.1 — Filter pills group aria-label"
+  },
+  "media_filter_all": {
+    "message": "All",
+    "description": "V0.7.1 — Filter pill: all types"
+  },
+  "media_filter_images": {
+    "message": "Images",
+    "description": "V0.7.1 — Filter pill: images"
+  },
+  "media_filter_artifacts": {
+    "message": "Artifacts",
+    "description": "V0.7.1 — Filter pill: artifacts"
+  },
+  "media_filter_code": {
+    "message": "Code",
+    "description": "V0.7.1 — Filter pill: code blocks"
+  },
+  "media_filter_files": {
+    "message": "Files",
+    "description": "V0.7.1 — Filter pill: files"
+  },
+  "media_view_mode_label": {
+    "message": "View mode",
+    "description": "V0.7.1 — View mode toggle aria-label"
+  },
+  "media_view_mode_grid": {
+    "message": "Grid view",
+    "description": "V0.7.1 — Grid view mode button"
+  },
+  "media_view_mode_list": {
+    "message": "List view",
+    "description": "V0.7.1 — List view mode button"
+  },
+  "media_card_menu_aria": {
+    "message": "Item options",
+    "description": "V0.7.1 — Media card ⋯ menu button aria-label"
+  },
+  "media_card_action_download": {
+    "message": "Download",
+    "description": "V0.7.1 — Download action"
+  },
+  "media_card_action_copy": {
+    "message": "Copy",
+    "description": "V0.7.1 — Copy action"
+  },
+  "media_card_action_open_conv": {
+    "message": "Open in conversation",
+    "description": "V0.7.1 — Back-link to source conversation"
+  },
+  "media_card_action_move_to_folder": {
+    "message": "Move to folder",
+    "description": "V0.7.1 — Move to folder action (deprecated, kept for compat)"
+  },
+  "media_card_action_move_to_project": {
+    "message": "Move to project",
+    "description": "T5 D67 — Move to project action"
+  },
+  "media_card_action_delete": {
+    "message": "Delete",
+    "description": "V0.7.1 — Delete media item"
+  },
+  "media_move_to_folder": {
+    "message": "Move to folder",
+    "description": "V0.7.1 — Folder submenu heading (deprecated, kept for compat)"
+  },
+  "media_move_to_project": {
+    "message": "Move to project",
+    "description": "T5 D67 — Project submenu heading in card context menu"
+  },
+  "media_capture_btn": {
+    "message": "Capture from page",
+    "description": "V0.7.1 — Mode A manual capture button"
+  },
+  "media_save_btn": {
+    "message": "Save to Gallery",
+    "description": "V0.7.1 — Mode B inline hover button"
+  },
+  "media_capture_nothing_found": {
+    "message": "No media found on this page",
+    "description": "V0.7.1 — Toast when Mode A capture finds nothing"
+  },
+  "media_capture_success": {
+    "message": "Captured {n} item(s)",
+    "description": "V0.7.1 — Toast after successful Mode A capture",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "media_delete_success": {
+    "message": "Deleted",
+    "description": "V0.7.1 — Toast after media item deletion"
+  },
+  "media_delete_confirm_title": {
+    "message": "Delete this media?",
+    "description": "V0.7.1.1 — ConfirmModal title for media delete"
+  },
+  "media_delete_confirm_desc": {
+    "message": "This action is irreversible.",
+    "description": "V0.7.1.1 — ConfirmModal description for media delete"
+  },
+  "media_download_success": {
+    "message": "Download started",
+    "description": "V0.7.1 — Toast after download triggered"
+  },
+  "media_copy_success": {
+    "message": "Copied to clipboard",
+    "description": "V0.7.1 — Toast after code/artifact copied"
+  },
+  "media_copy_url_success": {
+    "message": "URL copied to clipboard",
+    "description": "V0.7.1 — Toast after image URL copied"
+  },
+  "media_empty_state": {
+    "message": "Gallery is empty",
+    "description": "V0.7.1 — Empty state heading"
+  },
+  "media_empty_help": {
+    "message": "Save images, code blocks, and artifacts from your conversations. Use the Capture button or hover over content in ChatGPT, Claude, or Grok.",
+    "description": "V0.7.1 — Empty state help text"
+  },
+  "media_no_results": {
+    "message": "No results",
+    "description": "V0.7.1 — No filter/search results"
+  },
+  "media_match_count": {
+    "message": "{matches}/{total}",
+    "description": "V0.7.1 — Match count badge when searching",
+    "placeholders": {
+      "matches": {
+        "content": "$1",
+        "example": "3"
+      },
+      "total": {
+        "content": "$2",
+        "example": "12"
+      }
+    }
+  },
+  "media_count": {
+    "message": "{n} items",
+    "description": "V0.7.1 — Total count badge",
+    "placeholders": {
+      "n": {
+        "content": "$1",
+        "example": "42"
+      }
+    }
+  },
+  "media_origin_conv": {
+    "message": "From conversation",
+    "description": "V0.7.1 — Back-link label in detail view"
+  },
+  "media_origin_url": {
+    "message": "Origin URL",
+    "description": "V0.7.1 — Origin URL label in file detail"
+  },
+  "media_file_type": {
+    "message": "Type",
+    "description": "V0.7.1 — File type label"
+  },
+  "media_file_size": {
+    "message": "Size",
+    "description": "V0.7.1 — File size label"
+  },
+  "media_untitled": {
+    "message": "Untitled",
+    "description": "V0.7.1 — Fallback when media has no title"
+  },
+  "media_no_content": {
+    "message": "(no content)",
+    "description": "V0.7.1 — Placeholder when artifact/code has no inline content"
+  },
+  "media_type_image": {
+    "message": "Image",
+    "description": "V0.7.1 — Media type label: image"
+  },
+  "media_type_code": {
+    "message": "Code",
+    "description": "V0.7.1 — Media type label: code"
+  },
+  "media_type_artifact": {
+    "message": "Artifact",
+    "description": "V0.7.1 — Media type label: artifact"
+  },
+  "media_type_file": {
+    "message": "File",
+    "description": "V0.7.1 — Media type label: file"
+  },
+  "media_capture_setting_label": {
+    "message": "Capture all media automatically",
+    "description": "V0.7.1 — Mode C settings toggle label"
+  },
+  "media_capture_setting_help": {
+    "message": "Index all images, code blocks, and artifacts as you browse. May use significant local storage.",
+    "description": "V0.7.1 — Mode C settings toggle description"
+  },
+  "settings_section_media_gallery": {
+    "message": "Media Gallery",
+    "description": "V0.7.1 — Settings section heading for media gallery"
+  },
+  "nav_compare": {
+    "message": "Compare",
+    "description": "V0.8.0 — Compare + Debate nav entry"
+  },
+  "nav_debates": {
+    "message": "Debates",
+    "description": "V0.8.0 — Debates nav sub-tab"
+  },
+  "compare_section_title": {
+    "message": "Compare across AIs",
+    "description": "V0.8.0 — CompareOverlay header title"
+  },
+  "compare_overlay_aria": {
+    "message": "Compare mode — compare AI responses side by side",
+    "description": "V0.8.0 — aria-label for compare overlay dialog"
+  },
+  "compare_prompt_aria": {
+    "message": "Compare prompt input",
+    "description": "D88-Phase4 — aria-label for the textarea in ComparePromptInput"
+  },
+  "compare_prompt_placeholder": {
+    "message": "Enter your prompt to compare across AIs…",
+    "description": "V0.8.0 — placeholder text for compare textarea"
+  },
+  "compare_hosts_aria": {
+    "message": "Select AI hosts to compare",
+    "description": "V0.8.0 — aria-label for host pills group"
+  },
+  "compare_select_min_hosts": {
+    "message": "Select at least 2 hosts to compare",
+    "description": "V0.8.0 — validation hint when fewer than 2 hosts selected"
+  },
+  "compare_send_btn": {
+    "message": "Compare",
+    "description": "V0.8.0 — primary Compare button"
+  },
+  "compare_streaming": {
+    "message": "Streaming…",
+    "description": "V0.8.0 — column status while response is streaming"
+  },
+  "compare_done": {
+    "message": "Done",
+    "description": "V0.8.0 — column status when response is complete"
+  },
+  "compare_error": {
+    "message": "Error",
+    "description": "V0.8.0 — column status when response failed"
+  },
+  "compare_copy_btn": {
+    "message": "Copy",
+    "description": "V0.8.0 — per-column copy button"
+  },
+  "compare_open_host_btn": {
+    "message": "Open in host",
+    "description": "V0.8.0 — per-column button to open the host in a new tab"
+  },
+  "compare_regen_btn": {
+    "message": "Regenerate",
+    "description": "V0.8.0 — per-column regenerate button"
+  },
+  "compare_save_all": {
+    "message": "Save all as compare set",
+    "description": "V0.8.0 — footer save all button"
+  },
+  "compare_close": {
+    "message": "Close",
+    "description": "V0.8.0 — compare overlay close button"
+  },
+  "compare_save_set_done": {
+    "message": "Saved ✓",
+    "description": "Compare overlay — Save All button label after successful save (inline confirmation)."
+  },
+  "compare_save_set_success": {
+    "message": "Compare set saved",
+    "description": "V0.8.0 — toast after saving a compare set"
+  },
+  "compare_delete_success": {
+    "message": "Compare set deleted",
+    "description": "V0.8.0 — toast after deleting a compare set"
+  },
+  "compare_copy_success": {
+    "message": "Copied to clipboard",
+    "description": "V0.8.0 — toast after copying a column response"
+  },
+  "compare_empty_state": {
+    "message": "No compare sets yet",
+    "description": "V0.8.0 — empty state title in CompareManager"
+  },
+  "compare_empty_help": {
+    "message": "Use Compare across AIs from the FAB menu to compare responses from ChatGPT, Claude, and Grok side by side.",
+    "description": "V0.8.0 — empty state help text in CompareManager"
+  },
+  "compare_manager_tabs_aria": {
+    "message": "Compare manager tabs",
+    "description": "V0.8.0 — aria-label for compare manager sub-tabs"
+  },
+  "fab_compare_across_ais": {
+    "message": "Compare across AIs",
+    "description": "V0.8.0 — FAB hover menu item for Compare Mode"
+  },
+  "debate_section_title": {
+    "message": "Debate",
+    "description": "V0.8.0 — DebateOverlay header title"
+  },
+  "debate_overlay_aria": {
+    "message": "Debate mode — sequential cross-host debate",
+    "description": "V0.8.0 — aria-label for debate overlay dialog"
+  },
+  "debate_close": {
+    "message": "Close",
+    "description": "V0.8.0 — debate overlay close button"
+  },
+  "debate_challenge_with": {
+    "message": "Challenge with {host}",
+    "description": "V0.8.0 — button to challenge with a specific host. {host} replaced at runtime."
+  },
+  "debate_defend": {
+    "message": "Defend",
+    "description": "V0.8.0 — button to send a defend prompt back to the original host"
+  },
+  "debate_synthesize": {
+    "message": "Synthesize",
+    "description": "V0.8.0 — button to ask a 3rd host to synthesize the debate"
+  },
+  "debate_turn_label": {
+    "message": "Turn {n}",
+    "description": "V0.9.0 — debate progress bar turn counter label, {n} = turn number"
+  },
+  "debate_save_set": {
+    "message": "Save debate",
+    "description": "V0.8.0 — button to save the debate set"
+  },
+  "debate_save_success": {
+    "message": "Debate saved",
+    "description": "V0.8.0 — toast after saving a debate set"
+  },
+  "debate_delete_success": {
+    "message": "Debate deleted",
+    "description": "V0.8.0 — toast after deleting a debate set"
+  },
+  "debate_empty_state": {
+    "message": "No debates yet",
+    "description": "V0.8.0 — empty state title in debates tab"
+  },
+  "debate_empty_help": {
+    "message": "Start a debate from any saved conversation to compare AI reasoning across models.",
+    "description": "V0.8.0 — empty state help text in debates tab"
+  },
+  "debate_empty_timeline": {
+    "message": "No turns yet. Add the first turn to start.",
+    "description": "V0.8.0 — DebateTimeline empty state"
+  },
+  "debate_timeline_aria": {
+    "message": "Debate timeline",
+    "description": "V0.8.0 — aria-label for the debate turns list"
+  },
+  "debate_next_turn_label": {
+    "message": "Add next turn",
+    "description": "V0.8.0 — label above the next-turn action buttons"
+  },
+  "debate_turns_count": {
+    "message": "turns",
+    "description": "V0.8.0 — suffix after number of turns in DebateSetCard"
+  },
+  "debate_turn_template_original": {
+    "message": "original",
+    "description": "V0.8.0 — template badge: original turn"
+  },
+  "debate_turn_template_challenge": {
+    "message": "challenge",
+    "description": "V0.8.0 — template badge: challenge turn"
+  },
+  "debate_turn_template_defend": {
+    "message": "defend",
+    "description": "V0.8.0 — template badge: defend turn"
+  },
+  "debate_turn_template_synthesize": {
+    "message": "synthesize",
+    "description": "V0.8.0 — template badge: synthesize turn"
+  },
+  "debate_start_from_conv": {
+    "message": "Start debate from this conversation",
+    "description": "V0.8.0 — button in conversation detail footer"
+  },
+  "shift_click_no_autosubmit_hint": {
+    "message": "Insert (no auto-submit) — Shift+Click",
+    "description": "V0.7.3.5 T5 — persistent hint in SlashMenu footer (BUG-009)"
+  },
+  "auto_submit_per_host_label": {
+    "message": "Auto-submit after injection",
+    "description": "V0.7.3.5 T5 — label for per-host auto-submit toggle (BUG-004)"
+  },
+  "settings_section_autosubmit": {
+    "message": "Auto-submit after injection",
+    "description": "V0.7.3.5 T5 — Settings section heading for per-host auto-submit toggles"
+  },
+  "settings_autosubmit_help": {
+    "message": "When enabled, GPTPowerUps sends the prompt automatically after injection. Shift+Click any prompt to insert without auto-submit.",
+    "description": "V0.7.3.5 T5 — help text under the auto-submit toggles in Settings"
+  },
+  "multistep_step_progress": {
+    "message": "Step $INDEX$ / $TOTAL$",
+    "placeholders": {
+      "INDEX": {
+        "content": "$1",
+        "example": "1"
+      },
+      "TOTAL": {
+        "content": "$2",
+        "example": "3"
+      }
+    },
+    "description": "D64-T6 — multi-step stepper progress header (e.g. Step 1 / 3)"
+  },
+  "multistep_inject_step_button": {
+    "message": "Inject Step $INDEX$",
+    "placeholders": {
+      "INDEX": {
+        "content": "$1",
+        "example": "2"
+      }
+    },
+    "description": "D64-T6 — button label to inject the next step (e.g. Inject Step 2)"
+  },
+  "multistep_injecting": {
+    "message": "Injecting...",
+    "description": "D64-T6 — spinner label while the step text is being injected into the host"
+  },
+  "multistep_awaiting_response": {
+    "message": "Awaiting host response...",
+    "description": "D64-T6 — spinner label while waiting for the AI to finish its response"
+  },
+  "multistep_all_done": {
+    "message": "All steps complete",
+    "description": "D64-T6 — success message shown when all multi-step steps have been executed"
+  },
+  "multistep_timeout": {
+    "message": "Host did not respond in time",
+    "description": "D64-T6 — error message when the host AI response detection timed out"
+  },
+  "multistep_retry": {
+    "message": "Retry",
+    "description": "D64-T6 — retry button label after a multi-step timeout"
+  },
+  "search_placeholder": {
+    "message": "Search...",
+    "description": "D67-T3 — default placeholder for SearchInput component"
+  },
+  "projects_empty": {
+    "message": "No projects yet",
+    "description": "D67-T3 — empty state message for ProjectTree when no projects exist"
+  },
+  "projects_tree_aria": {
+    "message": "Projects tree",
+    "description": "D67-T3 — aria-label for the ProjectTree listbox"
+  },
+  "projects_search_aria": {
+    "message": "Search projects",
+    "description": "D67-T3 — aria-label for the search input inside ProjectTree"
+  },
+  "nav_projects": {
+    "message": "Projects",
+    "description": "D67-T8 — nav label for central Projects entry"
+  },
+  "projects_new": {
+    "message": "New project",
+    "description": "D67-T8 — button label to create a new project"
+  },
+  "projects_edit_action": {
+    "message": "Edit",
+    "description": "D67-T8 — per-item edit action label in ProjectTree"
+  },
+  "projects_detail_empty": {
+    "message": "Select a project to view its details",
+    "description": "D67-T8 — empty state for the project detail pane"
+  },
+  "projects_form_name": {
+    "message": "Name",
+    "description": "D67-T8 — label for project name field"
+  },
+  "projects_form_name_required": {
+    "message": "Name is required",
+    "description": "D67-T8 — validation error when project name is empty"
+  },
+  "projects_form_color": {
+    "message": "Color",
+    "description": "D67-T8 — label for project color picker"
+  },
+  "projects_form_icon": {
+    "message": "Icon",
+    "description": "D67-T8 — label for project icon picker"
+  },
+  "projects_form_visibility": {
+    "message": "Visibility",
+    "description": "D67-T8 — label for project visibility toggle"
+  },
+  "projects_form_parent": {
+    "message": "Parent project",
+    "description": "D67-T8 — label for parent project dropdown"
+  },
+  "projects_form_parent_none": {
+    "message": "None (root)",
+    "description": "D67-T8 — option label for no parent (root level)"
+  },
+  "projects_form_visibility_private": {
+    "message": "Private",
+    "description": "D67-T8 — visibility option: private"
+  },
+  "projects_form_visibility_team": {
+    "message": "Team",
+    "description": "D67-T8 — visibility option: team"
+  },
+  "projects_form_delete": {
+    "message": "Delete project",
+    "description": "D67-T8 — delete project button label"
+  },
+  "projects_form_delete_confirm": {
+    "message": "Delete this project? Items will be unassigned.",
+    "description": "D67-T8 — delete confirmation prompt"
+  },
+  "projects_detail_shared_with": {
+    "message": "Shared with",
+    "description": "D67-T8 — detail pane shared-with count label"
+  },
+  "projects_detail_created": {
+    "message": "Created",
+    "description": "D67-T8 — detail pane created date label"
+  },
+  "projects_detail_updated": {
+    "message": "Updated",
+    "description": "D67-T8 — detail pane updated date label"
+  },
+  "projects_card_child_singular": {
+    "message": "sub-project",
+    "description": "D67-UI — ProjectCard child count badge, singular"
+  },
+  "projects_card_child_plural": {
+    "message": "sub-projects",
+    "description": "D67-UI — ProjectCard child count badge, plural"
+  },
+  "projects_card_items_singular": {
+    "message": "item",
+    "description": "D67-V2-T8 — ProjectCard total items badge, singular"
+  },
+  "projects_card_items_plural": {
+    "message": "items",
+    "description": "D67-V2-T8 — ProjectCard total items badge, plural"
+  },
+  "projects_manager_title": {
+    "message": "Projects",
+    "description": "D67-UI — ProjectsManager header title"
+  },
+  "projects_search_placeholder": {
+    "message": "Search projects…",
+    "description": "D67-UI — search input placeholder in ProjectsManager"
+  },
+  "projects_empty_title": {
+    "message": "No projects yet",
+    "description": "D67-UI — empty state headline in ProjectsManager grid"
+  },
+  "projects_empty_sub": {
+    "message": "Create your first project to organize your conversations.",
+    "description": "D67-UI — empty state sub-text in ProjectsManager grid"
+  },
+  "projects_empty_search_title": {
+    "message": "No projects found",
+    "description": "D67-UI — empty state headline when search returns nothing"
+  },
+  "projects_detail_section_media": {
+    "message": "Médias",
+    "description": "D67-V2-T6 — ProjectDetailView section header for media items"
+  },
+  "projects_detail_section_prompts": {
+    "message": "Prompts",
+    "description": "D67-V2-T6 — ProjectDetailView section header for prompts"
+  },
+  "projects_detail_section_conversations": {
+    "message": "Conversations",
+    "description": "D67-V2-T6 — ProjectDetailView section header for conversations"
+  },
+  "projects_detail_empty_media": {
+    "message": "No media associated to this project.",
+    "description": "D67-V2-T6 — empty state text in Media section"
+  },
+  "projects_detail_empty_prompts": {
+    "message": "No prompts associated to this project.",
+    "description": "D67-V2-T6 — empty state text in Prompts section"
+  },
+  "projects_detail_empty_conversations": {
+    "message": "No conversations associated to this project.",
+    "description": "D67-V2-T6 — empty state text in Conversations section"
+  },
+  "projects_detail_add_media": {
+    "message": "Add media",
+    "description": "D67-V2-T6 — CTA button in empty Media section"
+  },
+  "projects_detail_add_prompt": {
+    "message": "Add prompt",
+    "description": "D67-V2-T6 — CTA button in empty Prompts section"
+  },
+  "projects_detail_add_conversation": {
+    "message": "Add conversation",
+    "description": "D67-V2-T6 — CTA button in empty Conversations section"
+  },
+  "projects_detail_back": {
+    "message": "Back to projects",
+    "description": "D67-V2-T6 — Back button aria-label in ProjectDetailView header"
+  },
+  "projects_detail_edit": {
+    "message": "Edit",
+    "description": "D67-V2-T6 — Edit button label in ProjectDetailView header"
+  },
+  "projects_detail_delete": {
+    "message": "Delete",
+    "description": "D67-V2-T6 — Delete button label in ProjectDetailView header"
+  },
+  "prompt_move_to_project": {
+    "message": "Move to project",
+    "description": "D67-V2-T11 — ⋯ menu item label on Card (project membership submenu)"
+  },
+  "prompts_project_sidebar_label": {
+    "message": "Projects",
+    "description": "D67-V2-T11 — header label above ProjectTree in PromptsManager sidebar"
+  },
+  "prompts_project_all": {
+    "message": "All prompts",
+    "description": "D67-V2-T11 — 'All' item in PromptsManager ProjectTree sidebar"
+  },
+  "projects_detail_remove_action_aria": {
+    "message": "Remove from project",
+    "description": "D67-V2-T9 — aria-label for the remove-from-project button on each item card in ProjectDetailView"
+  },
+  "picker_title_media": {
+    "message": "Add media to project",
+    "description": "D67-V2-T10 — title of the add-items picker modal for media type"
+  },
+  "picker_title_prompt": {
+    "message": "Add prompts to project",
+    "description": "D67-V2-T10 — title of the add-items picker modal for prompt type"
+  },
+  "picker_title_conversation": {
+    "message": "Add conversations to project",
+    "description": "D67-V2-T10 — title of the add-items picker modal for conversation type"
+  },
+  "picker_confirm_n": {
+    "message": "Add $COUNT$ item(s)",
+    "description": "D67-V2-T10 — confirm button label showing selected count",
+    "placeholders": {
+      "COUNT": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "picker_cancel": {
+    "message": "Cancel",
+    "description": "D67-V2-T10 — cancel button in add-items picker modal"
+  },
+  "picker_empty": {
+    "message": "All items are already in this project.",
+    "description": "D67-V2-T10 — empty state in picker when nothing to add"
+  },
+  "picker_select_item_aria": {
+    "message": "Select this item",
+    "description": "D88-Phase4 — aria-label for picker checkbox in AddItemsToProjectModal"
+  },
+  "picker_add_section_aria": {
+    "message": "Add items to section",
+    "description": "D67-V2-T10 — aria-label for the + button in section header"
+  },
+  "picker_search_placeholder": {
+    "message": "Search…",
+    "description": "D67-V4-H — search input placeholder inside picker modal"
+  },
+  "project_chip_more_n": {
+    "message": "+$COUNT$ more",
+    "description": "D67-V2-T12 — overflow badge on project chips when more than MAX chips visible",
+    "placeholders": {
+      "COUNT": {
+        "content": "$1",
+        "example": "2"
+      }
+    }
+  },
+  "projects_detail_search_placeholder": {
+    "message": "Search in project…",
+    "description": "D67-V3-TD — search input placeholder in ProjectDetailView"
+  },
+  "picker_type_tabs_aria": {
+    "message": "Content type tabs",
+    "description": "D92-T6 — aria-label for AddItemsTypeTabs tab group"
+  },
+  "picker_tab_media": {
+    "message": "Media",
+    "description": "D92-T6 — tab label for media items in AddItemsTypeTabs"
+  },
+  "picker_tab_prompt": {
+    "message": "Prompts",
+    "description": "D92-T6 — tab label for prompts in AddItemsTypeTabs"
+  },
+  "picker_tab_conversation": {
+    "message": "Conversations",
+    "description": "D92-T6 — tab label for conversations in AddItemsTypeTabs"
+  }
+}
