@@ -1,0 +1,6 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic infra fixture",
+  "version": "0.0.1",
+  "background": { "service_worker": "src/entry.ts" }
+}
