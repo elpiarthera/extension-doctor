@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "GPTPowerUps",
+  "version": "0.9.0.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://claude.ai/*",
+        "https://grok.com/*"
+      ],
+      "js": ["ui/sidebar-mount.tsx"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["storage", "unlimitedStorage", "scripting", "alarms"],
+  "web_accessible_resources": [
+    {
+      "resources": ["public/icons/*", "assets/brand/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

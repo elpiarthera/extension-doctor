@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "GPTPowerUps",
+  "version": "0.9.0.0",
+  "permissions": ["storage", "unlimitedStorage", "scripting", "alarms"],
+  "optional_permissions": ["tabs"],
+  "host_permissions": ["https://chatgpt.com/*", "https://claude.ai/*", "https://grok.com/*"]
+}
