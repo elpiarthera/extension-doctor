@@ -1,0 +1,7 @@
+{
+  "name": "fixture-postinstall-audit-inconclusive",
+  "version": "0.0.0",
+  "dependencies": {
+    "some-dep": "1.0.0"
+  }
+}
