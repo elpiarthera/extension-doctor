@@ -1,0 +1,27 @@
+{
+  "name": "extension-doctor",
+  "version": "0.1.0",
+  "description": "Static-analysis CLI that audits browser extensions (Manifest V3) for durable-layer anti-patterns.",
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "bin": {
+    "extension-doctor": "./bin/extension-doctor.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "start": "node bin/extension-doctor.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "@types/node": "^20.14.0"
+  }
+}
