@@ -1,0 +1,6 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — host-permissions-wildcard-broad, constructed from matrix §2 MUST_BLOCK spec (no real product occurrence as of D137)",
+  "version": "1.0.0",
+  "host_permissions": ["<all_urls>"]
+}

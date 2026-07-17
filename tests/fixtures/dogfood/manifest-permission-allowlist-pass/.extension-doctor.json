@@ -1,0 +1,3 @@
+{
+  "permissionAllowlist": ["storage", "scripting", "alarms"]
+}

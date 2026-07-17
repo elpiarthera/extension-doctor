@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — csp-not-weakened, constructed from matrix §2 MUST_BLOCK spec (no real product occurrence as of D137)",
+  "version": "1.0.0",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  }
+}
