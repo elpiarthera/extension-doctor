@@ -36,10 +36,12 @@ derived.
 
    VERSION PIN COROLLARY: any invocation of react-doctor in this project's
    harness (or the wider fleet) MUST pin `react-doctor@0.2.11`, never
-   `latest`/`@0.7.8`. 0.2.11 ships under plain MIT — commercial use is
-   free. `0.7.8` (latest as of this writing) ships under the Modified MIT
-   above, which requires Million Software's prior written authorization
-   for commercial use. The pin is therefore not a harness-stability
+   `latest`. 0.2.11 ships under plain MIT — commercial use is free. Later
+   releases moved to the Modified MIT above, which requires Million
+   Software's prior written authorization for commercial use; verify any
+   target version with `npm view react-doctor@<version> license` (a bare
+   `MIT` is safe, `SEE LICENSE IN LICENSE` is the Modified MIT and is not)
+   before bumping. The pin is therefore not a harness-stability
    precaution — it is the only thing keeping any commercial run of
    react-doctor against this (commercially-licensed) codebase on the
    permissive side of their license. Do not bump past 0.2.11 without first
