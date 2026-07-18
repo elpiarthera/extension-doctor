@@ -1,10 +1,10 @@
-# foreign-bite-probe run log — HEAD c53e2fd2
+# foreign-bite-probe run log — HEAD a065cd94
 
 ```
 
 === net-broadcast-unfiltered ===
   RED source: darkreader (darkreader/darkreader) — real darkreader/darkreader src/background/tab-manager.ts (verbatim, currently zero broadcast bug) mutated by appending a promise .then() chain (not await), odd inner spacing "query(  {  }  )", different names (relayToOpenTabs/openTabs/ot), no try/catch
-  MUTATION-LANDED: "function relayToOpenTabs(payload) {" found in /tmp/ed-fbp-net-broadcast-unfiltered-fail-N5N9iB/src/background/background.ts
+  MUTATION-LANDED: "function relayToOpenTabs(payload) {" found in /tmp/ed-fbp-net-broadcast-unfiltered-fail-6ftXpb/src/background/background.ts
   RED(src/background/background.ts:502): chrome.tabs.query(...) with no url filter feeds chrome.tabs.sendMessage — broadcasts to every open tab in the browser, not just supported hosts.
   RESTORED: [darkreader:background] byte-identical to pre-injection copy, sha256 unchanged (3ae33637ba08…)
   INCONCLUSIVE(background source directory not found, cannot scan for chrome.tabs.query patterns (expected src/background))
@@ -15,7 +15,7 @@
 
 === sw-listeners-toplevel ===
   RED source: webvitals (GoogleChrome/web-vitals-extension) — real GoogleChrome/web-vitals-extension service_worker.js (verbatim, currently zero nested-listener bug) mutated by appending a DIFFERENTLY-named async wrapper "bootstrapAlarmWatchers" that calls itself top-level, nesting chrome.alarms.onAlarm.addListener inside its body
-  MUTATION-LANDED: "async function bootstrapAlarmWatchers() {" found in /tmp/ed-fbp-sw-listeners-toplevel-fail-9l2gXu/src/background/background.ts
+  MUTATION-LANDED: "async function bootstrapAlarmWatchers() {" found in /tmp/ed-fbp-sw-listeners-toplevel-fail-QO8XDH/src/background/background.ts
   RED(src/background/background.ts:370): chrome.*.addListener(...) is registered inside a nested function body rather than at module top-level — on service worker wake-up the listener may not be re-attached synchronously, silently dropping the triggering event.
   RESTORED: [webvitals:background] byte-identical to pre-injection copy, sha256 unchanged (eb9f3f2fae16…)
   INCONCLUSIVE(background source directory not found, cannot scan for chrome.*.addListener patterns (expected src/background))
@@ -26,7 +26,7 @@
 
 === secret-in-bundle ===
   RED source: ghosttext (fregante/GhostText) — real fregante/GhostText source/background.js (verbatim, treated as a built dist/*.js bundle file) mutated by inserting an AWS access-key-shaped literal in a distinct comment/variable context: "const awsIngestKeyId = ... // legacy ingest credential, unused post-migration"
-  MUTATION-LANDED: "const awsIngestKeyId" found in /tmp/ed-fbp-secret-in-bundle-fail-QZDTTA/dist/bundle.js
+  MUTATION-LANDED: "const awsIngestKeyId" found in /tmp/ed-fbp-secret-in-bundle-fail-Iy2FpA/dist/bundle.js
   RED(bundle.js:227): AWS access key ID literal found in built bundle.
   RESTORED: [ghosttext:background] byte-identical to pre-injection copy, sha256 unchanged (51f99441d56d…)
   INCONCLUSIVE(no built bundle: checked dist/chrome, dist, build — none exist or contain built output)
@@ -37,7 +37,7 @@
 
 === description-permission-mismatch ===
   RED source: darkreader (darkreader/darkreader) — real darkreader/darkreader src/manifest.json mutated: description field replaced to name "Grok" (a KNOWN_HOSTS entry) while host_permissions/permissions never grant grok.com/x.ai
-  MUTATION-LANDED: "Sync your conversations across Grok" found in /tmp/ed-fbp-description-permission-mismatch-fail-tprDzD/manifest.json
+  MUTATION-LANDED: "Sync your conversations across Grok" found in /tmp/ed-fbp-description-permission-mismatch-fail-RiT416/manifest.json
   RED(manifest.json:?): manifest.description names "Grok" but host_permissions has no entry matching "grok.com" — the extension advertises a host it cannot actually reach.
   RESTORED: [darkreader:manifest] byte-identical to pre-injection copy, sha256 unchanged (bc3ae5404f90…)
   INCONCLUSIVE(manifest.json not found at extension root (expected manifest.json) — cannot compare description and host_permissions)
@@ -48,7 +48,7 @@
 
 === csp-not-weakened ===
   RED source: darkreader (darkreader/darkreader) — real darkreader/darkreader src/manifest.json (verbatim, ships with NO content_security_policy key at all — MV2) mutated to ADD the key: "object-src 'self'; script-src 'unsafe-eval' 'self'"
-  MUTATION-LANDED: "object-src 'self'; script-src 'unsafe-eval' 'self'" found in /tmp/ed-fbp-csp-not-weakened-fail-fnroB3/manifest.json
+  MUTATION-LANDED: "object-src 'self'; script-src 'unsafe-eval' 'self'" found in /tmp/ed-fbp-csp-not-weakened-fail-y27vKT/manifest.json
   RED(manifest.json:?): content_security_policy.extension_pages reintroduces 'unsafe-eval' — weakens the MV3 default CSP.
   RESTORED: [darkreader:manifest] byte-identical to pre-injection copy, sha256 unchanged (bc3ae5404f90…)
   INCONCLUSIVE(manifest.json not found at extension root — cannot read content_security_policy)
@@ -60,7 +60,7 @@
 
 === host-permissions-wildcard-broad ===
   RED source: darkreader (darkreader/darkreader) — real darkreader/darkreader src/manifest.json (verbatim, MV2, has no host_permissions field at all) mutated by ADDING host_permissions: ["*://*/*"] (a plausible MV3-migration mistake)
-  MUTATION-LANDED: ""*://*/*"" found in /tmp/ed-fbp-host-permissions-wildcard-broad-fail-XPaoPe/manifest.json
+  MUTATION-LANDED: ""*://*/*"" found in /tmp/ed-fbp-host-permissions-wildcard-broad-fail-rI9wLR/manifest.json
   RED(manifest.json:?): host_permissions entry "*://*/*" grants access to every page the browser can reach — scope to named domains instead.
   RESTORED: [darkreader:manifest] byte-identical to pre-injection copy, sha256 unchanged (bc3ae5404f90…)
   INCONCLUSIVE(manifest.json not found at extension root — cannot read host_permissions[])
@@ -71,7 +71,7 @@
 
 === i18n-key-coverage-gap ===
   RED source: ghosttext (fregante/GhostText) — real fregante/GhostText source/options.js (verbatim, zero t()/labelKey usage as fetched) mutated by appending "labelKey: 'ghosttext_sync_status_v2'" (the OTHER call-site shape the rule matches) — key absent from both locale files
-  MUTATION-LANDED: "labelKey: 'ghosttext_sync_status_v2'" found in /tmp/ed-fbp-i18n-key-coverage-gap-fail-aEpegq/ui/popup.ts
+  MUTATION-LANDED: "labelKey: 'ghosttext_sync_status_v2'" found in /tmp/ed-fbp-i18n-key-coverage-gap-fail-hWd3hG/ui/popup.ts
   RED(ui/popup.ts:11): i18n key "ghosttext_sync_status_v2" consumed in code but absent from locale(s): en, fr
   RESTORED: [ghosttext:options] byte-identical to pre-injection copy, sha256 unchanged (b2cfd7c7a426…)
   INCONCLUSIVE(locale file _locales/en/messages.json missing or invalid JSON — cannot compute coverage, NOT assumed clean)
@@ -81,7 +81,7 @@
 
 === unused-file-export ===
   RED source: webvitals (GoogleChrome/web-vitals-extension) — real GoogleChrome/web-vitals-extension service_worker.js (verbatim, a genuine feature file — not an authored stub) copied to an UNREFERENCED path "src/features/orphan.ts" under a resolvable manifest.json entry graph (background.service_worker -> src/background/entry.ts, zero imports, never reaches orphan.ts)
-  MUTATION-LANDED: "chrome.storage.sync.get" found in /tmp/ed-fbp-unused-file-export-fail-ZV7AiW/src/features/orphan.ts
+  MUTATION-LANDED: "chrome.storage.sync.get" found in /tmp/ed-fbp-unused-file-export-fail-A76wLS/src/features/orphan.ts
   RED(src/features/orphan.ts:?): src/features/orphan.ts is not reachable from any resolved entry point (manifest.json background/content_scripts/popup, or vite.config declared input) — likely a dead file
   RESTORED: [webvitals:background] byte-identical to pre-injection copy, sha256 unchanged (eb9f3f2fae16…)
   INCONCLUSIVE(no resolvable entry point: checked manifest.json, public/manifest.json, src/manifest.json, vite.config.ts, vite.config.js, vite.config.mts, vite.config.mjs — none exist or none yielded a resolvable source entry)
