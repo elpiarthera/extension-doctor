@@ -471,7 +471,7 @@ bootstrapAlarmWatchers();
       mkdirSync(dirname(dest), { recursive: true });
       const base = readForeign("ghosttext:background");
       writeFileSync(join(root, ".pre-injection.js"), base);
-      writeFileSync(dest, base + `\nconst awsIngestKeyId = "AKIA2ZQP7X9F4M1CQRST"; // legacy ingest credential, unused post-migration\n`, "utf8");
+      writeFileSync(dest, base + `\nconst awsIngestKeyId = "AKIAIOSFODNN7EXAMPLE"; // legacy ingest credential, unused post-migration\n`, "utf8");
     },
     setupInconclusive: (root) => {
       mkdirSync(root, { recursive: true }); // no dist/ or build/ dir at all
