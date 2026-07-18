@@ -7,13 +7,6 @@
  * the enclosing function scope, and no declared permanent-listener
  * exception comment.
  *
- * Spec: internal rule matrix (not shipped with this package)
- *   §1.2 rule 13 "mem-cleanup-listeners"
- *
- * Source d'inspiration (idea only, zero line copied):
- *   - dot-skills (MIT) mem-cleanup-event-listeners.md
- *   - dot-skills (MIT) comp-content-script-structure.md
- *
  * Declared-permanent exception: a comment `// ed-permanent-listener:
  * <reason>` on the same line as, or the line immediately above, the
  * addEventListener call marks it as intentionally never removed (e.g. a

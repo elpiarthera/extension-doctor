@@ -2,13 +2,13 @@
  * Rule stub: test-cannot-fail (documented impossible — v0.1, PARTIAL)
  *
  * NOT definitively detectable at v0.1: a test whose assertion can
- * structurally never go red. Real incidents: T0 friction VP
- * `j57fgja727z6acje743k3gm4d98ajxaq` (Day 131-132).
+ * structurally never go red. This class of failure recurs in practice
+ * whenever a test double always returns the value under assertion.
  *
- * Why static analysis is insufficient alone (matrix §4/§1.5, T0 Day 137):
+ * Why static analysis is insufficient alone:
  *   A syntactic scan over jsdom/chrome.* mocks + DOM stubs is mechanical
  *   but produces both false positives (a legitimate jsdom test on a pure
- *   function — RULE #8 in CLAUDE.md explicitly authorizes this) and false
+ *   function is a valid pattern that this rule must not flag) and false
  *   negatives (an assertion that CAN fail syntactically but never will at
  *   runtime because the mock always returns the asserted value). The only
  *   definitive proof is a bipolar mutation probe: inject a real defect

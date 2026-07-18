@@ -4,10 +4,11 @@
  * NOT statically detectable at v0.1: two contradictory tests on the same
  * logical element, at different dates, where the most recent silently wins
  * (the older, still-valid assertion is never re-checked against the new
- * code path). Real incident: D92-T5 checkbox→button refactor re-broke a
- * fix from D67, 5 weeks of consistent green regressed without any red.
+ * code path). This class of failure recurs in practice: a component
+ * refactor (e.g. checkbox to button) can silently re-break a fix from
+ * weeks earlier, regressing a long green streak without any test going red.
  *
- * Why static analysis is insufficient (matrix §4, T0 Day 137):
+ * Why static analysis is insufficient:
  *   Deciding "these two tests target the same logical element" requires
  *   semantic cross-file matching (not textual — a checkbox and a button
  *   assertion share no literal string), PLUS calibration data to keep the

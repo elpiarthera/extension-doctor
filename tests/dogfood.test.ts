@@ -12,7 +12,7 @@
  * blocks against ephemeral /tmp worktrees local to one machine — that made
  * the dogfood proof invisible in CI and to any third party (7/10 tests
  * silently skipped, docstring claiming "loud console note" while emitting
- * zero console output — Eta REVISE blocker, T3-SHIP).
+ * zero console output).
  */
 import { describe, it, expect } from "vitest";
 import { fileURLToPath } from "node:url";

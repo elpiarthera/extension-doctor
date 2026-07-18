@@ -7,13 +7,9 @@
  * workers are killed by the browser after ~30s of inactivity regardless of
  * a pending setInterval/setTimeout).
  *
- * Spec: internal rule matrix (not shipped with this package)
- *   §1.2 rule 30 "sw-no-keepalive" / "sw-listeners-toplevel" (fusion,
- *   basse priorité, dot-skills DÉJÀ-COUVERT).
- *
- * Source d'inspiration (idea only, zero line copied):
- *   - dot-skills (MIT) sw-avoid-keepalive.md
- *   - dot-skills (MIT) sw-use-alarms-api.md
+ * This rule is closely related to `sw-listeners-toplevel` — both address
+ * MV3 service worker lifecycle correctness and are commonly checked
+ * together, though each targets a distinct symptom.
  *
  * False-positive guard: only flags inside background/* context — a <30s
  * debounce/throttle in UI code (ui/, src/content) is legitimate and out of

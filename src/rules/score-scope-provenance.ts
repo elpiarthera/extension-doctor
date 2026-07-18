@@ -3,9 +3,10 @@
  *
  * Not a code scanner — this rule inspects the tool's OWN output contract.
  * A score/ratio published without the full command line that produced it
- * is a lie in waiting (Day 137: `--no-lint` → 92/100 vs full run → 62/100,
- * a 30-point gap invisible unless the command is carried alongside the
- * number). The tool enforces this structurally: `ProvenanceEnvelope.command`
+ * is a lie in waiting — a partial-scope run (e.g. skipping lint checks)
+ * can produce a materially higher score than a full run, and that gap is
+ * invisible unless the exact command is carried alongside the number.
+ * The tool enforces this structurally: `ProvenanceEnvelope.command`
  * is DERIVED from `process.argv` (never retyped, see src/core/run.ts) and
  * is structurally inseparable from any scored output — a score without
  * `command` in the SAME JSON object is malformed by construction.
@@ -16,9 +17,6 @@
  * The real guard on our own output lives in
  * tests/pack-fam7-provenance.test.ts (asserts runRules(...) always yields
  * a non-empty envelope.command).
- *
- * Spec: internal rule matrix (not shipped with this package) §1.5
- *   `score-scope-provenance` — T0, Day 137
  */
 import type { Rule, RuleResult } from "../core/types.js";
 

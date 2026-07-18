@@ -6,10 +6,10 @@
  * slash, star) — an unscoped grant to every page the browser can reach,
  * documented as a Chrome Web Store review scrutiny/rejection factor.
  *
- * Spec: internal rule matrix (not shipped with this package)
- *   §1.1 row `host-permissions-wildcard-broad`, §2 item 12.
- * Source d'inspiration (idea only, zero line copied): addons-linter
- * `MANIFEST_HOST_PERMISSIONS` (MPL-2.0) + CWS scrutiny/rejet documenté.
+ * Inspired by (idea only, zero line copied) the addons-linter
+ * `MANIFEST_HOST_PERMISSIONS` check (MPL-2.0), and by the documented
+ * fact that broad host permissions attract extra Chrome Web Store
+ * review scrutiny and rejection risk.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

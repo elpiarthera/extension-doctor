@@ -4,13 +4,9 @@
  * Detects `chrome.tabs.query(...)` calls whose argument has NO `url:` key
  * (i.e. matches every open tab in the browser), when the same enclosing
  * function later loops the result into `chrome.tabs.sendMessage(...)`.
- *
- * Spec: internal rule matrix (not shipped with this package)
- *   §net-broadcast-unfiltered
- *
- * Source d'inspiration (idea only, zero line copied):
- *   - dot-skills (MIT) msg-avoid-broadcast-to-all-tabs.md
- *   - dot-skills (MIT) api-query-tabs-efficiently.md
+ * An unfiltered tabs query followed by a broadcast send is a common
+ * source of cross-tab message leakage — the query should scope to the
+ * relevant host(s) via a `url:` filter before messaging.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

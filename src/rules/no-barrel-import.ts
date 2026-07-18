@@ -7,8 +7,8 @@
  * internal package) can be declared via `.extension-doctor.json`:
  *   { "allowedBarrels": ["src/core/index"] }
  *
- * Spec: internal rule matrix (not shipped with this package) §1.4,
- * §2 rule 27 — "11 occurrences réelles dans notre propre audit" (react-doctor).
+ * Validated against a real-world audit that found double-digit barrel-import
+ * occurrences that hurt tree-shaking and build-time bundle analysis.
  */
 import { readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";

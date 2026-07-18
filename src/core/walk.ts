@@ -1,6 +1,6 @@
 /**
- * Minimal recursive file walker — zero heavy dependency, as required by the
- * task brief ("TypeScript strict, Node/Bun, zéro dépendance lourde").
+ * Minimal recursive file walker — zero heavy dependency, TypeScript strict,
+ * Node/Bun compatible.
  */
 import { readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";

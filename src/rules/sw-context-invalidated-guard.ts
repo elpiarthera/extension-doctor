@@ -5,17 +5,10 @@
  * guard against an invalidated extension context (chrome.runtime.id becomes
  * undefined after the extension reloads/updates while a tab stays open).
  *
- * Spec: internal rule matrix (not shipped with this package)
- *   §sw-context-invalidated-guard
- *
- * Source d'inspiration (idea only, zero line copied):
- *   - dot-skills (MIT) api-handle-context-invalidated.md
- *   - dot-skills (MIT) err-context-invalidation.md
- *
  * Known limitation (documented, not hidden): only follows ONE level of
  * call-site indirection (a wrapper function). A callback passed to a
  * third-party lib that invokes chrome.runtime.sendMessage internally is out
- * of scope for v0.1 — see rule pack "Ce qu'elle ne voit PAS".
+ * of scope for v0.1.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

@@ -7,12 +7,12 @@
  * TS/TSX source, not a general-purpose bundler.
  *
  * NEVER returns an empty reachableFiles set silently as "nothing
- * reachable" when entry points could not be resolved at all — that is the
- * fail-open trap banned by docs/analysis matrix §1.5 and
- * .claude/rules/derive-never-type.md ("if (rien_trouvé) return []" is
- * banned). When no entry point can be resolved, `unresolvedEntryReason`
- * names EXACTLY what was missing, and callers MUST convert that into an
- * InconclusiveReason rather than treating reachableFiles as meaningful.
+ * reachable" when entry points could not be resolved at all — that is a
+ * fail-open trap: a silent empty return that reads as a confident zero
+ * instead of a failure to analyze. When no entry point can be resolved,
+ * `unresolvedEntryReason` names EXACTLY what was missing, and callers
+ * MUST convert that into an InconclusiveReason rather than treating
+ * reachableFiles as meaningful.
  */
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname, relative, resolve } from "node:path";

@@ -5,13 +5,12 @@
  * `src/adapters/**` that has no `// verified:` comment pointing to a dated
  * DOM fixture capture. A selector literal whose provenance is never
  * captured is a wrapper-fragile bet — it may already be stale the day it
- * ships (doctrine "layers durables > wrappers fragiles").
+ * ships. Durable layers over fragile wrappers: any dependency on a
+ * third-party host's DOM shape should be traceable to the observation
+ * that justified it.
  *
  * Exemption: standard W3C/DOM APIs (e.g. `document.documentElement.lang`)
  * are not host-specific signals and never require `// verified:`.
- *
- * Spec: internal rule matrix (not shipped with this package) §1.5
- *   `host-signal-unverified` — T0 friction VP `j57fz82fvyfvmemak19e0d40zh88p7j6` (Day 102)
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

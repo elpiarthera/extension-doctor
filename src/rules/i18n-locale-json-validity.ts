@@ -9,11 +9,10 @@
  * This is DISTINCT from i18n-key-coverage-gap: that rule validates
  * code↔locale coverage (a t('x') call with no matching key). This rule
  * validates the internal syntax of the locale files themselves, regardless
- * of whether any code consumes the key. Do not merge despite the shared
- * i18n domain (docs/analysis §1.3 explicit note).
+ * of whether any code consumes the key. Kept separate deliberately despite
+ * the shared i18n domain.
  *
- * Spec: internal rule matrix (not shipped with this package) §1.3.
- * Source d'inspiration (idea only, zero line copied): addons-linter (MPL-2.0)
+ * Inspired by (idea only, zero line copied) the addons-linter (MPL-2.0)
  * family NO_MESSAGE / PREDEFINED_MESSAGE_NAME / INVALID_MESSAGE_NAME /
  * MISSING_PLACEHOLDER / INVALID_PLACEHOLDER_NAME / NO_PLACEHOLDER_CONTENT.
  */

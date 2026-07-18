@@ -7,11 +7,10 @@
  * with a message naming that (not silently — the reason is recorded). If
  * the manifest itself cannot be read, the rule returns INCONCLUSIVE.
  *
- * Spec: internal rule matrix (not shipped with this package)
- *   §1.1 row `content-script-file-exists`, §2 item 19 — "directement
- *   transposable à host-config.ts cross-host".
- * Source d'inspiration (idea only, zero line copied): addons-linter
- * `CONTENT_SCRIPT_NOT_FOUND` / `CONTENT_SCRIPT_EMPTY` (MPL-2.0).
+ * This check applies directly to any cross-host content-script
+ * configuration table, not just a single hardcoded host.
+ * Inspired by (idea only, zero line copied) the addons-linter
+ * `CONTENT_SCRIPT_NOT_FOUND` / `CONTENT_SCRIPT_EMPTY` checks (MPL-2.0).
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
