@@ -121,3 +121,10 @@ describe("bundle-scan", () => {
     }
   });
 });
+
+import { describe as __d, it as __i, expect as __e } from "vitest";
+__d("CI red proof", () => {
+  __i("deliberate failure to prove CI is red", () => {
+    __e(1).toBe(2);
+  });
+});
