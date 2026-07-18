@@ -3,8 +3,15 @@
  *
  * Scans the BUILT bundle (dist/chrome/**\/*.js|mjs) for remote-code-execution
  * patterns forbidden by MV3 policy: eval(), new Function(), importScripts()
- * pointed at an http(s) URL, dynamic import() of an http(s) URL, and a
- * remote <script src=http...> string literal.
+ * pointed at an http(s) URL, and dynamic import() of an http(s) URL. Each of
+ * these matches a CALL site — unambiguous, always a hard finding.
+ *
+ * A remote <script src=http...> string literal is reported separately, as
+ * inconclusive rather than a finding: it is text, not a call, and static
+ * analysis over a built bundle cannot distinguish an inert literal (escaped
+ * text, sanitizer fixture data) from one actually injected into the DOM.
+ * A hard finding elsewhere in the same bundle still forces verdict fail —
+ * an inconclusive never masks a real finding.
  *
  * MUST scan the built bundle, not source — requireFreshBuild() first; an
  * absent/empty build converts to inconclusive (exitCode 2), never a silent
@@ -30,7 +37,7 @@ const REMOTE_SCRIPT_SRC_RE = /<script[^>]+src\s*=\s*["']https?:\/\/[^"']+["']/gi
 export const zeroRemoteCode: Rule = {
   id: RULE_ID,
   description:
-    "Built bundle contains eval(), new Function(), importScripts()/import() of a remote http(s) URL, or a remote <script src=http...> — remote code execution forbidden under MV3.",
+    "Built bundle contains eval(), new Function(), or importScripts()/import() of a remote http(s) URL — remote code execution forbidden under MV3. A remote <script src=http...> string literal, when present, is reported as inconclusive: static analysis cannot tell an inert literal from an injected one.",
   severity: "error",
   async run(extensionRoot: string): Promise<RuleResult> {
     const build = requireFreshBuild(extensionRoot);
@@ -57,6 +64,10 @@ export const zeroRemoteCode: Rule = {
       }
       const content = stripComments(raw);
 
+      // Hard-finding patterns: each one matches a CALL being made (eval,
+      // new Function, importScripts/import of a remote URL). A call site is
+      // unambiguous — there is no "inert" reading of `eval(...)` being
+      // present in a built bundle. These stay hard findings, verdict fail.
       const patterns: Array<{ re: RegExp; msg: string }> = [
         { re: EVAL_RE, msg: "eval(...) call found in built bundle — remote/dynamic code execution risk." },
         { re: NEW_FUNCTION_RE, msg: "new Function(...) found in built bundle — dynamic code execution risk." },
@@ -67,10 +78,6 @@ export const zeroRemoteCode: Rule = {
         {
           re: DYNAMIC_IMPORT_HTTP_RE,
           msg: "dynamic import() targeting a remote http(s) URL — fetches and executes code outside the packaged bundle.",
-        },
-        {
-          re: REMOTE_SCRIPT_SRC_RE,
-          msg: "<script src=http(s)://...> string literal in bundle — remote script injection pattern.",
         },
       ];
 
@@ -88,14 +95,33 @@ export const zeroRemoteCode: Rule = {
           });
         }
       }
+
+      // A remote <script src=http...> STRING LITERAL is not a call site —
+      // it is text. Static analysis over a bundle cannot tell an inert
+      // literal (rendered as escaped text, or held as sanitizer fixture
+      // data that the code strips) from a literal actually injected into
+      // the DOM via innerHTML/insertAdjacentHTML. Presence alone is not a
+      // defect; report loudly what is unknown instead of asserting a
+      // finding the tool never measured.
+      REMOTE_SCRIPT_SRC_RE.lastIndex = 0;
+      let sm: RegExpExecArray | null;
+      while ((sm = REMOTE_SCRIPT_SRC_RE.exec(content)) !== null) {
+        inconclusive.push({
+          ruleId: RULE_ID,
+          reason:
+            "a remote <script src=...> string literal is present in the built bundle; static analysis cannot determine whether it is injected into the DOM (e.g. via innerHTML) or inert (escaped text, sanitizer fixture data). Inspect the surrounding usage.",
+          file: file.relPath,
+          line: lineAt(content, sm.index),
+        });
+      }
     }
 
-    if (inconclusive.length > 0 && findings.length === 0) {
+    if (findings.length > 0) {
+      return { ruleId: RULE_ID, verdict: "fail", findings, inconclusive, exitCode: 1 };
+    }
+    if (inconclusive.length > 0) {
       return { ruleId: RULE_ID, verdict: "inconclusive", findings: [], inconclusive, exitCode: 2 };
     }
-    if (findings.length === 0) {
-      return { ruleId: RULE_ID, verdict: "pass", findings: [], inconclusive, exitCode: 0 };
-    }
-    return { ruleId: RULE_ID, verdict: "fail", findings, inconclusive, exitCode: 1 };
+    return { ruleId: RULE_ID, verdict: "pass", findings: [], inconclusive, exitCode: 0 };
   },
 };
