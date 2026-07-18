@@ -7,7 +7,7 @@
  * determine an answer and returns INCONCLUSIVE, naming the missing file —
  * it never passes by default in the absence of a declared allowlist.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.1 row `manifest-permission-allowlist`, §2 item 8.
  * Source d'inspiration (idea only, zero line copied): addons-linter
  * `MANIFEST_BAD_PERMISSION` / `MANIFEST_PERMISSIONS` (MPL-2.0) + dot-skills

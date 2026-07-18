@@ -10,7 +10,7 @@
  * Exemption: standard W3C/DOM APIs (e.g. `document.documentElement.lang`)
  * are not host-specific signals and never require `// verified:`.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md §1.5
+ * Spec: internal rule matrix (not shipped with this package) §1.5
  *   `host-signal-unverified` — T0 friction VP `j57fz82fvyfvmemak19e0d40zh88p7j6` (Day 102)
  */
 import { readFileSync } from "node:fs";

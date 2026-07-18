@@ -8,7 +8,7 @@
  * prompt for a capability that is very often only needed for one opt-in
  * feature.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   item 23 "permission-required-vs-optional"
  */
 import { readFileSync } from "node:fs";

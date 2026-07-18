@@ -7,7 +7,7 @@
  * workers are killed by the browser after ~30s of inactivity regardless of
  * a pending setInterval/setTimeout).
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.2 rule 30 "sw-no-keepalive" / "sw-listeners-toplevel" (fusion,
  *   basse priorité, dot-skills DÉJÀ-COUVERT).
  *

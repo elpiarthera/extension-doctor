@@ -12,7 +12,7 @@
  * any Cursor origin (Blocker B-2, fixed commit b2805d2 on
  * origin/chi/d137-baseline-green).
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   item 10 "description-permission-mismatch"
  */
 import { readFileSync } from "node:fs";

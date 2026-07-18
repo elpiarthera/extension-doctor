@@ -6,7 +6,7 @@
  * database and does not attempt to be one — see the honest-scope note
  * below. It only catches the handful of entries in BLOCKLIST.
  *
- * Spec ref: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec ref: internal rule matrix (not shipped with this package)
  *   §1.1 + §2 rule 18 (banned/vulnerable dependency versions).
  */
 import { readFileSync } from "node:fs";

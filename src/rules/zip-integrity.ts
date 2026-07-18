@@ -7,7 +7,7 @@
  * and returns INCONCLUSIVE (never a silent pass) — the rule pack never
  * assumes an un-audited artifact is clean.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.1 row `zip-integrity`, §2 item 16 — same defect class as our own
  *   release zip incident referenced by commit `5d8b775`.
  * Source d'inspiration (idea only, zero line copied): addons-linter

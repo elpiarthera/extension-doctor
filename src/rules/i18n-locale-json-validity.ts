@@ -12,7 +12,7 @@
  * of whether any code consumes the key. Do not merge despite the shared
  * i18n domain (docs/analysis §1.3 explicit note).
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md §1.3.
+ * Spec: internal rule matrix (not shipped with this package) §1.3.
  * Source d'inspiration (idea only, zero line copied): addons-linter (MPL-2.0)
  * family NO_MESSAGE / PREDEFINED_MESSAGE_NAME / INVALID_MESSAGE_NAME /
  * MISSING_PLACEHOLDER / INVALID_PLACEHOLDER_NAME / NO_PLACEHOLDER_CONTENT.

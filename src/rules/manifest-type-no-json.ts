@@ -5,7 +5,7 @@
  * the top level (e.g. a ZIP zipped from one directory too deep, so the
  * manifest ends up under a subfolder instead of the archive root).
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.1 row `manifest-type-no-json`, §2 item 15.
  * Source d'inspiration (idea only, zero line copied): addons-linter
  * `TYPE_NO_MANIFEST_JSON` (MPL-2.0, confirmed `addError` src/linter.js:327).

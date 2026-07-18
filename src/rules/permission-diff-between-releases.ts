@@ -14,7 +14,7 @@
  * for a diff it could not compute (silent-pass on missing precondition is
  * banned, see core/types.ts InconclusiveReason contract).
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   item 29 "permission-diff-between-releases"
  */
 import { readFileSync } from "node:fs";

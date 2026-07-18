@@ -11,7 +11,7 @@
  * Threshold is configurable via `.extension-doctor.json`:
  *   { "noGiantComponent": { "maxLines": 300 } }
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md §1.4,
+ * Spec: internal rule matrix (not shipped with this package) §1.4,
  * §2 rule 26 — "3 fichiers >300L identifiés par l'audit react-doctor
  * (régression post-D99)".
  */

@@ -9,7 +9,7 @@
  * actually runs in the shipped bundle — the tag renders as an unknown
  * element, silently, with zero runtime error.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.2 rule 4 "custom-element-orphan-registration"
  *   VD SIGNAL FORT: ui/lit-ui-register.ts never imported from entry point.
  *

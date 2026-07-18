@@ -17,7 +17,7 @@
  * tests/pack-fam7-provenance.test.ts (asserts runRules(...) always yields
  * a non-empty envelope.command).
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md §1.5
+ * Spec: internal rule matrix (not shipped with this package) §1.5
  *   `score-scope-provenance` — T0, Day 137
  */
 import type { Rule, RuleResult } from "../core/types.js";

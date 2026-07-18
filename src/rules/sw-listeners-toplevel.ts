@@ -9,7 +9,7 @@
  * `.then()`) means the listener may not be attached by the time the event
  * fires after a service worker wake-up, silently dropping the event.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.2 rule 30 "sw-no-keepalive" / "sw-listeners-toplevel" (fusion,
  *   basse priorité, dot-skills DÉJÀ-COUVERT).
  *

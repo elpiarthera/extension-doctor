@@ -13,7 +13,7 @@
  *     (loud, never a silent pass — this rule never claims "clean" without
  *     having actually looked at anything)
  *
- * Spec ref: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec ref: internal rule matrix (not shipped with this package)
  *   §1.1 + §2 rule 21 (postinstall script audit). The blocked-postinstall
  *   signal this rule mirrors is the same one bun/npm itself surfaces at
  *   install time (matrix §7 item 11, e.g. "Blocked 1 postinstall").
