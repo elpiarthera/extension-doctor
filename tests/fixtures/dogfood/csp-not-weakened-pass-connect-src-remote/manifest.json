@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — csp-not-weakened, MUST_PASS: remote origin under connect-src (data fetch, not code execution), script-src clean",
+  "version": "1.0.0",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://api.example.com"
+  }
+}

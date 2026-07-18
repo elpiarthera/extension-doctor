@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "fixture — csp-not-weakened, MUST_PASS, CSP shape modeled on real product occurrences (GoogleChrome/web-vitals-extension @b0e745a68228bb0a84f6909d679436f8cca22849 and fregante/GhostText @7a54c5ff585dc8ca419e1ff48393bdc8e6217f48): remote/local origin under connect-src only, script-src untouched — the category-error case this fix closes",
+  "version": "1.0.0",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' http://localhost:4001"
+  }
+}

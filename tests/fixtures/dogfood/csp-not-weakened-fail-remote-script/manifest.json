@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — csp-not-weakened, MUST_BLOCK: remote origin under script-src directly (D137 category-error fix class sweep)",
+  "version": "1.0.0",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' https://evil.example.com; object-src 'self'"
+  }
+}
