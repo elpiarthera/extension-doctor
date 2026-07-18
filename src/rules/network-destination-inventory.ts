@@ -5,10 +5,9 @@
  * found in the BUILT bundle and flags any literal http(s)/wss destination
  * not covered by the manifest's host_permissions. A DYNAMIC url argument
  * (anything that isn't a plain string/template literal with no
- * interpolation) can NOT be resolved statically — per
- * derive-never-type.md / measurement-integrity, an unresolved dynamic arg
- * is reported as an INDICATIVE inconclusive entry, never silently counted
- * toward a clean "pass".
+ * interpolation) can NOT be resolved statically — an unresolved dynamic
+ * arg is reported as an INDICATIVE inconclusive entry, never silently
+ * counted toward a clean "pass".
  *
  * Manifest lookup mirrors export-graph.ts's MANIFEST_CANDIDATES precedence
  * (buildDir/manifest.json first — the actually-shipped manifest — then the

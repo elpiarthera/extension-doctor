@@ -7,10 +7,10 @@
  * be exempted via `.extension-doctor.json`:
  *   { "pascalCaseDirs": ["ui/components"] }
  *
- * Spec: internal rule matrix (not shipped with this package) §1.4,
- * §2 rule 6 — MUST_BLOCK RÉEL identique prouvé par dot-skills:
- * waitForHostResponseDone.ts, MultiStepOrchestrator.ts,
- * setNativeValueAndDispatch.ts.
+ * Validated against real-world violations of this exact convention:
+ * camelCase/PascalCase filenames like waitForHostResponseDone.ts,
+ * MultiStepOrchestrator.ts, setNativeValueAndDispatch.ts outside any
+ * declared exemption.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

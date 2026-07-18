@@ -5,15 +5,13 @@
  * configurable line-count threshold (default 300). v1 is a line-count
  * check with the threshold explicitly stated in the finding message —
  * weighting by cyclomatic complexity is a documented future refinement,
- * not attempted here (docs/analysis §1.4 caveat: "pondérer par complexité
- * cyclomatique, pas juste ligne count" is a v2 note, not a v1 requirement).
+ * not attempted here — a v2 note, not a v1 requirement.
  *
  * Threshold is configurable via `.extension-doctor.json`:
  *   { "noGiantComponent": { "maxLines": 300 } }
  *
- * Spec: internal rule matrix (not shipped with this package) §1.4,
- * §2 rule 26 — "3 fichiers >300L identifiés par l'audit react-doctor
- * (régression post-D99)".
+ * Validated against a real-world regression that reintroduced multiple
+ * components over the line-count threshold after an earlier cleanup.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

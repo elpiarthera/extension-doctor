@@ -7,7 +7,9 @@
  *   - "inconclusive" : rule COULD NOT determine the answer (missing precondition,
  *                      unresolvable dynamic value, etc.) — this is loud, never silent.
  *
- * Spec ref: docs rule pack v0.1, "§Échec bruyant" — "if (rien_trouvé) return []" is banned.
+ * Design principle: a rule that cannot determine an answer must fail
+ * loudly (inconclusive), never resolve silently to an empty pass/fail
+ * result that masks the fact nothing was actually checked.
  */
 
 export type Severity = "error" | "warning";

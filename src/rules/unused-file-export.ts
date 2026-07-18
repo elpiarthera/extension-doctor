@@ -11,13 +11,13 @@
  *
  * Per core/export-graph.ts contract: when unresolvedEntryReason is non-null,
  * reachableFiles is EMPTY BY CONSTRUCTION and MUST NOT be read as "nothing
- * reachable" (that would flag every source file as dead — the exact
- * fail-open trap banned by derive-never-type.md). This rule surfaces that
- * case as INCONCLUSIVE, never as a pass/fail verdict.
+ * reachable" (that would flag every source file as dead — a fail-open
+ * trap: silently treating an unresolved analysis as a confident verdict).
+ * This rule surfaces that case as INCONCLUSIVE, never as a pass/fail
+ * verdict.
  *
- * Spec: internal rule matrix (not shipped with this package) §1.4,
- * §2 rule 5 — MUST_BLOCK RÉEL: 5 barrels/composants morts prouvés par
- * l'audit react-doctor.
+ * Validated against a real-world audit that found multiple dead
+ * barrels/components unreachable from any entry point.
  */
 import { join } from "node:path";
 import type { Rule, RuleResult, Finding } from "../core/types.js";

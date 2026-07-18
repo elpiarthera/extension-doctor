@@ -12,8 +12,8 @@
  * ambiguous signal; any minified/aliased indirection we cannot see (e.g.
  * `const a = chrome; a.alarms...`) is a known blind spot named explicitly
  * in the per-permission inconclusive note rather than silently assumed
- * either way — see derive-never-type.md "toute échappatoire muette est
- * interdite".
+ * either way — a silent escape hatch that quietly resolves ambiguity as
+ * a pass or fail is banned; ambiguity must be reported as INCONCLUSIVE.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
