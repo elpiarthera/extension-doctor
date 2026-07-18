@@ -5,7 +5,7 @@
  * (i.e. matches every open tab in the browser), when the same enclosing
  * function later loops the result into `chrome.tabs.sendMessage(...)`.
  *
- * Spec: docs/analysis/extension-doctor-rulepack-v0.1-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §net-broadcast-unfiltered
  *
  * Source d'inspiration (idea only, zero line copied):
