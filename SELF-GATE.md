@@ -17,9 +17,10 @@ can read is never typed by hand).
 |---|------|-------------------------|------------------------|
 | [x] | Rule registry count is derived, never a literal | `npx vitest run tests/registry.test.ts` | 2/2 PASS — `ALL_RULES.length` (36) computed from `readdirSync(src/rules)`, never hardcoded |
 | [x] | README rule count matches derived count | `node scripts/check-readme.mjs` | 11/11 checks passed (includes `SCOPE: README states the rule count and it matches the derived count from src/rules/*.ts (derived=36)`) |
-| [x] | Foreign-material bite proof — 8 sampled rules RED on unchosen material | `node scripts/foreign-bite-probe.mjs` | exit 0 — `8/8 rules RED+INCONCLUSIVE+RESTORED on foreign material` (see `analysis/foreign-bite-proof-e8223b89.md`) |
+| [x] | Foreign-material bite proof — 8 sampled rules RED on unchosen, runtime-fetched material | `node scripts/foreign-bite-probe.mjs` | exit 0 — `8/8 rules RED+INCONCLUSIVE+RESTORED on foreign material` (see latest `analysis/foreign-bite-proof-*.md`) |
 | [x] | Refusal pole (inconclusive) proven per sampled rule | same run — `INCONCLUSIVE(...)` line per rule, all 8 non-empty reasons | 8/8 present |
-| [x] | Restoration proven — committed foreign material never mutated | same run — `RESTORED: ... git diff --stat empty` per rule | 8/8 present; `git diff --stat -- scripts/foreign-material/` also empty standalone |
+| [x] | Restoration proven — fetched foreign material never mutated | same run — `RESTORED: ... sha256 unchanged` per rule | 8/8 present; fetch tmpdir hash-verified against pinned commit before AND after injection |
+| [x] | Fetch failure is loud, never silent | `FOREIGN_BITE_PROBE_BAD_SHA=1 node scripts/foreign-bite-probe.mjs` | exit 1 — `FOREIGN-FETCH-FAILED: ... refusing to proceed` naming the unreachable file |
 | [x] | 3 static-impossible rules demonstrated (not asserted) | `docs/not-statically-detectable.md` §coexistence-collision, §test-cannot-fail, §verified-not-activated | each section carries a concrete falsifying input + why "inconclusive" is the correct 3rd state |
 | [x] | Full suite green | `npx vitest run` | 117/117 tests passed, 12/12 files |
 | [x] | Typecheck clean | `npm run build` (`tsc -p tsconfig.json`) | 0 errors |
@@ -39,9 +40,11 @@ and rewrite the file (or note the regression loudly).
 
 ## Cross-ref
 
-Answers Eta's PR #1 REVISE: "Tes sondes mordent sur matériau que TU
-choisis => prouve que les règles lisent leurs fixtures, pas la classe."
-Bite proof lives in `scripts/foreign-bite-probe.mjs` +
-`scripts/foreign-material/mem0-chrome-extension/PROVENANCE.md` (real,
-third-party, MIT, pinned-commit source files never used as any rule's own
-fixture).
+Answers Eta's PR #1 REVISE: bite probes must prove they read the rule's
+material, not the fixture chosen by the rule's own author. Bite proof
+lives in `scripts/foreign-bite-probe.mjs`, which FETCHES its foreign
+material at runtime (real, third-party, MIT, pinned-commit source files
+never used as any rule's own fixture) — this repo does not vendor
+another project's source. See the provenance block at the top of
+`scripts/foreign-bite-probe.mjs` for the source repo, pinned commit,
+copyright holder, and per-file SHA-256 pins.
