@@ -2,10 +2,19 @@
 // from gptpowerups-extension @ origin/chi/d137-baseline-green
 // (fixtures are versioned so the dogfood proof runs in CI and for third parties)
 //
-// DECLARED DIVERGENCE: this file is a verbatim copy, so the internal ticket
-// references in the body below are preserved deliberately. Scrubbing them
-// would break the verbatim property this fixture depends on — the rule under
-// test asserts against the real product's source, not a cleaned-up rewrite.
+// DECLARED DIVERGENCE from the source file, in two directions:
+//
+// 1. Internal ticket references in the body below are PRESERVED deliberately.
+//    The rule under test asserts against the real product's source, not a
+//    cleaned-up rewrite, so removing them would weaken what this fixture proves.
+//
+// 2. Two comments naming a person were REWRITTEN to state the same technical
+//    fact without the name, because this repository is public. The rewrite is
+//    limited to comment prose: no statement, no identifier and no control flow
+//    was touched, so the behaviour the rule inspects is unchanged.
+//
+// This file is therefore a faithful copy of the source's CODE, not of its every
+// comment. That is the property the dogfood proof depends on.
 
 /**
  * Conversations handler — service worker side (T7 D67-Chi-Projects-V1).
@@ -210,10 +219,10 @@ export async function handleConversationsMessage(
 }
 
 // ---------------------------------------------------------------------------
-// runMigrations — no-op in T7 (Laurent Q5: 0 beta users, no backfill needed)
+// runMigrations — no-op: no migration required at zero installed base
 // ---------------------------------------------------------------------------
 
-/** No-op in T7: zero beta users, no data migration required (Laurent Q5 override). */
+/** No-op: zero installed base, so no data migration is required. */
 export async function runMigrations(): Promise<void> {
   // T7 D67: folderIds→projectIds is a pure field rename. No data to migrate.
 }
