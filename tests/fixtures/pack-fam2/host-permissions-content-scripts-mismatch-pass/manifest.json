@@ -20,6 +20,6 @@
     "https://chatgpt.com/*",
     "https://claude.ai/*",
     "https://grok.com/*",
-    "https://REDACTED-DEPLOYMENT.convex.cloud/*"
+    "https://example-deployment-123.convex.cloud/*"
   ]
 }

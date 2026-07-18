@@ -51,7 +51,7 @@
     "https://grok.com/*",
     "https://*.x.ai/*",
     "https://files.oaiusercontent.com/*",
-    "https://REDACTED-DEPLOYMENT.convex.cloud/*"
+    "https://example-deployment-123.convex.cloud/*"
   ],
   "web_accessible_resources": [
     {
