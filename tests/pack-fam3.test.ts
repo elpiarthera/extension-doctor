@@ -132,7 +132,7 @@ describe("network-destination-inventory", () => {
       manifest_version: 3,
       name: "fixture",
       version: "0.0.1",
-      host_permissions: ["https://kindred-spaniel-455.convex.cloud/*"],
+      host_permissions: ["https://example-deployment-123.convex.cloud/*"],
     });
     const result = await networkDestinationInventory.run(root);
     expect(result.verdict).toBe("fail");
@@ -143,13 +143,13 @@ describe("network-destination-inventory", () => {
   it("MUST_PASS: literal fetch destination is covered by host_permissions", async () => {
     const root = makeRoot();
     writeBundle(root, {
-      "sw.js": `// synthetic fam3 fixture\nfetch("https://kindred-spaniel-455.convex.cloud/api");\n`,
+      "sw.js": `// synthetic fam3 fixture\nfetch("https://example-deployment-123.convex.cloud/api");\n`,
     });
     writeManifest(root, {
       manifest_version: 3,
       name: "fixture",
       version: "0.0.1",
-      host_permissions: ["https://kindred-spaniel-455.convex.cloud/*"],
+      host_permissions: ["https://example-deployment-123.convex.cloud/*"],
     });
     const result = await networkDestinationInventory.run(root);
     expect(result.verdict).toBe("pass");
@@ -166,7 +166,7 @@ describe("network-destination-inventory", () => {
       manifest_version: 3,
       name: "fixture",
       version: "0.0.1",
-      host_permissions: ["https://kindred-spaniel-455.convex.cloud/*"],
+      host_permissions: ["https://example-deployment-123.convex.cloud/*"],
     });
     const result = await networkDestinationInventory.run(root);
     expect(result.verdict).toBe("inconclusive");
