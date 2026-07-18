@@ -12,7 +12,7 @@
  * when it uses a wildcard scheme/host not present verbatim among the
  * content_scripts origins.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   item 24 "web-accessible-resources-scope"
  */
 import { readFileSync } from "node:fs";

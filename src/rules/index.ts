@@ -43,8 +43,8 @@ import { zipIntegrity } from "./zip-integrity.js";
  * Three of the 36 (coexistenceCollision, testCannotFail, verifiedNotActivated)
  * return an "inconclusive" verdict by design — they detect defect CLASSES that
  * are not statically decidable from source alone (runtime coexistence, flaky
- * test masking, activation-vs-shipping gaps). See docs/not-statically-detectable.md
- * for the worked demonstrations. They are still registered and run like any
+ * test masking, activation-vs-shipping gaps). See README.md
+ * ("Not statically detectable") for the worked demonstrations. They are still registered and run like any
  * other rule; "inconclusive" is a loud, structured verdict, never a silent skip.
  */
 export const ALL_RULES: Rule[] = [

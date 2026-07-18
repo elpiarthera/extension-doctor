@@ -22,7 +22,7 @@
  * This rule NEVER silently passes. It always returns "inconclusive" naming
  * precisely what would be required to lift the limitation.
  *
- * See docs/not-statically-detectable.md for the full demonstration.
+ * See README.md ("Not statically detectable") for the full demonstration.
  */
 import type { Rule, RuleResult, InconclusiveReason } from "../core/types.js";
 
@@ -37,7 +37,7 @@ export const verifiedNotActivated: Rule = {
     const reason: InconclusiveReason = {
       ruleId: RULE_ID,
       reason:
-        "verified-not-activated is NOT detectable at v0.1: comparing 'the fix that shipped in this commit' against 'the build actually served' requires a build-hash convention embedded at build time and re-read from the served artifact — no such convention exists in this pipeline's vite.config.ts today, and no documented temporal tolerance exists for a legitimate deploy-propagation window. Without both, any verdict here would be a guess dressed as a measurement. See docs/not-statically-detectable.md.",
+        "verified-not-activated is NOT detectable at v0.1: comparing 'the fix that shipped in this commit' against 'the build actually served' requires a build-hash convention embedded at build time and re-read from the served artifact — no such convention exists in this pipeline's vite.config.ts today, and no documented temporal tolerance exists for a legitimate deploy-propagation window. Without both, any verdict here would be a guess dressed as a measurement.",
     };
     return { ruleId: RULE_ID, verdict: "inconclusive", findings: [], inconclusive: [reason], exitCode: 2 };
   },

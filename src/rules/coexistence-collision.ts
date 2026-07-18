@@ -19,7 +19,7 @@
  * This rule NEVER silently passes. It always returns "inconclusive" naming
  * precisely what would be required to lift the limitation.
  *
- * See docs/not-statically-detectable.md for the full demonstration.
+ * See README.md ("Not statically detectable") for the full demonstration.
  */
 import type { Rule, RuleResult, InconclusiveReason } from "../core/types.js";
 
@@ -34,7 +34,7 @@ export const coexistenceCollision: Rule = {
     const reason: InconclusiveReason = {
       ruleId: RULE_ID,
       reason:
-        "coexistence-collision is NOT statically detectable at v0.1: deciding two tests target the same logical element requires semantic cross-file matching (textual matching fails — a checkbox test and a button test share no literal string), plus a calibration corpus to bound false positives against components with legitimate multiple render modes (e.g. desktop/mobile). No such matching engine or calibration corpus exists in this pipeline. See docs/not-statically-detectable.md.",
+        "coexistence-collision is NOT statically detectable at v0.1: deciding two tests target the same logical element requires semantic cross-file matching (textual matching fails — a checkbox test and a button test share no literal string), plus a calibration corpus to bound false positives against components with legitimate multiple render modes (e.g. desktop/mobile). No such matching engine or calibration corpus exists in this pipeline.",
     };
     return { ruleId: RULE_ID, verdict: "inconclusive", findings: [], inconclusive: [reason], exitCode: 2 };
   },

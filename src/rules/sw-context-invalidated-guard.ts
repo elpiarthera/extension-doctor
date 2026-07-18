@@ -5,7 +5,7 @@
  * guard against an invalidated extension context (chrome.runtime.id becomes
  * undefined after the extension reloads/updates while a tab stays open).
  *
- * Spec: docs/analysis/extension-doctor-rulepack-v0.1-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §sw-context-invalidated-guard
  *
  * Source d'inspiration (idea only, zero line copied):

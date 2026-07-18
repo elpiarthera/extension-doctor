@@ -4,7 +4,7 @@
  * Scans the BUILT bundle for credential-shaped literals: Stripe secret keys,
  * AWS access key IDs, PEM private-key headers, and static (hardcoded) JWTs.
  *
- * Matrix note (docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Matrix note (internal rule matrix, not shipped with this package,
  * §2 rule 11): the naive `sk_[A-Za-z0-9]{10,}` pattern MISSES real Stripe
  * secret keys because it doesn't anchor the `live|test` mode segment or
  * enforce the real minimum length — this rule uses the corrected pattern

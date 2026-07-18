@@ -15,7 +15,7 @@
  * fail-open trap banned by derive-never-type.md). This rule surfaces that
  * case as INCONCLUSIVE, never as a pass/fail verdict.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md §1.4,
+ * Spec: internal rule matrix (not shipped with this package) §1.4,
  * §2 rule 5 — MUST_BLOCK RÉEL: 5 barrels/composants morts prouvés par
  * l'audit react-doctor.
  */

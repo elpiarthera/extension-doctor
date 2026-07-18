@@ -18,7 +18,7 @@
  * inherits `default-src` per the CSP spec, so `default-src` is checked as
  * the fallback for each governed directive that is not itself present.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.1 row `csp-not-weakened`, §2 item 9.
  * Source d'inspiration (idea only, zero line copied): addons-linter
  * `MANIFEST_CSP` / `MANIFEST_CSP_UNSAFE_EVAL` (MPL-2.0) + CWS validator

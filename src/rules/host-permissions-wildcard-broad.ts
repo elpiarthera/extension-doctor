@@ -6,7 +6,7 @@
  * slash, star) — an unscoped grant to every page the browser can reach,
  * documented as a Chrome Web Store review scrutiny/rejection factor.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.1 row `host-permissions-wildcard-broad`, §2 item 12.
  * Source d'inspiration (idea only, zero line copied): addons-linter
  * `MANIFEST_HOST_PERMISSIONS` (MPL-2.0) + CWS scrutiny/rejet documenté.

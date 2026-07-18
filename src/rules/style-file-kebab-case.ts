@@ -7,7 +7,7 @@
  * be exempted via `.extension-doctor.json`:
  *   { "pascalCaseDirs": ["ui/components"] }
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md §1.4,
+ * Spec: internal rule matrix (not shipped with this package) §1.4,
  * §2 rule 6 — MUST_BLOCK RÉEL identique prouvé par dot-skills:
  * waitForHostResponseDone.ts, MultiStepOrchestrator.ts,
  * setNativeValueAndDispatch.ts.

@@ -226,7 +226,7 @@ their `run()` always returns `verdict: "inconclusive"` by design. They exist
 so their absence is visible in `scope.rulesActive` and
 `ProvenanceEnvelope.perRule` instead of being silently omitted from the
 pack. This section is the demonstration for why each one resists static
-analysis (folded in from `docs/not-statically-detectable.md`).
+analysis.
 
 ### coexistence-collision
 

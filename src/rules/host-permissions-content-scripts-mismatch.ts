@@ -17,7 +17,7 @@
  *   { "documentedHosts": ["https://*.x.ai/*"] }
  * Each entry must be the exact host_permissions string it exempts.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   item 22 "host-permissions-content-scripts-mismatch"
  */
 import { readFileSync } from "node:fs";

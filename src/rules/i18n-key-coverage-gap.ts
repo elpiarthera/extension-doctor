@@ -6,7 +6,7 @@
  * of the two bundled locale files (_locales/en/messages.json,
  * _locales/fr/messages.json).
  *
- * Spec: docs/analysis/extension-doctor-rulepack-v0.1-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §i18n-key-coverage-gap
  *
  * Source d'inspiration: our own tests/unit/i18n-coverage.test.ts (generalized

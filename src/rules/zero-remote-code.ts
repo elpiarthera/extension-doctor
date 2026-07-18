@@ -8,7 +8,7 @@
  *
  * MUST scan the built bundle, not source — requireFreshBuild() first; an
  * absent/empty build converts to inconclusive (exitCode 2), never a silent
- * "pass". See docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * "pass". See internal rule matrix (not shipped with this package)
  * §1.1 + §2 rule 7.
  */
 import type { Rule, RuleResult, Finding, InconclusiveReason } from "../core/types.js";

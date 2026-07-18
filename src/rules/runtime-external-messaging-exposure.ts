@@ -11,7 +11,7 @@
  * matchBracket from the callback's opening "{") and looks for a reference to
  * `sender.id` or `sender.origin` anywhere inside it.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   item 25 "runtime-external-messaging-exposure"
  */
 import { readFileSync } from "node:fs";

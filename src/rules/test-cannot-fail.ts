@@ -19,7 +19,7 @@
  * This rule NEVER silently passes. It always returns "inconclusive" naming
  * precisely what would be required to lift the limitation.
  *
- * See docs/not-statically-detectable.md for the full demonstration.
+ * See README.md ("Not statically detectable") for the full demonstration.
  */
 import type { Rule, RuleResult, InconclusiveReason } from "../core/types.js";
 
@@ -34,7 +34,7 @@ export const testCannotFail: Rule = {
     const reason: InconclusiveReason = {
       ruleId: RULE_ID,
       reason:
-        "test-cannot-fail is NOT definitively detectable at v0.1: a syntactic scan for jsdom+chrome.*/DOM mocks is mechanical but insufficient alone — it produces false positives on legitimate jsdom tests over pure functions (RULE #8 exempts these) and false negatives on assertions that are syntactically capable of failing but never will given the mock's fixed return value. The only definitive proof is a bipolar mutation probe (inject a real defect into the code under test, confirm the test goes red) — mutation-testing infrastructure over third-party/host code does not exist in this pipeline. See docs/not-statically-detectable.md.",
+        "test-cannot-fail is NOT definitively detectable at v0.1: a syntactic scan for jsdom+chrome.*/DOM mocks is mechanical but insufficient alone — it produces false positives on legitimate jsdom tests over pure functions (RULE #8 exempts these) and false negatives on assertions that are syntactically capable of failing but never will given the mock's fixed return value. The only definitive proof is a bipolar mutation probe (inject a real defect into the code under test, confirm the test goes red) — mutation-testing infrastructure over third-party/host code does not exist in this pipeline.",
     };
     return { ruleId: RULE_ID, verdict: "inconclusive", findings: [], inconclusive: [reason], exitCode: 2 };
   },

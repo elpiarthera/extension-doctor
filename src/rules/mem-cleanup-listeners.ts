@@ -7,7 +7,7 @@
  * the enclosing function scope, and no declared permanent-listener
  * exception comment.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.2 rule 13 "mem-cleanup-listeners"
  *
  * Source d'inspiration (idea only, zero line copied):

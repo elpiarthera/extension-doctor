@@ -7,7 +7,7 @@
  * with a message naming that (not silently — the reason is recorded). If
  * the manifest itself cannot be read, the rule returns INCONCLUSIVE.
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md
+ * Spec: internal rule matrix (not shipped with this package)
  *   §1.1 row `content-script-file-exists`, §2 item 19 — "directement
  *   transposable à host-config.ts cross-host".
  * Source d'inspiration (idea only, zero line copied): addons-linter

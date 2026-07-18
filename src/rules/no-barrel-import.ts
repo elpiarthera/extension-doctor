@@ -7,7 +7,7 @@
  * internal package) can be declared via `.extension-doctor.json`:
  *   { "allowedBarrels": ["src/core/index"] }
  *
- * Spec: docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md §1.4,
+ * Spec: internal rule matrix (not shipped with this package) §1.4,
  * §2 rule 27 — "11 occurrences réelles dans notre propre audit" (react-doctor).
  */
 import { readFileSync } from "node:fs";

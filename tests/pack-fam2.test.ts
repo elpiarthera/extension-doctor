@@ -4,7 +4,7 @@
  * Every fixture directory carries a PROVENANCE.md naming its origin (real
  * gptpowerups-extension git history where a real defect exists, synthetic
  * where the rule is preventive and no real defect has been observed yet —
- * see docs/analysis/extension-doctor-state-of-the-art-2026-07-17.md items
+ * see internal rule matrix (not shipped with this package) items
  * 10, 22, 23, 24, 25, 29).
  */
 import { describe, it, expect } from "vitest";
