@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — csp-not-weakened, MUST_BLOCK: remote origin inherited via default-src fallback, no script-src present",
+  "version": "1.0.0",
+  "content_security_policy": {
+    "extension_pages": "default-src 'self' https://cdn.example.com; style-src 'self' 'unsafe-inline'"
+  }
+}
