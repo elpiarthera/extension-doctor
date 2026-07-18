@@ -122,8 +122,3 @@ describe("bundle-scan", () => {
   });
 });
 
-describe("gate bite probe — MUST make CI red so the required check can be seen refusing", () => {
-  it("deliberate failure, to be removed once BLOCKED is observed", () => {
-    expect(1).toBe(2);
-  });
-});
