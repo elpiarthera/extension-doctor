@@ -111,10 +111,28 @@ describe("host-permissions-wildcard-broad", () => {
 });
 
 describe("csp-not-weakened", () => {
-  it("MUST_BLOCK: CSP with unsafe-eval", async () => {
+  it("MUST_BLOCK: CSP with unsafe-eval under script-src", async () => {
     const result = await cspNotWeakened.run(f("csp-not-weakened-fail"));
     expect(result.verdict).toBe("fail");
     expect(result.findings.some((x) => /unsafe-eval/.test(x.message))).toBe(true);
+  });
+
+  it("MUST_BLOCK: remote origin directly under script-src", async () => {
+    const result = await cspNotWeakened.run(f("csp-not-weakened-fail-remote-script"));
+    expect(result.verdict).toBe("fail");
+    expect(result.findings.some((x) => /remote .* source under script-src\b/.test(x.message))).toBe(true);
+  });
+
+  it("MUST_BLOCK: unsafe-inline under script-src", async () => {
+    const result = await cspNotWeakened.run(f("csp-not-weakened-fail-unsafe-inline"));
+    expect(result.verdict).toBe("fail");
+    expect(result.findings.some((x) => /unsafe-inline/.test(x.message))).toBe(true);
+  });
+
+  it("MUST_BLOCK: remote origin inherited via default-src fallback (no script-src present)", async () => {
+    const result = await cspNotWeakened.run(f("csp-not-weakened-fail-default-src-fallback"));
+    expect(result.verdict).toBe("fail");
+    expect(result.findings.some((x) => /default-src \(inherited by script-src\)/.test(x.message))).toBe(true);
   });
 
   it("MUST_PASS: no custom CSP key (MV3 default, documented explicitly)", async () => {
@@ -123,10 +141,29 @@ describe("csp-not-weakened", () => {
     expect(result.findings).toEqual([]);
   });
 
+  it("MUST_PASS: remote origin under connect-src (data fetch, not code execution), script-src clean", async () => {
+    const result = await cspNotWeakened.run(f("csp-not-weakened-pass-connect-src-remote"));
+    expect(result.verdict).toBe("pass");
+    expect(result.findings).toEqual([]);
+  });
+
+  it("MUST_PASS: CSP shape modeled on real product occurrences (web-vitals-extension / GhostText connect-src)", async () => {
+    const result = await cspNotWeakened.run(f("csp-not-weakened-pass-real-product-connect-src"));
+    expect(result.verdict).toBe("pass");
+    expect(result.findings).toEqual([]);
+  });
+
   it("MUST_REFUSE: manifest.json missing at root", async () => {
     const result = await cspNotWeakened.run(f("csp-not-weakened-inconclusive"));
     expect(result.verdict).toBe("inconclusive");
     expectNonEmptyReason(result.inconclusive);
+  });
+
+  it("MUST_REFUSE: malformed / unparseable CSP string", async () => {
+    const result = await cspNotWeakened.run(f("csp-not-weakened-inconclusive-malformed"));
+    expect(result.verdict).toBe("inconclusive");
+    expectNonEmptyReason(result.inconclusive);
+    expect(result.inconclusive[0]?.reason).toMatch(/could not be parsed/);
   });
 });
 

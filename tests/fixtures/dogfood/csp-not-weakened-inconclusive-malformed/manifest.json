@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "synthetic fixture — csp-not-weakened, MUST_REFUSE: malformed CSP string, unparseable directive token",
+  "version": "1.0.0",
+  "content_security_policy": {
+    "extension_pages": "; ; ;;;   "
+  }
+}
