@@ -26,13 +26,21 @@ derived.
 3. react-doctor
    https://www.npmjs.com/package/react-doctor
    License: "Modified MIT" (SEE LICENSE IN LICENSE on npm; not plain MIT).
-   Restricts commercial redistribution/resale of the tool itself without
-   prior written authorization from Million Software, Inc.
+   Restricts, without prior written authorization from Million Software,
+   Inc.: (a) using the Software, its source code, or any derivative works
+   thereof, in whole or in part, as training, fine-tuning, or evaluation
+   data, or as input to any automated pipeline for training or improving
+   any machine learning model or AI system; and (b) selling the Software,
+   or offering it to third parties as a paid, hosted, or managed product
+   or service (including any commercial API or SaaS offering) whose value
+   derives entirely or substantially from the Software.
    Relationship: studied as prior art, no code derived. react-doctor was
    run as a published CLI tool (`npx react-doctor`) against this project's
    own codebase, as an end user would. Its source was never read, copied,
-   or ported. Its restrictive license governs react-doctor itself, not
-   extension-doctor.
+   or ported, and it was never used as training, fine-tuning, or
+   evaluation data, nor as input to any ML/AI training pipeline — this
+   project's use conforms to both restrictions (a) and (b) above. Its
+   restrictive license governs react-doctor itself, not extension-doctor.
 
    VERSION PIN COROLLARY: any invocation of react-doctor in this project's
    harness (or the wider fleet) MUST pin `react-doctor@0.2.11`, never
