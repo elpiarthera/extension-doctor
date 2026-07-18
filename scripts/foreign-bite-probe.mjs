@@ -381,7 +381,7 @@ relayToOpenTabs({ kind: 'sync' });
     bonusChecks: [
       {
         sourceId: "vimium",
-        label: "vimium/vimium background_scripts/main.js NATURALLY fires this rule with zero injection (real chrome.tabs.query(...).then + chrome.tabs.sendMessage in the same scope) — a genuine finding, not synthetic",
+        label: "real chrome.tabs.query(...).then + chrome.tabs.sendMessage in the same scope, no injection",
         setup: (root) => {
           const dest = join(root, "src/background/background.ts");
           mkdirSync(dirname(dest), { recursive: true });
@@ -435,7 +435,7 @@ bootstrapAlarmWatchers();
     bonusChecks: [
       {
         sourceId: "vimium",
-        label: "philc/vimium background_scripts/main.js NATURALLY fires this rule (real addListener nested inside a function body) with zero injection",
+        label: "real addListener nested inside a function body, no injection",
         setup: (root) => {
           const dest = join(root, "src/background/background.ts");
           mkdirSync(dirname(dest), { recursive: true });
@@ -444,7 +444,7 @@ bootstrapAlarmWatchers();
       },
       {
         sourceId: "ghosttext",
-        label: "fregante/GhostText source/background.js NATURALLY fires this rule (4 real addListener calls nested inside function bodies) with zero injection",
+        label: "4 real addListener calls nested inside function bodies, no injection",
         setup: (root) => {
           const dest = join(root, "src/background/background.ts");
           mkdirSync(dirname(dest), { recursive: true });
@@ -546,7 +546,7 @@ bootstrapAlarmWatchers();
     bonusChecks: [
       {
         sourceId: "vimium",
-        label: "philc/vimium manifest.json is NOT strict JSON (JSON5-style // comments) — a real-world edge case that surfaces as inconclusive, never a silent pass/fail",
+        label: "manifest.json is not strict JSON (JSON5-style // comments)",
         setup: (root) => {
           mkdirSync(root, { recursive: true });
           writeFileSync(join(root, "manifest.json"), readForeign("vimium:manifest"), "utf8");
@@ -563,7 +563,7 @@ bootstrapAlarmWatchers();
     rule: cspNotWeakened,
     redSourceId: "darkreader",
     redForeignKey: "darkreader:manifest",
-    variantDescription: `real darkreader/darkreader src/manifest.json (verbatim, ships with NO content_security_policy key at all — MV2, currently passes) mutated to ADD the key: "object-src 'self'; script-src 'unsafe-eval' 'self'"`,
+    variantDescription: `real darkreader/darkreader src/manifest.json (verbatim, ships with NO content_security_policy key at all — MV2) mutated to ADD the key: "object-src 'self'; script-src 'unsafe-eval' 'self'"`,
     grepNeedle: "object-src 'self'; script-src 'unsafe-eval' 'self'",
     grepFile: (root) => join(root, "manifest.json"),
     preInjectionCopy: (root) => join(root, ".pre-injection.json"),
@@ -578,20 +578,15 @@ bootstrapAlarmWatchers();
     setupInconclusive: (root) => {
       // extensionRoot itself does not exist
     },
-    // NOTE (honest reporting, not smoothed over): among the 4 sources, only
-    // darkreader's OWN pre-injection baseline cleanly passes this rule.
-    // web-vitals-extension and GhostText both NATURALLY fail — not because
-    // their CSP is unsafe, but because csp-not-weakened's REMOTE_SRC_RE
-    // (`/(https?:)?\/\/[^\s'";]+/i`) matches ANY `//...` substring in
-    // extension_pages regardless of WHICH directive it appears under. Both
-    // sources' compliant connect-src entries (a directive MV3 explicitly
-    // permits to reference remote hosts) trip the same regex meant for
-    // script-src. This is a genuine RULE LIMITATION discovered via real
-    // material — logged as a bonus finding below, not hidden, and NOT
-    // counted as a formal PASS case (it would be dishonest to do so: the
-    // rule really does fire on these 2 sources, just for the wrong reason).
-    // vimium is excluded from this rule's poles entirely: its manifest.json
-    // is not strict JSON (see bonus below).
+    // NOTE: web-vitals-extension and GhostText both ship a custom CSP whose
+    // connect-src directive references a remote origin while script-src is
+    // untouched — material worth a bonus check on top of darkreader's own
+    // pre-injection baseline. The bonus checks below describe that material;
+    // they never assert what the rule currently does with it (whatever the
+    // measured verdict is, it is printed at run time, not predicted here —
+    // a label that predicts a verdict is the exact defect this probe exists
+    // to catch, reproduced inside the probe). vimium is exercised as a
+    // separate bonus case: its manifest.json is not strict JSON.
     passCases: [
       {
         sourceId: "darkreader",
@@ -604,7 +599,7 @@ bootstrapAlarmWatchers();
     bonusChecks: [
       {
         sourceId: "webvitals",
-        label: "RULE LIMITATION: GoogleChrome/web-vitals-extension's compliant CSP (connect-src references a remote host, script-src is untouched) is flagged anyway — REMOTE_SRC_RE does not distinguish which CSP directive the remote reference belongs to",
+        label: "compliant CSP: remote origin under connect-src, script-src untouched",
         setup: (root) => {
           mkdirSync(root, { recursive: true });
           writeFileSync(join(root, "manifest.json"), readForeign("webvitals:manifest"), "utf8");
@@ -612,7 +607,7 @@ bootstrapAlarmWatchers();
       },
       {
         sourceId: "ghosttext",
-        label: "RULE LIMITATION: fregante/GhostText's compliant CSP (connect-src references http://localhost for its local dev bridge, script-src is 'self') is flagged anyway — same REMOTE_SRC_RE over-match",
+        label: "compliant CSP: http://localhost under connect-src for the local dev bridge, script-src is 'self'",
         setup: (root) => {
           mkdirSync(root, { recursive: true });
           writeFileSync(join(root, "manifest.json"), readForeign("ghosttext:manifest"), "utf8");
@@ -620,7 +615,7 @@ bootstrapAlarmWatchers();
       },
       {
         sourceId: "vimium",
-        label: "philc/vimium manifest.json is NOT strict JSON (JSON5-style // comments) — surfaces as inconclusive",
+        label: "manifest.json is not strict JSON (JSON5-style // comments)",
         setup: (root) => {
           mkdirSync(root, { recursive: true });
           writeFileSync(join(root, "manifest.json"), readForeign("vimium:manifest"), "utf8");
@@ -664,7 +659,7 @@ bootstrapAlarmWatchers();
     bonusChecks: [
       {
         sourceId: "webvitals",
-        label: "GoogleChrome/web-vitals-extension NATURALLY fires this rule with zero injection (real host_permissions: [\"*://*/*\"])",
+        label: "real host_permissions: [\"*://*/*\"], no injection",
         setup: (root) => {
           mkdirSync(root, { recursive: true });
           writeFileSync(join(root, "manifest.json"), readForeign("webvitals:manifest"), "utf8");
@@ -672,7 +667,7 @@ bootstrapAlarmWatchers();
       },
       {
         sourceId: "vimium",
-        label: "philc/vimium manifest.json is NOT strict JSON (JSON5-style // comments) — surfaces as inconclusive rather than reading its real host_permissions: [\"<all_urls>\"]",
+        label: "manifest.json is not strict JSON (JSON5-style // comments); real host_permissions: [\"<all_urls>\"]",
         setup: (root) => {
           mkdirSync(root, { recursive: true });
           writeFileSync(join(root, "manifest.json"), readForeign("vimium:manifest"), "utf8");
