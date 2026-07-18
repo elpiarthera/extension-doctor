@@ -1,6 +1,11 @@
 // FIXTURE PROVENANCE: verbatim copy of src/background/conversations-handler.ts
 // from gptpowerups-extension @ origin/chi/d137-baseline-green
-// (see CLAUDE.md T3-SHIP dogfood remedy (a) — fixtures versioned for CI)
+// (fixtures are versioned so the dogfood proof runs in CI and for third parties)
+//
+// DECLARED DIVERGENCE: this file is a verbatim copy, so the internal ticket
+// references in the body below are preserved deliberately. Scrubbing them
+// would break the verbatim property this fixture depends on — the rule under
+// test asserts against the real product's source, not a cleaned-up rewrite.
 
 /**
  * Conversations handler — service worker side (T7 D67-Chi-Projects-V1).
