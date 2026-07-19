@@ -1,21 +1,51 @@
 #!/usr/bin/env node
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 import { resolveRules, ALL_RULES } from "./rules/index.js";
 import { runRules } from "./core/run.js";
 import type { ProvenanceEnvelope } from "./core/types.js";
+
+const USAGE = `extension-doctor <path-to-extension> [--rules id1,id2,...] [--format human|json]
+
+  <path-to-extension>   Directory to scan (default: .)
+  --rules id1,id2,...   Restrict the scan to a comma-separated rule id list
+  --format human|json   Output format (default: human)
+  --json                Shorthand for --format json
+  -h, --help            Show this help and exit
+  -v, --version         Show the installed version and exit
+
+Exit codes: 0 nothing found, 1 defects found, 2 could not measure.`;
+
+// Version is DERIVED from package.json at read time, never retyped by hand.
+function readPackageVersion(): string {
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const pkgPath = path.join(here, "..", "package.json");
+  const pkg = JSON.parse(readFileSync(pkgPath, "utf8")) as { version: string };
+  return pkg.version;
+}
 
 function parseArgs(argv: string[]): {
   extensionPath: string;
   rules: string[] | null;
   format: "human" | "json";
+  help: boolean;
+  version: boolean;
 } {
   const positional: string[] = [];
   let rules: string[] | null = null;
   let format: "human" | "json" = "human";
+  let help = false;
+  let version = false;
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === undefined) continue;
-    if (arg === "--rules") {
+    if (arg === "--help" || arg === "-h") {
+      help = true;
+    } else if (arg === "--version" || arg === "-v") {
+      version = true;
+    } else if (arg === "--rules") {
       const next = argv[++i];
       rules = next ? next.split(",").map((s) => s.trim()) : [];
     } else if (arg === "--format") {
@@ -28,7 +58,7 @@ function parseArgs(argv: string[]): {
     }
   }
 
-  return { extensionPath: positional[0] ?? ".", rules, format };
+  return { extensionPath: positional[0] ?? ".", rules, format, help, version };
 }
 
 function renderHuman(envelope: ProvenanceEnvelope): string {
@@ -68,7 +98,17 @@ function renderHuman(envelope: ProvenanceEnvelope): string {
 }
 
 export async function main(argv: string[]): Promise<number> {
-  const { extensionPath, rules: requested, format } = parseArgs(argv);
+  const { extensionPath, rules: requested, format, help, version } = parseArgs(argv);
+
+  if (help) {
+    process.stdout.write(USAGE + "\n");
+    return 0;
+  }
+  if (version) {
+    process.stdout.write(readPackageVersion() + "\n");
+    return 0;
+  }
+
   const { active, unknown } = resolveRules(requested);
 
   if (unknown.length > 0) {

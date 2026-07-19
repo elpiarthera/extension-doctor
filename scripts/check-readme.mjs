@@ -119,18 +119,79 @@ check(
 );
 
 // 10. Honest scope — README's stated rule count must match the derived file count.
-// The count is DERIVED from src/rules/*.ts (excluding index.ts) every run — it can
-// never be a stale literal, per derive-never-type.md.
+//
+// Coverage: this check reads exactly three formulations —
+//   (A) the "## Rules (N)" heading
+//   (B) prose of the form "N rule" / "N rules"
+//   (C) the output line of the "src/rules ... wc -l" worked example
+//
+// Declared boundary: it does NOT match synonyms for "rule" (e.g. "check",
+// "item"), spelled-out numerals (e.g. "forty-five"), or bare table cells
+// (e.g. "| total | N |"). This is deliberate, not an oversight. Extending
+// the match to arbitrary prose to catch such phrasings would turn this
+// check into a free-text scanner for a state value — the same failure
+// this check exists to close, in the opposite direction: a scanner loose
+// enough to catch every synonym is loose enough to also fire on a
+// legitimate historical citation, and a scanner tight enough to avoid
+// that false-positive misses real phrasings anyway. Either way it does
+// not hold, and gets disabled.
+//
+// This check fails closed: if none of the three covered formulations is
+// found anywhere in the document, that is reported as a failure, not a
+// silent pass.
+//
+// Known limitation: this check cannot distinguish a PARTIAL count from a
+// TOTAL count. A prose mention such as "the 43 rules that fall into two
+// families" is arithmetically correct (46 total minus 3 not statically
+// detectable) but is still read as a claim about the total and flagged as
+// stale. This is deliberate, not fixed by teaching the matcher arithmetic —
+// a matcher that understands subsets and exclusions is a matcher that
+// parses free prose for meaning, which reintroduces the exact scanning
+// failure this check exists to avoid. An author writing a genuinely
+// partial count should name the subset without a numeral (e.g. "the
+// remaining rules", "the bundle rules") or spell the number as a word.
+//
+// If a new phrasing of the rule count is needed, either express it using
+// one of the three covered forms above, or extend this check in the same
+// commit that introduces the phrasing.
 const rulesDir = path.join(root, "src", "rules");
 const derivedRuleCount = readdirSync(rulesDir).filter((f) => f.endsWith(".ts") && f !== "index.ts").length;
-const readmeCountMatch = readme.match(/##\s*Rules\s*\((\d+)\)/i) ?? readme.match(/(\d+)\s+rules?\b/i);
-const readmeCount = readmeCountMatch ? Number(readmeCountMatch[1]) : null;
+
+// Formulation A: the "## Rules (N)" heading.
+const headingMatch = readme.match(/##\s*Rules\s*\((\d+)\)/i);
+// Formulation B: any "N rule(s)" phrase in prose, anywhere in the document.
+const proseMatches = [...readme.matchAll(/\b(\d+)\s+rules?\b/gi)];
+// Formulation C: a "wc -l" rule-count worked example whose output line pins a literal
+// integer instead of describing the derivation (e.g. "# -> 46" right after a
+// "src/rules" wc -l command). Any bare "-> N" / "# -> N" line within 3 lines of a
+// "src/rules" + "wc -l" command is read as a rule-count claim.
+const lines = readme.split("\n");
+const wcExampleMatches = [];
+for (let i = 0; i < lines.length; i++) {
+  if (/src\/rules.*wc -l/.test(lines[i])) {
+    for (let j = i + 1; j <= Math.min(i + 3, lines.length - 1); j++) {
+      const m = lines[j].match(/#?\s*->\s*(\d+)\s*$/);
+      if (m) wcExampleMatches.push(m);
+    }
+  }
+}
+
+const allClaims = [
+  ...(headingMatch ? [{ label: "## Rules (N) heading", value: Number(headingMatch[1]) }] : []),
+  ...proseMatches.map((m) => ({ label: `"${m[0]}" prose mention`, value: Number(m[1]) })),
+  ...wcExampleMatches.map((m) => ({ label: `wc -l worked-example output "${m[0].trim()}"`, value: Number(m[1]) })),
+];
+
+const staleClaims = allClaims.filter((c) => c.value !== derivedRuleCount);
+
 check(
   `SCOPE: README states the rule count and it matches the derived count from src/rules/*.ts (derived=${derivedRuleCount})`,
-  readmeCount !== null && readmeCount === derivedRuleCount,
-  readmeCount === null
-    ? `no "## Rules (N)" or "N rules" heading found in README to compare against derived=${derivedRuleCount}`
-    : `README states ${readmeCount}, but src/rules/*.ts (excluding index.ts) has ${derivedRuleCount} files — README count is stale`,
+  allClaims.length > 0 && staleClaims.length === 0,
+  allClaims.length === 0
+    ? `no rule-count claim (heading, prose, or wc -l worked example) found in README to compare against derived=${derivedRuleCount}`
+    : `stale rule-count claim(s) found — README states a count that disagrees with src/rules/*.ts (excluding index.ts) = ${derivedRuleCount}: ${staleClaims
+        .map((c) => `${c.label} says ${c.value}`)
+        .join("; ")}`,
 );
 
 const failed = checks.filter((c) => !c.pass);

@@ -19,7 +19,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Rule, RuleResult, Finding, InconclusiveReason } from "../core/types.js";
 import { walk, dirExists } from "../core/walk.js";
-import { lineAt, matchBracket, stripComments } from "../core/text.js";
+import { lineAt, matchBracket, stripComments, stripStrings } from "../core/text.js";
 
 const RULE_ID = "sw-no-keepalive";
 const SCAN_DIR = "src/background";
@@ -58,7 +58,12 @@ export const swNoKeepalive: Rule = {
       const relForReport = join(SCAN_DIR, rel);
       let content: string;
       try {
-        content = stripComments(readFileSync(abs, "utf8"));
+        // Comments AND string literal bodies stripped so a quoted
+        // log/help string naming "setInterval(keepAlive, 20000)" (call
+        // syntax appearing only as text) never false-positives. The delay
+        // argument this rule reads is a numeric literal, never string
+        // content, so stripping strings does not blind the real check.
+        content = stripStrings(stripComments(readFileSync(abs, "utf8")));
       } catch {
         continue;
       }
