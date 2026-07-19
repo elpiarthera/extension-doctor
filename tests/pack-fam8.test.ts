@@ -78,6 +78,13 @@ describe("dogfood: hook-deps-incomplete", () => {
     expect(result.findings).toEqual([]);
   });
 
+  it("MUST_PASS: state identifier appears only inside a quoted string literal (DOM event name) inside the effect body — real case from gptpowerups-extension MediaActionBar.tsx/SlashTrigger.tsx", async () => {
+    const result = await hookDepsIncomplete.run(join(FIXTURES, "hook-deps-incomplete-pass"));
+    expect(result.verdict).toBe("pass");
+    const files = result.findings.map((f) => f.file);
+    expect(files).not.toContain("ui/DepsStringLiteralOnly.tsx");
+  });
+
   it("MUST_REFUSE: no ui/ or src/ui root -> inconclusive", async () => {
     const result = await hookDepsIncomplete.run(join(FIXTURES, "hook-deps-incomplete-inconclusive"));
     expect(result.verdict).toBe("inconclusive");

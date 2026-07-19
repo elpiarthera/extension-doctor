@@ -86,6 +86,53 @@ export function stripComments(text: string): string {
   return out;
 }
 
+/**
+ * Blank out string/template literal BODIES with spaces (quote delimiters
+ * are preserved so byte offsets and matchBracket() results stay valid),
+ * so that a scan for an identifier in executable position never matches
+ * an occurrence that only exists inside a quoted string (e.g. a DOM event
+ * name like "offline" or "gptu:open-slash-menu" that happens to contain a
+ * tracked identifier as a substring or a whole word).
+ *
+ * This is the companion to stripComments(): callers that need to
+ * distinguish "identifier read in code" from "identifier appears inside a
+ * string literal" run stripStrings(stripComments(text)) (or the reverse
+ * order — both are safe since comment delimiters never appear inside an
+ * already-open string and vice versa when applied to unmodified source).
+ */
+export function stripStrings(text: string): string {
+  let out = "";
+  let i = 0;
+  const n = text.length;
+  while (i < n) {
+    const ch = text[i];
+    if (ch === '"' || ch === "'" || ch === "`") {
+      const quote = ch;
+      out += ch;
+      let j = i + 1;
+      while (j < n) {
+        if (text[j] === "\\") {
+          out += "  ";
+          j += 2;
+          continue;
+        }
+        if (text[j] === quote) {
+          out += quote;
+          j++;
+          break;
+        }
+        out += text[j] === "\n" ? "\n" : " ";
+        j++;
+      }
+      i = j;
+      continue;
+    }
+    out += ch;
+    i++;
+  }
+  return out;
+}
+
 export function lineAt(text: string, index: number): number {
   let line = 1;
   for (let i = 0; i < index && i < text.length; i++) {

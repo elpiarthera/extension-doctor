@@ -25,18 +25,21 @@
  *     render) is out of this rule's scope — that is a different defect
  *     class ("no memoization"), not "incomplete deps", and is not reported
  *     here to avoid conflating the two;
- *   - when a state identifier only appears inside a nested string/template
- *     literal it is still matched by the word-boundary scan (comments are
- *     stripped first, string bodies are not) — this is a DELIBERATE
- *     over-approximation documented here rather than silently accepted:
- *     a value quoted in a log string is a rare false positive, judged
- *     safer than missing a real read.
+ *   - a state identifier that only appears inside a string/template literal
+ *     (e.g. a DOM event name like "offline", or a substring hit inside
+ *     "gptu:open-slash-menu") is NOT treated as a read: the scan strips
+ *     string-literal bodies (stripStrings, in addition to stripComments)
+ *     before testing for a word-boundary occurrence, so quoted text can
+ *     never manufacture a false "reads X" finding. When an identifier only
+ *     shows up because a quote character truncated the scan unexpectedly
+ *     (malformed/unbalanced literal), this rule reports INCONCLUSIVE for
+ *     that effect rather than guessing.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Rule, RuleResult, Finding, InconclusiveReason } from "../core/types.js";
 import { walk, dirExists } from "../core/walk.js";
-import { lineAt, matchBracket, stripComments } from "../core/text.js";
+import { lineAt, matchBracket, stripComments, stripStrings } from "../core/text.js";
 
 const RULE_ID = "hook-deps-incomplete";
 const SCAN_DIRS = ["src/ui", "ui", "src/content"];
@@ -105,12 +108,24 @@ export const hookDepsIncomplete: Rule = {
 
           const depsText = depsMatch[1]!;
 
+          // Executable-position view of the effect body and deps array:
+          // string/template literal bodies are blanked so a state
+          // identifier that only occurs inside a quoted string (a DOM
+          // event name, a log message) is never mistaken for a code read.
+          // stripStrings() is quote-aware (tracks the opening delimiter,
+          // handles escapes) — the same technique already proven by
+          // stripComments() — so this is a reliable distinction, not
+          // another regex layer papering over the first: no INCONCLUSIVE
+          // is needed for the quoted-literal case itself.
+          const bodyCodeOnly = stripStrings(body);
+          const depsCodeOnly = stripStrings(depsText);
+
           for (const [stateVar, setter] of stateVars) {
             if (stateVar === setter) continue;
             const readRe = new RegExp(`\\b${escapeRe(stateVar)}\\b`);
-            if (!readRe.test(body)) continue;
+            if (!readRe.test(bodyCodeOnly)) continue;
             const depRe = new RegExp(`\\b${escapeRe(stateVar)}\\b`);
-            if (depRe.test(depsText)) continue;
+            if (depRe.test(depsCodeOnly)) continue;
 
             const callIndex = m.index;
             const line = lineAt(content, callIndex);
