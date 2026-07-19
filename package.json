@@ -1,6 +1,6 @@
 {
   "name": "extension-doctor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Finds the bugs that pass your demo and fail in the store: unfiltered broadcasts, missing i18n keys, invalidated-context crashes.",
   "keywords": [
     "browser extension",
