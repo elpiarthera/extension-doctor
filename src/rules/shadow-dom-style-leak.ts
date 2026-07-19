@@ -22,7 +22,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Rule, RuleResult, Finding, InconclusiveReason } from "../core/types.js";
 import { walk, dirExists } from "../core/walk.js";
-import { lineAt, stripComments } from "../core/text.js";
+import { lineAt, stripComments, stripStrings } from "../core/text.js";
 
 const RULE_ID = "shadow-dom-style-leak";
 const SCAN_DIRS = ["src/content", "src/ui", "ui"];
@@ -66,7 +66,25 @@ export const shadowDomStyleLeak: Rule = {
           continue;
         }
         const content = stripComments(raw);
+        // Executable-position view: string/template literal bodies are
+        // blanked so a trigger pattern that only occurs inside a quoted
+        // string (a log message, help-panel copy, a doc string) is never
+        // mistaken for code that actually runs. Same technique already
+        // proven in hook-deps-incomplete — reused via stripStrings(), not
+        // reimplemented. stripStrings() preserves length/newlines, so
+        // offsets found in codeOnly map 1:1 onto `content` for lineAt()
+        // and snippet extraction.
+        const codeOnly = stripStrings(content);
 
+        // STYLE_VAR_RE intentionally scans `content` (strings intact), not
+        // `codeOnly`: the `"style"` tag name it looks for is a REQUIRED
+        // string argument to createElement(), not a stray identifier that
+        // could be spuriously matched from inside an unrelated string —
+        // blanking it would make this branch never match a real
+        // declaration. Only the executable-position checks below (a bare
+        // identifier appearing as an appendChild argument, or the
+        // assignment target of adoptedStyleSheets) need the quoted-literal
+        // distinction.
         const styleVars = new Set<string>();
         STYLE_VAR_RE.lastIndex = 0;
         let sm: RegExpExecArray | null;
@@ -76,7 +94,7 @@ export const shadowDomStyleLeak: Rule = {
 
         DOCUMENT_APPEND_RE.lastIndex = 0;
         let am: RegExpExecArray | null;
-        while ((am = DOCUMENT_APPEND_RE.exec(content)) !== null) {
+        while ((am = DOCUMENT_APPEND_RE.exec(codeOnly)) !== null) {
           const target = am[2]!;
           const callIndex = am.index;
           const line = lineAt(content, callIndex);
@@ -99,7 +117,7 @@ export const shadowDomStyleLeak: Rule = {
 
         DOCUMENT_ADOPTED_RE.lastIndex = 0;
         let dm: RegExpExecArray | null;
-        while ((dm = DOCUMENT_ADOPTED_RE.exec(content)) !== null) {
+        while ((dm = DOCUMENT_ADOPTED_RE.exec(codeOnly)) !== null) {
           const callIndex = dm.index;
           const line = lineAt(content, callIndex);
           findings.push({

@@ -38,6 +38,14 @@ describe("dogfood: shadow-dom-style-leak", () => {
     expect(result.findings).toEqual([]);
     expect(result.inconclusive.length).toBeGreaterThan(0);
   });
+
+  it("MUST_PASS: the trigger pattern appears only inside a quoted string literal (log message / help copy), never executes — same defect class already closed in hook-deps-incomplete", async () => {
+    const result = await shadowDomStyleLeak.run(join(FIXTURES, "shadow-dom-style-leak-pass"));
+    expect(result.verdict).toBe("pass");
+    const files = result.findings.map((f) => f.file);
+    expect(files).not.toContain("src/content/cs.ts");
+    expect(files).not.toContain("src/ui/panel.tsx");
+  });
 });
 
 describe("dogfood: hook-effect-cleanup-missing", () => {
@@ -60,6 +68,14 @@ describe("dogfood: hook-effect-cleanup-missing", () => {
     expect(result.verdict).toBe("inconclusive");
     expect(result.findings).toEqual([]);
     expect(result.inconclusive.length).toBeGreaterThan(0);
+  });
+
+  it("MUST_PASS: the trigger shape appears only inside a quoted string literal (documentation/help copy), never executes — same defect class already closed in hook-deps-incomplete", async () => {
+    const result = await hookEffectCleanupMissing.run(join(FIXTURES, "hook-effect-cleanup-missing-pass"));
+    expect(result.verdict).toBe("pass");
+    const files = result.findings.map((f) => f.file);
+    expect(files).not.toContain("ui/panel.tsx");
+    expect(files).not.toContain("ui/App.tsx");
   });
 });
 

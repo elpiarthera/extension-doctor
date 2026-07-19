@@ -24,7 +24,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Rule, RuleResult, Finding, InconclusiveReason } from "../core/types.js";
 import { walk, dirExists } from "../core/walk.js";
-import { lineAt, matchBracket, stripComments } from "../core/text.js";
+import { lineAt, matchBracket, stripComments, stripStrings } from "../core/text.js";
 
 const RULE_ID = "hook-effect-cleanup-missing";
 const SCAN_DIRS = ["src/ui", "ui", "src/content"];
@@ -67,16 +67,25 @@ export const hookEffectCleanupMissing: Rule = {
           continue;
         }
         const content = stripComments(raw);
+        // Executable-position view: string/template literal bodies are
+        // blanked so a trigger shape (e.g. a full useEffect(...) snippet
+        // quoted as documentation/help copy) is never mistaken for code
+        // that actually runs. Same technique already proven in
+        // hook-deps-incomplete — reused via stripStrings(), not
+        // reimplemented. stripStrings() preserves length/newlines, so
+        // offsets found in codeOnly map 1:1 onto `content` for lineAt()
+        // and snippet extraction.
+        const codeOnly = stripStrings(content);
         const rawLines = raw.split("\n");
 
         USE_EFFECT_RE.lastIndex = 0;
         let m: RegExpExecArray | null;
-        while ((m = USE_EFFECT_RE.exec(content)) !== null) {
-          const braceIndex = content.indexOf("{", m.index);
+        while ((m = USE_EFFECT_RE.exec(codeOnly)) !== null) {
+          const braceIndex = codeOnly.indexOf("{", m.index);
           if (braceIndex === -1) continue;
-          const bodyEnd = matchBracket(content, braceIndex);
+          const bodyEnd = matchBracket(codeOnly, braceIndex);
           if (bodyEnd === -1) continue;
-          const body = content.slice(braceIndex + 1, bodyEnd);
+          const body = codeOnly.slice(braceIndex + 1, bodyEnd);
 
           if (!RESOURCE_ACQUIRE_RE.test(body)) continue;
           if (RETURN_CLEANUP_RE.test(body)) continue;
