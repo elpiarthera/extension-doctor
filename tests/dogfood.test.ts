@@ -28,6 +28,7 @@ const NET_BROADCAST_FAIL = join(FIXTURES, "net-broadcast-fail");
 const NET_BROADCAST_PASS = join(FIXTURES, "net-broadcast-pass");
 const SW_CONTEXT_FAIL = join(FIXTURES, "sw-context-fail");
 const SW_CONTEXT_PASS = join(FIXTURES, "sw-context-pass");
+const SW_CONTEXT_LITERAL_ONLY = join(FIXTURES, "sw-context-literal-only");
 const I18N_FAIL = join(FIXTURES, "i18n-fail");
 const I18N_PASS = join(FIXTURES, "i18n-pass");
 
@@ -60,6 +61,12 @@ describe("dogfood: sw-context-invalidated-guard", () => {
     const result = await swContextInvalidatedGuard.run(SW_CONTEXT_PASS);
     const messagingFinding = result.findings.find((f) => f.file === "src/background/messaging.ts");
     expect(messagingFinding).toBeUndefined();
+  });
+
+  it("MUST_PASS: chrome.runtime.sendMessage(...) trigger text appears only inside a quoted string literal (log/help copy) — nothing executes", async () => {
+    const result = await swContextInvalidatedGuard.run(SW_CONTEXT_LITERAL_ONLY);
+    expect(result.verdict).toBe("pass");
+    expect(result.findings).toEqual([]);
   });
 });
 

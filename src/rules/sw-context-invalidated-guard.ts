@@ -14,7 +14,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Rule, RuleResult, Finding, InconclusiveReason } from "../core/types.js";
 import { walk, dirExists } from "../core/walk.js";
-import { matchBracket, lineAt, enclosingBlock, stripComments } from "../core/text.js";
+import { matchBracket, lineAt, enclosingBlock, stripComments, stripStrings } from "../core/text.js";
 
 const RULE_ID = "sw-context-invalidated-guard";
 
@@ -47,9 +47,16 @@ export const swContextInvalidatedGuard: Rule = {
         anyTsFile = true;
         const fileAbs = join(abs, rel);
         try {
-          // Comments stripped so a doc comment quoting the pre-fix pattern
-          // (exactly the messaging.ts fix-commit header) never false-positives.
-          fileContents.set(join(root, rel), stripComments(readFileSync(fileAbs, "utf8")));
+          // Comments AND string literal bodies stripped so a doc comment or
+          // a quoted log/help string naming "chrome.runtime.sendMessage(...)"
+          // (call syntax appearing only as text) never false-positives. None
+          // of this rule's checks (SEND_RE, ID_GUARD_RE, GUARD_FN_DECL_RE,
+          // try-block detection) need string content — call/guard syntax is
+          // always executable position.
+          fileContents.set(
+            join(root, rel),
+            stripStrings(stripComments(readFileSync(fileAbs, "utf8"))),
+          );
         } catch {
           // unreadable file — skip, does not block the whole rule
         }

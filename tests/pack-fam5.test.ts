@@ -27,6 +27,7 @@ const MEM_PASS = join(FIXTURES, "mem-cleanup-pass");
 
 const KEEPALIVE_FAIL = join(FIXTURES, "sw-keepalive-fail");
 const KEEPALIVE_PASS = join(FIXTURES, "sw-keepalive-pass");
+const KEEPALIVE_LITERAL_ONLY = join(FIXTURES, "sw-keepalive-literal-only");
 
 const TOPLEVEL_FAIL = join(FIXTURES, "sw-toplevel-fail");
 const TOPLEVEL_PASS = join(FIXTURES, "sw-toplevel-pass");
@@ -97,6 +98,12 @@ describe("sw-no-keepalive", () => {
     expect(result.verdict).toBe("inconclusive");
     expect(result.exitCode).toBe(2);
     expect(result.inconclusive[0]!.reason).toContain("src/background");
+  });
+
+  it("MUST_PASS: setInterval(keepAlive, 20000) trigger text appears only inside a quoted string literal (log/help copy) — nothing executes", async () => {
+    const result = await swNoKeepalive.run(KEEPALIVE_LITERAL_ONLY);
+    expect(result.verdict).toBe("pass");
+    expect(result.findings).toEqual([]);
   });
 });
 

