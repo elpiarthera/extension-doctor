@@ -140,6 +140,17 @@ check(
 // found anywhere in the document, that is reported as a failure, not a
 // silent pass.
 //
+// Known limitation: this check cannot distinguish a PARTIAL count from a
+// TOTAL count. A prose mention such as "the 43 rules that fall into two
+// families" is arithmetically correct (46 total minus 3 not statically
+// detectable) but is still read as a claim about the total and flagged as
+// stale. This is deliberate, not fixed by teaching the matcher arithmetic —
+// a matcher that understands subsets and exclusions is a matcher that
+// parses free prose for meaning, which reintroduces the exact scanning
+// failure this check exists to avoid. An author writing a genuinely
+// partial count should name the subset without a numeral (e.g. "the
+// remaining rules", "the bundle rules") or spell the number as a word.
+//
 // If a new phrasing of the rule count is needed, either express it using
 // one of the three covered forms above, or extend this check in the same
 // commit that introduces the phrasing.

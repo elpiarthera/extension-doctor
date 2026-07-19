@@ -56,10 +56,19 @@ A linter that fails on everything proves nothing. This one is measured
 bipolar, against real git history of a shipped extension — not a synthetic
 fixture built to flatter the matcher.
 
+Both runs below are restricted to the three rules this section is about
+(`--rules net-broadcast-unfiltered,i18n-key-coverage-gap,sw-context-invalidated-guard`),
+which is why they read `rules 3/3 active` on a pack that ships 46 rules —
+run without `--rules` and the same repo scans against all 46. The before
+commit is `058d59f3713432fc0175bca62e45d3fb536f6502`, the after commit is
+`2c371b1d5ce2fb47145f3196ddca1b63fd7af0de`, both on the extension this
+demonstration scans; check either out and rerun the command shown to
+reproduce the block verbatim.
+
 **Before the fix**, run against the commit that shipped the bugs:
 
 ```
-extension-doctor — command: extension-doctor /tmp/r-before
+extension-doctor — command: extension-doctor /tmp/r-before --rules net-broadcast-unfiltered,i18n-key-coverage-gap,sw-context-invalidated-guard
 scope: 338 files scanned, rules 3/3 active
 score: 0/100
 
@@ -80,19 +89,64 @@ Findings:
   [error] sw-context-invalidated-guard — src/background/messaging.ts:52
     chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
     > chrome.runtime.sendMessage(message);
+}
+  [error] sw-context-invalidated-guard — src/core/compare/index.ts:47
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage(message)) as
+  [error] sw-context-invalidated-guard — src/core/conversations-store/index.ts:46
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type, paylo
+  [error] sw-context-invalidated-guard — src/core/media-store/index.ts:37
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type, paylo
+  [error] sw-context-invalidated-guard — src/stores/projects/store.ts:41
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type, paylo
+  [error] sw-context-invalidated-guard — ui/managers/ConversationsManager.tsx:146
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type: "
+  [error] sw-context-invalidated-guard — ui/managers/ConversationsManager.tsx:153
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type: "
+
+Inconclusive:
+  i18n-key-coverage-gap — ui/components/media/MediaCardShell.tsx:72 — dynamic i18n key (template literal with interpolation) not resolvable statically
 ```
 
 **After the fix**, same tool, same rules, the commit that fixed
 `net-broadcast-unfiltered`:
 
 ```
-extension-doctor — command: extension-doctor /tmp/r-after
+extension-doctor — command: extension-doctor /tmp/r-after --rules net-broadcast-unfiltered,i18n-key-coverage-gap,sw-context-invalidated-guard
 scope: 340 files scanned, rules 3/3 active
 score: 50/100
 
 [PASS] net-broadcast-unfiltered (exit 0)
 [INCONCLUSIVE] i18n-key-coverage-gap (exit 2)
 [FAIL] sw-context-invalidated-guard (exit 1)
+
+Findings:
+  [error] sw-context-invalidated-guard — src/core/compare/index.ts:47
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage(message)) as
+  [error] sw-context-invalidated-guard — src/core/conversations-store/index.ts:46
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type, paylo
+  [error] sw-context-invalidated-guard — src/core/media-store/index.ts:37
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type, paylo
+  [error] sw-context-invalidated-guard — src/stores/projects/store.ts:41
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type, paylo
+  [error] sw-context-invalidated-guard — ui/managers/ConversationsManager.tsx:146
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type: "
+  [error] sw-context-invalidated-guard — ui/managers/ConversationsManager.tsx:153
+    chrome.runtime.sendMessage(...) called with no try/catch and no chrome.runtime.id guard — throws/rejects after every extension reload while the host tab stays open.
+    > chrome.runtime.sendMessage({ type: "
+
+Inconclusive:
+  i18n-key-coverage-gap — ui/components/media/MediaCardShell.tsx:72 — dynamic i18n key (template literal with interpolation) not resolvable statically
 ```
 
 Read that after-block carefully — this is the honesty this tool is built
@@ -100,17 +154,72 @@ around, not a marketing cut of it:
 
 - `net-broadcast-unfiltered` goes from FAIL to PASS: the three unfiltered
   `chrome.tabs.query({})` call sites were fixed.
-- `sw-context-invalidated-guard` **stays FAIL**. The fix that landed
-  covered the messaging layer (`messaging.ts:52`), but other unguarded
-  `chrome.runtime.sendMessage` call sites still exist elsewhere in the
-  codebase. The score is 50/100, not 100/100, because the tool reports
-  what is actually still broken, not what got fixed.
+- `sw-context-invalidated-guard` **stays FAIL**, and the finding list is
+  longer than the single site the fix touched. The commit fixed
+  `messaging.ts:52`, but six other unguarded `chrome.runtime.sendMessage`
+  call sites — in `src/core/compare`, `src/core/conversations-store`,
+  `src/core/media-store`, `src/stores/projects`, and two in
+  `ui/managers/ConversationsManager.tsx` — still throw on an invalidated
+  context after every reload. The score is 50/100, not 100/100, because
+  the tool reports what is actually still broken, not what got fixed.
 - `i18n-key-coverage-gap` stays **INCONCLUSIVE on both runs**, not PASS.
   One key is built dynamically — `` t(`media_type_${media.type}`) `` — and
   the rule cannot statically resolve the interpolated value to a literal
   key. Rather than guess, it reports exit code `2` and says so. A rule
   that silently treated "could not resolve" as "found nothing" would be a
   worse rule than no rule at all.
+
+## What the rest of the pack catches
+
+The three rules above are the ones we have a shipped-bug story for. The
+remaining rules in the table fall, in large part, into two families, and
+a buyer deciding whether to install should know what each actually
+checks — not just its name.
+
+**Rules that get a store submission refused.** Six rules scan the built
+bundle for the reasons a Chrome/Edge/Firefox review desk rejects a
+package, or the OS fails to open it: `bundle-file-size-cap` flags any
+single bundled file over the size cap (an accidentally bundled source
+map, an unminified vendor blob); `hidden-file-in-bundle` flags dotfiles
+shipped inside the package (`.DS_Store`, `.env`, `.vscode/settings.json`);
+`binary-extension-in-bundle` flags native executables that never
+legitimately belong in a browser extension (`.exe`, `.dll`, `.so`, `.sh`,
+`.dmg`, and similar); `reserved-filename-in-bundle` flags names reserved
+by the stores or by Windows itself (a leading `_` outside `_locales`,
+`CON`/`PRN`/`COM1`-style device names, `thumbs.db`); `json-file-parseable`
+flags a `.json` file in the bundle — `manifest.json`, a locale file, any
+bundled JSON asset — that does not parse, which fails silently at
+install/load time; `inline-script-in-html` flags an inline `<script>`
+block in a shipped HTML page, which Manifest V3's default CSP forbids
+outright, so it fails at install time and store review rejects it
+separately. All six require a fresh build to run against — no built
+bundle means no measurement, reported as inconclusive, never a silent
+pass.
+
+**Rules that break silently at runtime, after the demo passed.** Four
+rules scan source for bugs that a manual click-through demo will not
+surface: `shadow-dom-style-leak` catches a `<style>` element or
+`CSSStyleSheet` attached to the host `document` instead of the extension's
+own `shadowRoot`, which leaks unscoped CSS onto whatever page the
+extension is running on; `hook-effect-cleanup-missing` catches a
+`useEffect` that acquires a listener, interval, timeout, or subscription
+and never returns a cleanup function, which leaks the resource on every
+unmount/remount; `hook-deps-incomplete` catches a `useEffect` that reads a
+same-file `useState` value missing from its dependency array — the
+classic stale-closure bug, where the effect keeps acting on the value from
+the render it was created in; `render-side-effect-impure` catches a
+side-effecting call (`localStorage`/`sessionStorage` writes,
+`document.title = ...`, `fetch(...)`, `window.location = ...`) performed
+directly in a component's render body instead of inside an effect or
+event handler, so it re-fires on every render pass, including renders a
+concurrent scheduler discards.
+
+None of these ten are exhaustive. Each is a static, pattern-based check
+with a named false-negative surface — `shadow-dom-style-leak`, for
+instance, cannot resolve a style element declared outside the scanned
+file, and reports that case as inconclusive rather than guessing. They
+catch the shape of bug each was written for; they are not a substitute
+for a real build-and-load test against the target store.
 
 ## Install
 
