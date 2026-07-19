@@ -1,16 +1,23 @@
 import type { Rule } from "../core/types.js";
 import { bannedVulnerableLibs } from "./banned-vulnerable-libs.js";
+import { binaryExtensionInBundle } from "./binary-extension-in-bundle.js";
+import { bundleFileSizeCap } from "./bundle-file-size-cap.js";
 import { coexistenceCollision } from "./coexistence-collision.js";
 import { contentScriptFileExists } from "./content-script-file-exists.js";
 import { cspNotWeakened } from "./csp-not-weakened.js";
 import { customElementOrphanRegistration } from "./custom-element-orphan-registration.js";
 import { deprecatedRemovedApi } from "./deprecated-removed-api.js";
 import { descriptionPermissionMismatch } from "./description-permission-mismatch.js";
+import { hiddenFileInBundle } from "./hidden-file-in-bundle.js";
+import { hookDepsIncomplete } from "./hook-deps-incomplete.js";
+import { hookEffectCleanupMissing } from "./hook-effect-cleanup-missing.js";
 import { hostPermissionsContentScriptsMismatch } from "./host-permissions-content-scripts-mismatch.js";
 import { hostPermissionsWildcardBroad } from "./host-permissions-wildcard-broad.js";
 import { hostSignalUnverified } from "./host-signal-unverified.js";
 import { i18nKeyCoverageGap } from "./i18n-key-coverage-gap.js";
 import { i18nLocaleJsonValidity } from "./i18n-locale-json-validity.js";
+import { inlineScriptInHtml } from "./inline-script-in-html.js";
+import { jsonFileParseable } from "./json-file-parseable.js";
 import { manifestPermissionAllowlist } from "./manifest-permission-allowlist.js";
 import { manifestTypeNoJson } from "./manifest-type-no-json.js";
 import { memCleanupListeners } from "./mem-cleanup-listeners.js";
@@ -22,9 +29,12 @@ import { permissionDiffBetweenReleases } from "./permission-diff-between-release
 import { permissionRequiredVsOptional } from "./permission-required-vs-optional.js";
 import { permissionUnusedInCode } from "./permission-unused-in-code.js";
 import { postinstallScriptAudit } from "./postinstall-script-audit.js";
+import { renderSideEffectImpure } from "./render-side-effect-impure.js";
+import { reservedFilenameInBundle } from "./reserved-filename-in-bundle.js";
 import { runtimeExternalMessagingExposure } from "./runtime-external-messaging-exposure.js";
 import { scoreScopeProvenance } from "./score-scope-provenance.js";
 import { secretInBundle } from "./secret-in-bundle.js";
+import { shadowDomStyleLeak } from "./shadow-dom-style-leak.js";
 import { styleFileKebabCase } from "./style-file-kebab-case.js";
 import { swContextInvalidatedGuard } from "./sw-context-invalidated-guard.js";
 import { swListenersToplevel } from "./sw-listeners-toplevel.js";
@@ -37,29 +47,38 @@ import { zeroRemoteCode } from "./zero-remote-code.js";
 import { zipIntegrity } from "./zip-integrity.js";
 
 /**
- * Full 36-rule pack. All 36 files under src/rules/ (excluding this index)
- * are registered below.
+ * Full rule pack. All files under src/rules/ (excluding this index)
+ * are registered below. The count is derived — see tests/registry.test.ts,
+ * which asserts ALL_RULES.length against the file count on disk.
  *
- * Three of the 36 (coexistenceCollision, testCannotFail, verifiedNotActivated)
- * return an "inconclusive" verdict by design — they detect defect CLASSES that
- * are not statically decidable from source alone (runtime coexistence, flaky
- * test masking, activation-vs-shipping gaps). See README.md
- * ("Not statically detectable") for the worked demonstrations. They are still registered and run like any
- * other rule; "inconclusive" is a loud, structured verdict, never a silent skip.
+ * A subset of the rules (coexistenceCollision, testCannotFail,
+ * verifiedNotActivated) return an "inconclusive" verdict by design — they
+ * detect defect CLASSES that are not statically decidable from source alone
+ * (runtime coexistence, flaky test masking, activation-vs-shipping gaps).
+ * See README.md ("Not statically detectable") for the worked
+ * demonstrations. They are still registered and run like any other rule;
+ * "inconclusive" is a loud, structured verdict, never a silent skip.
  */
 export const ALL_RULES: Rule[] = [
   bannedVulnerableLibs,
+  binaryExtensionInBundle,
+  bundleFileSizeCap,
   coexistenceCollision,
   contentScriptFileExists,
   cspNotWeakened,
   customElementOrphanRegistration,
   deprecatedRemovedApi,
   descriptionPermissionMismatch,
+  hiddenFileInBundle,
+  hookDepsIncomplete,
+  hookEffectCleanupMissing,
   hostPermissionsContentScriptsMismatch,
   hostPermissionsWildcardBroad,
   hostSignalUnverified,
   i18nKeyCoverageGap,
   i18nLocaleJsonValidity,
+  inlineScriptInHtml,
+  jsonFileParseable,
   manifestPermissionAllowlist,
   manifestTypeNoJson,
   memCleanupListeners,
@@ -71,9 +90,12 @@ export const ALL_RULES: Rule[] = [
   permissionRequiredVsOptional,
   permissionUnusedInCode,
   postinstallScriptAudit,
+  renderSideEffectImpure,
+  reservedFilenameInBundle,
   runtimeExternalMessagingExposure,
   scoreScopeProvenance,
   secretInBundle,
+  shadowDomStyleLeak,
   styleFileKebabCase,
   swContextInvalidatedGuard,
   swListenersToplevel,
