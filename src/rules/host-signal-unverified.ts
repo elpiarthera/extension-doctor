@@ -16,7 +16,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Rule, RuleResult, Finding, InconclusiveReason } from "../core/types.js";
 import { walk, dirExists } from "../core/walk.js";
-import { lineAt, stripComments } from "../core/text.js";
+import { lineAt, stripComments, stripStrings } from "../core/text.js";
 
 const RULE_ID = "host-signal-unverified";
 const SCAN_DIR = "src/adapters";
@@ -26,11 +26,19 @@ const SCAN_DIR = "src/adapters";
 // list itself is auditable.
 const EXEMPT_STANDARD_APIS = [/document\.documentElement\.lang\b/];
 
-// Matches selector-literal call sites: querySelector/querySelectorAll/
-// closest/matches taking a string literal argument, OR a bare
-// `data-*`/CSS-attribute-selector string literal assigned to a config key.
-const SELECTOR_CALL_RE =
-  /\b(?:document|el|root|node|container)?\.?(?:querySelector(?:All)?|closest|matches)\s*\(\s*(['"`])((?:\\.|(?!\1)[\s\S])*)\1\s*\)/g;
+// Matches only the CALL-OPEN + opening quote: querySelector/querySelectorAll/
+// closest/matches followed by "(" and a quote character. Matched against
+// codeOnly (stripStrings(stripComments(...))) so the call syntax itself must
+// be in executable position — a quoted debug/help string that merely
+// mentions `document.querySelector('...')` as TEXT (e.g. a devtools tip)
+// never matches, since its surrounding quotes are blanked to spaces by
+// stripStrings and the call-syntax characters no longer appear intact. The
+// selector argument itself IS the thing being checked (whether it needs
+// `// verified:`), so it is read from the RAW (comment-stripped only)
+// content right after the call-open match — same technique as
+// zero-remote-code's IMPORT_SCRIPTS_CALL_OPEN_RE.
+const SELECTOR_CALL_OPEN_RE =
+  /\b(?:document|el|root|node|container)?\.?(?:querySelector(?:All)?|closest|matches)\s*\(\s*(['"`])/g;
 
 export const hostSignalUnverified: Rule = {
   id: RULE_ID,
@@ -65,11 +73,39 @@ export const hostSignalUnverified: Rule = {
       // lookup below both read the ORIGINAL raw text so the annotation is
       // never accidentally blanked out.
       const stripped = stripComments(raw);
+      // codeOnly additionally blanks string/template literal bodies, so the
+      // call-open regex only matches when the call syntax itself is in
+      // executable position (see SELECTOR_CALL_OPEN_RE comment above).
+      const codeOnly = stripStrings(stripped);
 
-      const re = new RegExp(SELECTOR_CALL_RE.source, "g");
+      SELECTOR_CALL_OPEN_RE.lastIndex = 0;
       let m: RegExpExecArray | null;
-      while ((m = re.exec(stripped)) !== null) {
-        const fullMatch = m[0];
+      while ((m = SELECTOR_CALL_OPEN_RE.exec(codeOnly)) !== null) {
+        const quote = m[1]!;
+        const argStart = m.index + m[0].length;
+        // Read the selector argument from the RAW (comment-stripped only)
+        // content — this is the required string argument being checked,
+        // not incidental text, so it cannot be stripped away. Manually scan
+        // to the matching unescaped closing quote.
+        let j = argStart;
+        let closed = false;
+        while (j < stripped.length) {
+          if (stripped[j] === "\\") {
+            j += 2;
+            continue;
+          }
+          if (stripped[j] === quote) {
+            closed = true;
+            break;
+          }
+          j++;
+        }
+        if (!closed) continue; // unterminated string in stripped text — not a valid call site
+        const afterQuote = stripped.slice(j + 1);
+        const closeParenMatch = /^\s*\)/.exec(afterQuote);
+        if (!closeParenMatch) continue; // not immediately followed by ")" — not a bare selector call
+        const callEnd = j + 1 + closeParenMatch[0].length;
+        const fullMatch = stripped.slice(m.index, callEnd);
         if (EXEMPT_STANDARD_APIS.some((pat) => pat.test(fullMatch))) continue;
 
         const line = lineAt(raw, m.index);

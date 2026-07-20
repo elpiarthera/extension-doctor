@@ -21,14 +21,45 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Rule, RuleResult, Finding, InconclusiveReason } from "../core/types.js";
-import { lineAt, stripComments } from "../core/text.js";
+import { lineAt, stripComments, stripStrings } from "../core/text.js";
 import { buildExportGraph } from "../core/export-graph.js";
 
 const RULE_ID = "custom-element-orphan-registration";
 
 // Autonomous custom element tag: lowercase, at least one hyphen.
+//
+// Intentionally matched against `content` (comments stripped, string bodies
+// LEFT INTACT), never against stripStrings() output: a custom element can be
+// legitimately "rendered" either as literal JSX/TSX syntax (unquoted) OR via
+// a quoted innerHTML/outerHTML string assignment, e.g.
+// `host.innerHTML = "<gptu-icon-button></gptu-icon-button>"` — that quoted
+// text IS a real DOM-insertion site, and blanking string bodies would blind
+// this rule to it (regression: the shipped orphan-registration defect this
+// rule exists to catch was itself an innerHTML-string render site).
+//
+// Declared tradeoff: because string bodies are left intact, a tag name
+// appearing in an UNRELATED string (a log message, an error string, a help
+// string that merely mentions the tag as documentation, never inserted into
+// the DOM) can also match and be treated as a "render" site. This is a known
+// precision gap, not a silent one — it can only ever WIDEN what counts as
+// "rendered" (never narrows it), so its worst-case effect is an extra
+// finding requiring human triage, never a missed real orphan.
 const TAG_RE = /<([a-z][a-z0-9]*(?:-[a-z0-9]+)+)[\s/>]/g;
-const DEFINE_RE = /customElements\.define\s*\(\s*["'`]([a-z][a-z0-9]*(?:-[a-z0-9]+)+)["'`]/g;
+
+// Call-open + opening quote only: matched against codeOnly
+// (stripStrings(stripComments(...))) so `customElements.define(` must be in
+// EXECUTABLE position. Unlike TAG_RE above, a phantom define() call written
+// only as TEXT inside a quoted string (e.g. a help/log string
+// `"docs: customElements.define(\"foo-bar\", Foo)"` in an unrelated,
+// reachable file) must never be read as a real registration — doing so
+// would silently mask a genuine orphan-registration defect by making the
+// tag look "defined in a reachable file" when no such call ever executes.
+// The tag-name argument itself is then read from the RAW (comment-stripped
+// only) content right after the matched quote — it is the required string
+// argument being checked, not incidental text, so it cannot be stripped
+// away. Same technique as zero-remote-code's IMPORT_SCRIPTS_CALL_OPEN_RE.
+const DEFINE_CALL_OPEN_RE = /customElements\.define\s*\(\s*(["'`])/g;
+const TAG_NAME_RE = /^([a-z][a-z0-9]*(?:-[a-z0-9]+)+)/;
 
 // A small set of well-known built-in-ish or third-party tags that are never
 // locally registered (declared exception, not silently swallowed).
@@ -72,6 +103,7 @@ export const customElementOrphanRegistration: Rule = {
         continue;
       }
       const content = stripComments(raw);
+      const codeOnly = stripStrings(content);
 
       TAG_RE.lastIndex = 0;
       let tm: RegExpExecArray | null;
@@ -83,10 +115,29 @@ export const customElementOrphanRegistration: Rule = {
         }
       }
 
-      DEFINE_RE.lastIndex = 0;
+      DEFINE_CALL_OPEN_RE.lastIndex = 0;
       let dm: RegExpExecArray | null;
-      while ((dm = DEFINE_RE.exec(content)) !== null) {
-        const tag = dm[1]!;
+      while ((dm = DEFINE_CALL_OPEN_RE.exec(codeOnly)) !== null) {
+        const quote = dm[1]!;
+        const argStart = dm.index + dm[0].length;
+        let j = argStart;
+        let closed = false;
+        while (j < content.length) {
+          if (content[j] === "\\") {
+            j += 2;
+            continue;
+          }
+          if (content[j] === quote) {
+            closed = true;
+            break;
+          }
+          j++;
+        }
+        if (!closed) continue; // unterminated string — not a valid call site
+        const argText = content.slice(argStart, j);
+        const tagMatch = TAG_NAME_RE.exec(argText);
+        if (!tagMatch) continue; // argument is not a valid custom-element tag name
+        const tag = tagMatch[1]!;
         const list = definedInFile.get(tag) ?? [];
         list.push(rel);
         definedInFile.set(tag, list);
