@@ -52,5 +52,9 @@
     "typescript": "^5.6.0",
     "vitest": "^2.1.0",
     "@types/node": "^20.14.0"
+  },
+  "overrides": {
+    "tinypool": "2.1.2",
+    "vite": "6.4.4"
   }
 }
