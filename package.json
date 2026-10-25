@@ -50,7 +50,13 @@
   },
   "devDependencies": {
     "typescript": "^5.6.0",
-    "vitest": "^2.1.0",
+    "vitest": "^3.2.6",
     "@types/node": "^20.14.0"
+  },
+  "overrides": {
+    "tinypool": "2.1.2",
+    "vite": "6.4.4",
+    "nanoid": "^3.3.18",
+    "source-map-js": "^1.2.2"
   }
 }
